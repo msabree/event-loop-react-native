@@ -19,7 +19,7 @@ const slideWidth = 280;
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
 
-const GOOGLE_API_KEY = '';
+const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
 const styles = StyleSheet.create({
     center: {

@@ -42,7 +42,7 @@ export const getSessionTokenFromLocalStorage = () => async (dispatch) => {
     return dispatch({
         type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
         payload: {
-            sessionToken: 'dcfd780b-827f-4fda-97ea-ba27402e7dcc',
+            sessionToken,
         }
     })
 }
