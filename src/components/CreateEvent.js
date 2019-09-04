@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 class CreateEvent extends React.Component {
 
     static navigationOptions = {
-        title: '',
+        title: 'Create Open Invite',
     };
 
     constructor(props){

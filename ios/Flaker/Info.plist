@@ -45,6 +45,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+    <key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your camera to create a new profile picture.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery to change profile picture.</string>
     <key>UIAppFonts</key>
     <array>
         <string>AntDesign.ttf</string>

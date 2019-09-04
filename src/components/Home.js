@@ -128,8 +128,8 @@ class Home extends React.Component {
                                     <CardItem>
                                         <Body>
                                             <Image source={{
-                                                uri: `https://maps.googleapis.com/maps/api/staticmap?center=${item.location.formatted_address}&zoom=18&size=280x300&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                                            }} style={{height: 300, width: 280, flex: 1}}/>
+                                                uri: `https://maps.googleapis.com/maps/api/staticmap?center=${item.location.formatted_address}&zoom=18&size=280x260&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                                            }} style={{height: 260, width: 280, flex: 1}}/>
                                         </Body>
                                     </CardItem>
                                     <CardItem>
