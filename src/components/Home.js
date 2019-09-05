@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { StyleSheet, TouchableOpacity, Image, Dimensions, Platform, Linking } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Dimensions, Platform, Linking, Alert } from 'react-native';
 import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3 } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -61,6 +61,26 @@ class Home extends React.Component {
         }
     }
 
+    confirmDeleteEvent(eventId) {
+        Alert.alert(
+            'Delete Event',
+            `Are you sure you want to delete this event?`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes', onPress: () => {
+                        this.props.deleteEvent(eventId);
+                    }
+                },
+            ],
+            {cancelable: false},
+        );    
+    }
+
     getHeader(isCreator = false, item){
         if(isCreator === false){
             return (
@@ -81,7 +101,7 @@ class Home extends React.Component {
             return (
                 <CardItem>
                     <Button transparent danger onPress={() => {
-                        this.props.deleteEvent(item.eventId);
+                        this.confirmDeleteEvent(item.eventId);
                     }}>
                         <Text>
                             Delete Event
