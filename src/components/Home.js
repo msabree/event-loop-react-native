@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { StyleSheet, Image, Dimensions, Platform, Linking } from 'react-native';
-import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body } from 'native-base';
+import { StyleSheet, TouchableOpacity, Image, Dimensions, Platform, Linking } from 'react-native';
+import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3 } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -26,16 +26,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    mainHeader: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     profilePic: {
         width: 140,
         height: 140,
         borderRadius: 70,
-        borderWidth: 1,
+        borderWidth: 0,
+        borderColor: 'grey',
+    },
+    headerProfilePic: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        borderWidth: 0,
         borderColor: 'grey',
     },
 });
 
 class Home extends React.Component {
+
+    static navigationOptions = {
+        header: {
+            visible: false
+        }
+    };
 
     constructor(props){
         super(props);
@@ -44,16 +61,27 @@ class Home extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.getEvents();
+    getHeader(isCreator = false, item){
+        if(isCreator === false){
+            return (
+                <CardItem>
+                    <Left>
+                        <Thumbnail source={{uri: item.associatedUserProfile.profilePic}} />
+                        <Body>
+                            <Text note>Host: {item.associatedUserProfile.displayName || item.associatedUserProfile.username}</Text>
+                        </Body>
+                    </Left>
+                </CardItem>
+            )
+        }
     }
 
-    getDeleteButton(canDeleteEvent = false, eventId) {
-        if(canDeleteEvent){
+    getFooter(isCreator = false, item) {
+        if(isCreator === true){
             return (
                 <CardItem>
                     <Button transparent danger onPress={() => {
-                        this.props.deleteEvent(eventId);
+                        this.props.deleteEvent(item.eventId);
                     }}>
                         <Text>
                             Delete Event
@@ -110,27 +138,24 @@ class Home extends React.Component {
                         renderItem={({item, index}) => {
                             return (
                                 <Card style={styles.center}>
+                                    {this.getHeader(item.userId === this.props.loggedInUserId, item)}
                                     <CardItem>
                                         <Left>
-                                            <Thumbnail source={{uri: item.associatedUserProfile.profilePic}} />
-                                            <Body>
-                                                <Text>{item.title}</Text>
-                                                <Text note>Host: {item.associatedUserProfile.displayName || item.associatedUserProfile.username}</Text>
-                                            </Body>
+                                            <H3 style={{color: '#58534d'}}>{item.title}</H3>
                                         </Left>
+                                        <Right>
+                                            <Image onPress={() => {
+                                                    this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
+                                                }} source={{
+                                                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${item.location.formatted_address}&zoom=18&size=100x100&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                                                }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                                        </Right>
+                                    </CardItem>
+                                    <CardItem>
+                                        <Text note>{item.details || 'Contact event creator for additional details.'}</Text>
                                     </CardItem>
                                     <CardItem>
                                         <Text note>{`${moment(item.startDatetime).format("MMM Do h:mm a")} - ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
-                                    </CardItem>
-                                    <CardItem>
-                                        <Text note>{item.details}</Text>
-                                    </CardItem>
-                                    <CardItem>
-                                        <Body>
-                                            <Image source={{
-                                                uri: `https://maps.googleapis.com/maps/api/staticmap?center=${item.location.formatted_address}&zoom=18&size=280x260&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                                            }} style={{height: 260, width: 280, flex: 1}}/>
-                                        </Body>
                                     </CardItem>
                                     <CardItem>
                                         <Left>
@@ -149,14 +174,14 @@ class Home extends React.Component {
                                                 onPress={() => {
                                                     this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
                                                 }} 
-                                                transparent 
+                                                transparent
                                                 textStyle={{color: 'red'}}>
                                                 <Icon name="navigate" />
                                                 <Text>{item.location.name}</Text>
                                             </Button>
                                         </Right>
                                     </CardItem>
-                                    {this.getDeleteButton(item.userId === this.props.loggedInUserId, item.eventId)}
+                                    {this.getFooter(item.userId === this.props.loggedInUserId, item)}
                                 </Card>
                             )
                         }}
@@ -168,9 +193,9 @@ class Home extends React.Component {
             )
         }
         return (
-            <Card style={styles.center}>
+            <Card transparent style={styles.center}>
                 <CardItem transparent header>
-                    <Text>No open invtes. When your friends create some we will show them here.</Text>
+                    <Text>No open invites. When your friends create some we will show them here.</Text>
                 </CardItem>
             </Card> 
         )
@@ -178,9 +203,45 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Content>
-                {this.getContent()}
-            </Content>
+            <React.Fragment>
+                <Container>
+                    <Content>
+                        <Card transparent style={styles.mainHeader}>
+                            <CardItem transparent>
+                                <Left>
+                                    {/* <Button transparent dark onPress={() => { 'Send toast to sort' }}>
+                                        <Icon name='list' />
+                                    </Button> */}
+                                </Left>
+                                <Body>
+                                    <H1 style={{color: '#f58b07d6'}}>Flaker</H1>
+                                </Body>
+                                <Right>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate('Profile');
+                                }}>
+                                    <Image
+                                        style={styles.headerProfilePic}  
+                                        source={{uri: this.props.loggedInProfilePic}} />  
+                                </TouchableOpacity>
+                                </Right>
+                            </CardItem>
+                        </Card>
+                        {this.getContent()}
+                    </Content>   
+                        <Fab
+                            active={true}
+                            direction="up"
+                            containerStyle={{ }}
+                            style={{ backgroundColor: '#f58b07d6' }}
+                            position="bottomRight"
+                            onPress={() => {
+                                this.props.navigation.navigate('CreateEvent');
+                            }}>
+                            <Icon name="add" />
+                        </Fab>
+                    </Container>
+            </React.Fragment>
         )   
     }
 }
@@ -194,6 +255,7 @@ function mapStateToProps(state) {
         eventList: eventsSelector(state).eventList,
         sliderIndex: eventsSelector(state).sliderIndex,
         loggedInUserId: userSelector(state).loggedInUserId,
+        loggedInProfilePic: userSelector(state).loggedInProfilePic,
     }    
 }
   

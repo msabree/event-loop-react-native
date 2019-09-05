@@ -44,24 +44,19 @@ const styles = StyleSheet.create({
 
 class Profile extends React.Component {
 
+    static navigationOptions = {
+        title: 'Profile'
+    };
+
     componentDidMount() {
         this.props.getLoggedInUserInfo();
-    }
-
-    handleChangeText(input, prop) {
-        if(prop === 'status'){
-            this.props.updateStatus(input);
-        }
-        else if(prop === 'location'){
-            this.props.updateLocation(input);
-        }
     }
 
     handleUploadPicture() {
 
         // this.props.showLoader();
 
-        ImagePicker.showImagePicker({}, (response) => {
+        ImagePicker.showImagePicker({}, async (response) => {
             console.log('Response = ', response);
           
             if (response.didCancel) {
@@ -74,12 +69,13 @@ class Profile extends React.Component {
             }
             else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
-                this.props.hideLoader();
+                // this.props.hideLoader();
             }
             else {
                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 // this.props.hideLoader();
-                this.props.updateUserInfo({profilePic: source.uri});
+                await this.props.updateUserInfo({profilePic: source.uri}, false);
+                this.props.getLoggedInUserInfo();
             }
         });
     }
@@ -118,7 +114,7 @@ class Profile extends React.Component {
                                     this.props.updateUserInfo({
                                         username: this.props.edittedUsername.toLowerCase(),
                                         displayName: this.props.edittedDisplayName,
-                                    }) 
+                                    }, true) 
                                 }}>
                                     <Text>Save</Text>
                                 </Button>
@@ -141,7 +137,7 @@ class Profile extends React.Component {
                 </Card>
                 <Card transparent style={styles.center}>
                     <CardItem header>
-                        <H1>Welcome to Flaker</H1>
+                        <H1>Contact Us</H1>
                     </CardItem>
                     <CardItem>
                         <Textarea 
@@ -150,7 +146,7 @@ class Profile extends React.Component {
                             rowSpan={3} 
                             bordered
                             onChangeText={(value) => { this.props.inputChange('appFeedback.feedback', value); }} 
-                            placeholder="Hello early adopters! Please drop app feedback or issues here..." />
+                            placeholder="Please drop app feedback, feature requests, or issues here..." />
                     </CardItem>
                     <CardItem footer>
                         <Button onPress={() => { this.props.sendAppFeedback(); }} style={styles.sendFeedbackBtn} block warning><Text>Send</Text></Button>

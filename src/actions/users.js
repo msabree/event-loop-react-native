@@ -38,7 +38,7 @@ export const searchForUser = () => (dispatch, getState) => {
     }
 }
 
-export const updateUserInfo = (updateObject) => (dispatch, getState) => {
+export const updateUserInfo = (updateObject, verifyUsername = false) => (dispatch, getState) => {
     
     const authenticationState = authenticationSelector(getState());
     const usersState = usersSelector(getState());
@@ -46,7 +46,7 @@ export const updateUserInfo = (updateObject) => (dispatch, getState) => {
     const username = get(updateObject, 'username', '').toLowerCase();
     const loggedInUsername = get(usersState, 'loggedInUsername', '');
 
-    if(username === ''){
+    if(username === '' && verifyUsername === true){
         alert('Username can not be empty.');
         return;
     }
@@ -198,7 +198,7 @@ export const sendAppFeedback = () => (dispatch, getState) => {
             }
             alert('Thanks for helping make our app better!');
             return dispatch({
-                type: actionTypes.SEND_APP_FEEDBACK,
+                type: actionTypes.RESET_APPFEEDBACK_FORM,
             })
         })
         .catch((err) => {

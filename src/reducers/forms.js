@@ -28,4 +28,9 @@ export const formsReducer = createReducer(applicationState.forms, {
         set(stateClone, 'event.title', '');
         return stateClone;
     },
+    [actionTypes.RESET_APPFEEDBACK_FORM](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'appFeedback.feedback', '');
+        return stateClone;
+    },
 })
