@@ -5,6 +5,8 @@ import * as forms from './forms';
 import * as events from './events';
 import * as usersReducer from './users';
 import * as friends from './friends';
+import * as spinner from './spinner';
+import * as alexa from './alexa';
 
 export default combineReducers(Object.assign(
     authenticationReducer,
@@ -13,4 +15,6 @@ export default combineReducers(Object.assign(
     forms,
     usersReducer,
     friends,
+    spinner,
+    alexa,
 ))

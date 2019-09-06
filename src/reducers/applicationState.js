@@ -2,11 +2,12 @@ export default {
     appInfo: {
         connected: true,
     },
-    loader: {
-        animating: false,
+    spinner: {
+        visible: false,
+        message: '',
     },
     tabs: {
-        activeIndex: 0
+        activeIndex: 0,
     },
     friends: {
         activeSegment: 'current',
@@ -39,6 +40,10 @@ export default {
         list: null,
         sliderIndex: 0,
         guestList: [],
+    },
+    alexa: {
+        syncCode: '',
+        showConfirmation: false,
     },
     forms: {
         event: {

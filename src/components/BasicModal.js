@@ -22,7 +22,7 @@ export default class BasicModal extends React.Component {
     render() {
         return (
             <Modal animationType="slide" transparent={true} visible={this.props.isOpen} onRequestClose={() => {
-                this.props.onRequestClose()
+                this.props.onRequestClose();
             }}>
                 <View style={styles.outerContainer}>
                     <View style={styles.innerContainer}>

@@ -4,8 +4,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Tabs from './src/containers/Tabs';
 import Authentication from './src/containers/Authentication';
 import Profile from './src/components/Profile';
+import Settings from './src/components/Settings';
 import CreateEvent from './src/components/CreateEvent';
 import GuestList from './src/components/GuestList';
+import AlexaConnections from './src/components/AlexaConnections';
+import AlexaSync from './src/components/AlexaSync';
 
 const AppNavigator = createStackNavigator(
     {
@@ -23,6 +26,15 @@ const AppNavigator = createStackNavigator(
         },
         GuestList: {
             screen: GuestList,
+        },
+        Settings: {
+            screen: Settings
+        },
+        AlexaConnections: {
+            screen: AlexaConnections
+        },
+        AlexaSync: {
+            screen: AlexaSync
         }
     },
     {

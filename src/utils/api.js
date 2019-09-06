@@ -56,7 +56,7 @@ class Api {
                 alert(JSON.stringify(e.message))
             }
             else{
-                alert('We are experiencing issues with our APIs. Please try again later.')
+                alert('We are experiencing issues with our APIs. Please try again later.');
             }
         });
     }

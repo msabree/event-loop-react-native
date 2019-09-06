@@ -1,6 +1,6 @@
 import React from 'react';
-import { Content, Spinner, Text } from 'native-base';
 import { StyleSheet } from 'react-native';
+import { Content, Spinner, Text } from 'native-base';
 
 const styles = StyleSheet.create({
     center: {

@@ -6,9 +6,12 @@ import platform from '../../native-base-theme/variables/platform';
 
 import Home from '../components/Home';
 import Friends from '../components/Friends';
-// import Settings from '../components/Settings';
+import Settings from '../components/Settings';
 
+import StandardHeader from '../components/StandardHeader';
 import SearchHeader from '../components/SearchHeader';
+
+import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,6 +19,7 @@ import { ActionCreators } from '../actions';
 
 import tabsSelector from '../selectors/tabs';
 import authenticationSelector from '../selectors/authentication';
+import spinnerSelector from '../selectors/spinner';
 
 class TabsContainer extends Component {
 
@@ -58,8 +62,8 @@ class TabsContainer extends Component {
                 return <Home navigation={this.props.navigation} />;
             case 1: 
                 return <Friends/>;
-            // case 2: 
-            //     return <Settings/>;                                           
+            case 2: 
+                return <Settings navigation={this.props.navigation}/>;                                           
             default:
                 return <Home/>;
         }
@@ -68,7 +72,9 @@ class TabsContainer extends Component {
     getHeader() {
         switch(this.props.activeTabIndex){
             case 1:
-                return <SearchHeader/>; 
+                return <SearchHeader/>;
+            case 2:
+                return <StandardHeader title='Settings'/>;                                
             default:
                 return;
         } 
@@ -80,6 +86,7 @@ class TabsContainer extends Component {
                 <Container>
                     {this.getHeader()}
                     {this.getContent()}
+                    <SpinnerModal onRequestClose={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
                     <Footer>
                         <FooterTab>
                             <Button active={this.props.activeTabIndex === 0} onPress={() => { this.props.setActiveTab(0) }}>
@@ -88,9 +95,9 @@ class TabsContainer extends Component {
                             <Button active={this.props.activeTabIndex === 1} onPress={() => { this.props.setActiveTab(1) }}>
                                 <Icon active={this.props.activeTabIndex === 1} name="people" />
                             </Button>
-                            {/* <Button active={this.props.activeTabIndex === 2} onPress={() => { this.props.setActiveTab(2) }}>
-                                <Icon active={this.props.activeTabIndex === 2} name="settings" />
-                            </Button> */}
+                            <Button active={this.props.activeTabIndex === 2} onPress={() => { this.props.setActiveTab(2) }}>
+                                <Icon active={this.props.activeTabIndex === 2} name="options" />
+                            </Button>
                         </FooterTab>
                     </Footer>
                 </Container>
@@ -107,6 +114,8 @@ function mapStateToProps(state) {
     return {
         activeTabIndex: tabsSelector(state).activeTabIndex,
         sessionToken: authenticationSelector(state).sessionToken,
+        spinnerVisible: spinnerSelector(state).visible,
+        spinnerMessage: spinnerSelector(state).message,
     }    
 }
 
