@@ -82,6 +82,14 @@ class Home extends React.Component {
         }
     }
 
+    getEventEndedMessage(endDatetime){
+        if(new Date() > new Date(endDatetime)){
+            return (
+                <Text note style={{marginBottom: 5, color: '#e05319'}}>{`This event has ended.`}</Text>
+            )
+        }
+    }
+
     getFooter(isCreator = false, item) {
         if(isCreator === true){
             return (
@@ -113,7 +121,11 @@ class Home extends React.Component {
             return (
                 <Content>
                 {
-                    this.props.eventList.map((item, index) => {
+                    this.props.eventList.sort(function(a,b){
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        return new Date(a.startDatetime) - new Date(b.startDatetime);
+                      }).map((item, index) => {
                         return(
                             <Card style={styles.center} key={index}>
                                 {this.getHeader(item.userId === this.props.loggedInUserId, item)}
@@ -123,6 +135,7 @@ class Home extends React.Component {
                                         <Text note style={{marginBottom: 5}}>{item.details || ''}</Text>
                                         <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
                                         <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
+                                        {this.getEventEndedMessage(item.endDatetime)}
                                     </Body>
                                     <Right>
                                         <Image source={{

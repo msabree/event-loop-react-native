@@ -190,7 +190,7 @@ class Friends extends Component {
         return (
             <StyleProvider style={getTheme(platform)}>
                 <Content>
-                    <Segment>
+                    <Segment style={getTheme(platform)}>
                         <Button first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
                             <Text>Friends</Text>
                         </Button>

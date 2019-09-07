@@ -42,16 +42,25 @@ export const getSessionTokenFromLocalStorage = () => async (dispatch, getState) 
         sessionToken = await AsyncStorage.getItem(storageKeys.SESSION_TOKEN);
     }
     catch(e){
-        console.log('Error fetching session token from storage.');
         console.log(e);
     }
     
-    return dispatch({
-        type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
-        payload: {
-            sessionToken,
-        }
-    })
+    if(__DEV__){
+        return dispatch({
+            type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
+            payload: {
+                sessionToken: '26863360-b8a3-11e9-873e-eb2226ce8f3f',
+            }
+        })
+    }
+    else{
+        return dispatch({
+            type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
+            payload: {
+                sessionToken,
+            }
+        })
+    }
 }
 
 export const changedPhoneNumberText = (phoneNumber) => async (dispatch) => {

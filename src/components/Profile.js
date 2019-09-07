@@ -53,25 +53,18 @@ class Profile extends React.Component {
     }
 
     handleUploadPicture() {
-
-        this.props.showSpinner('Saving profile picture.');
-
         ImagePicker.showImagePicker({}, async (response) => {
-            console.log('Response = ', response);
-          
             if (response.didCancel) {
                 console.log('User cancelled image picker');
-                this.props.hideSpinner();
             }
             else if (response.error) {
                 console.log('ImagePicker Error: ', response.error);
-                this.props.hideSpinner();
             }
             else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
-                this.props.hideSpinner();
             }
             else {
+                this.props.showSpinner('Saving profile picture.');
                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 await this.props.updateUserInfo({profilePic: source.uri}, false);
                 await this.props.getLoggedInUserInfo();

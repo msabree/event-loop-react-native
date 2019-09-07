@@ -14,13 +14,6 @@ class Settings extends Component {
         this.props.getLoggedInUserInfo();
     }
 
-    static navigationOptions = {
-        title: 'Settings',
-        header: {
-            visible: true
-        }
-    };
-
     confirmLogout() {
         Alert.alert(
             'Confirm Logout',
