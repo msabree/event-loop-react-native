@@ -138,13 +138,13 @@ class Home extends React.Component {
                                         });
                                     }}>
                                         <Icon name="people" />
-                                        <Text>{get(item, 'guestList', []).length} Joined</Text>
+                                        <Text>{get(item, 'guestList', []).length}</Text>
                                     </Button>
                                     <Button transparent dark small iconLeft onPress={() => {
                                         this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
                                     }}>
                                         <Icon name="navigate" />
-                                        <Text>{item.location.name}</Text>
+                                        <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
                                     </Button>
                                     {this.getFooter(item.userId === this.props.loggedInUserId, item)}
                                 </CardItem>

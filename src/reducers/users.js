@@ -14,14 +14,13 @@ export const usersReducer = createReducer(applicationState.users , {
         const displayName = get(apiResponse, 'profile.displayName', '');
         const userId = get(apiResponse, 'profile.userId', '');
         const profilePic = get(apiResponse, 'profile.profilePic', 'https://flaker-images.s3.amazonaws.com/default-profile.png');
-        const alexaSessionToken = get(apiResponse, 'profile.alexaSessionToken', '');
         const alexaSessionTokenActive = get(apiResponse, 'profile.alexaSessionTokenActive', false);
-        
+
         set(stateClone, 'loggedIn.username', username);
         set(stateClone, 'loggedIn.profilePic', profilePic);
         set(stateClone, 'loggedIn.userId', userId);
         set(stateClone, 'loggedIn.displayName', displayName);
-        set(stateClone, 'loggedIn.activeAlexaConnection', alexaSessionToken !== '' && alexaSessionTokenActive === true);
+        set(stateClone, 'loggedIn.activeAlexaConnection', alexaSessionTokenActive);
 
         // default for edits
         set(stateClone, 'edittedUsername', username);

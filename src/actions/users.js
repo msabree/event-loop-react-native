@@ -5,6 +5,7 @@ import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
 import usersSelector from '../selectors/users';
 import formsSelector from '../selectors/forms';
+import friendsSelector from '../selectors/friends';
 
 const USERNAME_REGEX = new RegExp(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/im);
 
@@ -12,10 +13,17 @@ const USERNAME_REGEX = new RegExp(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/im);
 export const searchForUser = () => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const usersState = usersSelector(getState());
+    const friendsState = friendsSelector(getState());
+    const currentFriendsUsernames = get(friendsState, 'current', []).map((friend) => {
+        return friend._username;
+    });
     const sessionToken = get(authenticationState, 'sessionToken', '');
     const searchQuery = get(usersState, 'searchQuery', '');
 
-    if(searchQuery.trim() !== ''){
+    if(currentFriendsUsernames.indexOf(searchQuery.trim()) !== -1){
+        alert('This user is already a connection.')
+    }
+    else if(searchQuery.trim() !== ''){
         api.get(`/users/search/${sessionToken}/${searchQuery}`)
         .then((apiResponse) => {
             if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
@@ -77,7 +85,6 @@ export const updateUserInfo = (updateObject, verifyUsername = false) => (dispatc
                     })
                 }
                 else{
-                    console.log(username)
                     alert(`Invalid username. Please use letters, numbers, underscores, and/or periods.`);
                     reject('Username not available')
                 }
@@ -88,14 +95,12 @@ export const updateUserInfo = (updateObject, verifyUsername = false) => (dispatc
         })
     })
     .then(() => {
-        console.log(updateObject);
         dispatch({
             type: actionTypes.CLOSE_EDIT_USER_INFO_MODAL,
         })
         return api.put(`/users/${sessionToken}`, updateObject)
     })
     .then((apiResponse) => {
-        console.log(apiResponse)
         if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
             return dispatch({
                 type: actionTypes.INVALID_SESSION,

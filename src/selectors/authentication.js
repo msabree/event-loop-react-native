@@ -5,6 +5,7 @@ const authenticationSelector = (state) => {
         phoneNumber: state.authenticationReducer.phoneNumber,
         verificationCode: state.authenticationReducer.verificationCode,
         verificationCodeRequested: state.authenticationReducer.verificationCodeRequested,
+        heroMode: state.authenticationReducer.heroMode,
     }
 };
 

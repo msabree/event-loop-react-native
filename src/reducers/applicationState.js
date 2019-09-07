@@ -16,6 +16,7 @@ export default {
         sendFriendRequestPending: false,
     },
     authentication: {
+        heroMode: false,
         invalidSession: false,
         sessionToken: null, // '' -> loading, null -> no session '<SESSIONTOKEN>' -> a session token was found
         phoneNumber: '',

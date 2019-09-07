@@ -14,9 +14,19 @@ export const authenticationReducer = createReducer(applicationState.authenticati
         set(stateClone, 'verificationCodeRequested', false);
         return stateClone;
     },
+    [actionTypes.HERO_MODE](state){
+        const stateClone = cloneDeep(state);
+        // DEBUG SESSION 
+        set(stateClone, 'heroMode', true);
+        set(stateClone, 'sessionToken', '26863360-b8a3-11e9-873e-eb2226ce8f3f');
+        set(stateClone, 'verificationCodeRequested', false);
+        return stateClone;
+    },
     [actionTypes.CLEARED_INVALID_SESSION](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'invalidSession', false);
+        set(stateClone, 'heroMode', false);
+        set(stateClone, 'sessionToken', null);
         return stateClone;
     },
     [actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE](state, action){
@@ -48,7 +58,6 @@ export const authenticationReducer = createReducer(applicationState.authenticati
     },
     [actionTypes.VERIFY_PHONE_NUMBER](state, action){
         const stateClone = cloneDeep(state);
-        console.log(action.payload.apiResponse)
         const codeVerified = get(action.payload.apiResponse, 'success', false);
         const failureMessage = get(action.payload.apiResponse, 'message', '');
         const sessionToken = get(action.payload.apiResponse, 'sessionToken', '');

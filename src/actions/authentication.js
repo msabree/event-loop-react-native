@@ -29,7 +29,14 @@ export const removeSession = () => async (dispatch) => {
     })
 }
 
-export const getSessionTokenFromLocalStorage = () => async (dispatch) => {
+export const getSessionTokenFromLocalStorage = () => async (dispatch, getState) => {
+
+    const authenticationState = authenticationSelector(getState());
+    const heroMode = get(authenticationState, 'heroMode', false);
+    if(heroMode){
+        return;
+    }
+
     let sessionToken = null;
     try{
         sessionToken = await AsyncStorage.getItem(storageKeys.SESSION_TOKEN);
@@ -42,7 +49,7 @@ export const getSessionTokenFromLocalStorage = () => async (dispatch) => {
     return dispatch({
         type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
         payload: {
-            sessionToken: '26863360-b8a3-11e9-873e-eb2226ce8f3f',
+            sessionToken,
         }
     })
 }
@@ -70,7 +77,22 @@ export const requestVerificationCode = () => async (dispatch, getState) => {
     const phoneNumber = get(authenticationState, 'phoneNumber', '');
     const phoneNumberParsed = parsePhoneNumberFromString(phoneNumber, 'US');
     if(phoneNumber && phoneNumberParsed){
-        console.log(phoneNumber, phoneNumberParsed)
+        if(phoneNumber.toString().trim() === '0000000000'){
+            // SUPERHERO MODE!!!!
+            // it's okay... this just unlocks a preview mode in develop
+            // to do: enable a db flag to turn this off
+            // or just change the number each time we release
+            return dispatch({
+                type: actionTypes.HERO_MODE,
+            })
+        }
+
+        dispatch({
+            type: actionTypes.SHOW_SPINNER,
+            payload: {
+                message: 'Requesting verification code.',
+            }
+        })
         api.post(`/users/verification/${phoneNumberParsed.number}`)
         .then((apiResponse) => {
             return dispatch({
@@ -82,6 +104,11 @@ export const requestVerificationCode = () => async (dispatch, getState) => {
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            dispatch({
+                type: actionTypes.HIDE_SPINNER,
+            })
         })
     }
     else{
@@ -99,6 +126,14 @@ export const verifyPhoneNumber = () => (dispatch, getState) => {
         alert('Please enter the verification code.');
     }
     else{
+
+        dispatch({
+            type: actionTypes.SHOW_SPINNER,
+            payload: {
+                message: 'Verifying phone number.',
+            }
+        })
+
         api.get(`/users/verification/${phoneNumberParsed.number}/${verificationCode}`)
         .then((apiResponse) => {
             const success = get(apiResponse, 'success', false);
@@ -134,6 +169,11 @@ export const verifyPhoneNumber = () => (dispatch, getState) => {
         })
         .catch((err) => {
             console.log(err);
+        })
+        .finally(() => {
+            dispatch({
+                type: actionTypes.HIDE_SPINNER,
+            })
         })
     }
 }

@@ -16,11 +16,15 @@ const styles = StyleSheet.create({
 class AlexaConnections extends React.Component {
 
     static navigationOptions = {
-        title: 'Alexa Connections',
+        title: 'Alexa Connection',
     };
 
     getConnections() {
-        if(this.props.connections.length === 0){
+        const {
+            activeAlexaConnection
+        } = this.props.navigation.state.params;
+
+        if(activeAlexaConnection === false){
             return(
                 <Card transparent style={styles.center}>
                     <CardItem transparent header>
@@ -33,6 +37,17 @@ class AlexaConnections extends React.Component {
                 </Card>
             )
         }
+        return(
+            <Card transparent style={styles.center}>
+                <CardItem transparent header>
+                    <Text>
+                        Your Alexa device is already connected. 
+                        To delete this connection press the button in the bottom right corner. 
+                        For details on how to use the Alexa skill please visit the skill's home page.
+                    </Text>
+                </CardItem>
+            </Card>
+        )
     }
 
     render() {
@@ -47,7 +62,15 @@ class AlexaConnections extends React.Component {
                         style={{ backgroundColor: '#f58b07d6' }}
                         position="bottomRight"
                         onPress={() => {
-                            this.props.navigation.navigate('AlexaSync');
+                            const {
+                                activeAlexaConnection
+                            } = this.props.navigation.state.params;
+                            if(activeAlexaConnection){
+                                alert('Delete coming soon');
+                            }
+                            else{
+                                this.props.navigation.navigate('AlexaSync');
+                            }
                         }}>
                         <Icon name="sync" />
                     </Fab>
@@ -62,9 +85,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {
-        connections: []
-    }    
+    return {}    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlexaConnections);

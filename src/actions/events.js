@@ -156,8 +156,6 @@ export const leaveEvent = (eventId) => (dispatch, getState) => {
                 type: actionTypes.INVALID_SESSION,
             })
         }
-
-        console.log(apiResponse)
         // update the list again
         return dispatch(getGuestList(eventId))
     })
