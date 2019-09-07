@@ -59,9 +59,7 @@ class Settings extends Component {
                     <ListItem itemDivider>
                         <Text>Account</Text>
                     </ListItem>                    
-                    <ListItem icon onPress={() => {
-                        this.confirmLogout()
-                    }}>
+                    <ListItem icon>
                         <Body>
                             <Text>{'Logout'}</Text>
                         </Body>
