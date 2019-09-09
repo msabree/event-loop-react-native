@@ -42,6 +42,7 @@ class TabsContainer extends Component {
         }
         else{
             this.props.getEvents();
+            this.props.getNotifications();
         }
     }
 

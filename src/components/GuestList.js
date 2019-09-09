@@ -26,18 +26,22 @@ class GuestList extends React.Component {
 
     componentDidMount() {
         const {
-            eventId
+            eventId,
         } = this.props.navigation.state.params;
 
         this.props.getGuestList(eventId);
     }
 
-    getListActionButton(joined, eventId) {
-        if(joined){
+    getListActionButton(joined, event, isCreator = false) {
+        if(isCreator){
+            // cant join your own event
+            // maybe add automatically by default????
+            return;
+        }
+        else if(joined){
             return (
                 <Button style={styles.center} danger transparent onPress={() => { 
-                    this.props.leaveEvent(eventId);
-                    this.props.getEvents();
+                    this.props.leaveEvent(event);
                 }}>
                     <Text>{'Leave Event'}</Text>
                 </Button>
@@ -45,8 +49,7 @@ class GuestList extends React.Component {
         }
         return (
             <Button style={styles.center} success transparent onPress={() => { 
-                this.props.joinEvent(eventId);
-                this.props.getEvents();
+                this.props.joinEvent(event);
             }}>
                 <Text>{'Join Event'}</Text>
             </Button>
@@ -56,7 +59,8 @@ class GuestList extends React.Component {
     render() {
 
         const {
-            eventId,
+            event,
+            isCreator,
         } = this.props.navigation.state.params;
 
         const arrGuestUserIds = this.props.guestList.map((guest) => {
@@ -67,7 +71,7 @@ class GuestList extends React.Component {
 
         return (
             <Content>
-                {this.getListActionButton(joined, eventId)}
+                {this.getListActionButton(joined, event, isCreator)}
                 <List>
                     {
                         this.props.guestList.map((guest, index) => {

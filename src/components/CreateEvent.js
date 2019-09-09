@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 class CreateEvent extends React.Component {
 
     static navigationOptions = {
-        title: 'Create Open Invite',
+        title: 'Open Invite',
     };
 
     constructor(props){
@@ -38,10 +38,34 @@ class CreateEvent extends React.Component {
     }
 
     componentDidMount() {
-        this.props.resetEventForm()
+        const {
+            existingEvent,
+        } = get(this.props, 'navigation.state.params', {});
+
+        if(existingEvent){
+            const existingEventTitle = get(existingEvent, 'title');
+            const existingEventLocation = get(existingEvent, 'location');
+            const existingEventStartDatetime = get(existingEvent, 'startDatetime');
+            const existingEventEndDatetime = get(existingEvent, 'endDatetime');
+            const existingEventDetails = get(existingEvent, 'details', '');
+
+            // Fire updates
+            this.props.inputChange('event.title', existingEventTitle)
+            this.props.inputChange('event.location', existingEventLocation);
+            this.props.inputChange('event.startDatetime', new Date(existingEventStartDatetime));
+            this.props.inputChange('event.endDatetime', new Date(existingEventEndDatetime));
+            this.props.inputChange('event.detais', existingEventDetails)
+        }
+        else{
+            this.props.resetEventForm();
+        }
     }
 
     render() {
+        const {
+            existingEvent,
+        } = get(this.props, 'navigation.state.params', {});
+
         return (
             <Content>
                 <Card transparent>
@@ -58,7 +82,7 @@ class CreateEvent extends React.Component {
                     <CardItem transparent>
                         <Item regular>
                             <GooglePlacesAutocomplete
-                                placeholder='Where will you be?'
+                                placeholder={get(this.props, 'event.location.name') || 'Where will you be?'}
                                 minLength={2}
                                 autoFocus={false}
                                 returnKeyType={'default'}
@@ -174,7 +198,18 @@ class CreateEvent extends React.Component {
                             placeholder='Any additional details for your friends... (optional)' />
                     </CardItem>
                 </Card>
-                <Button block warning onPress={() => {this.props.createEvent()}}><Text>Create Event</Text></Button>
+                <Button block warning onPress={() => {
+                    if(existingEvent === undefined){
+                        this.props.createEvent();
+                    }
+                    else{
+                        this.props.updateEvent(existingEvent.eventId);
+                    }
+                }}>
+                    <Text>
+                        {(existingEvent === undefined) ? 'Create Open Invite' : 'Save Changes'}
+                    </Text>
+                </Button>
             </Content>
         )
     }

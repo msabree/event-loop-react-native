@@ -20,6 +20,9 @@ export const createEvent = () => (dispatch, getState) => {
     else if(title === ''){
         alert('Enter a title for this event.');
     }
+    else if(new Date(startDatetime) >= new Date(endDatetime)){
+        alert('The end date time must be after the start date time.');
+    }
     else{
         api.post(`/events`, {
             sessionToken,
@@ -38,6 +41,56 @@ export const createEvent = () => (dispatch, getState) => {
 
             if(apiResponse.success === true){
                 alert('Event has been created!');
+            }
+            else{
+                alert('Unable to create event. Please try again later.');
+            }
+    
+            dispatch(getEvents())
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+}
+
+export const updateEvent = (eventId) => (dispatch, getState) => {
+    const sessionToken = get(authenticationSelector(getState()), 'sessionToken', '');
+    const {
+        location = null, 
+        details = '', 
+        title = '', 
+        startDatetime = new Date(),
+        endDatetime = new Date(),
+    } = get(formsSelector(getState()), 'event', {});
+
+    if(location === null){
+        alert('Use the autocomplete to select an address or specific location.');
+    }
+    else if(title === ''){
+        alert('Enter a title for this event.');
+    }
+    else if(new Date(startDatetime) >= new Date(endDatetime)){
+        alert('The end date time must be after the start date time.');
+    }
+    else{
+        api.put(`/events/${eventId}`, {
+            sessionToken,
+            location,
+            title,
+            details,
+            startDatetime,
+            endDatetime,
+        })
+        .then((apiResponse) => {
+            if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
+                return dispatch({
+                    type: actionTypes.INVALID_SESSION,
+                })
+            }
+
+            if(apiResponse.success === true){
+                alert('Event has been updated!');
             }
             else{
                 alert('Unable to create event. Please try again later.');
@@ -118,12 +171,12 @@ export const getGuestList = (eventId) => (dispatch, getState) => {
     })   
 }
 
-export const joinEvent = (eventId) => (dispatch, getState) => {
+export const joinEvent = (event) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
     api.post(`/events/guest-list`, {
-        eventId,
+        event,
         sessionToken,
     })
     .then((apiResponse) => {
@@ -133,8 +186,8 @@ export const joinEvent = (eventId) => (dispatch, getState) => {
             })
         }
 
-        // update the list again
-        return dispatch(getGuestList(eventId))
+        dispatch(getEvents())
+        return dispatch(getGuestList(event.eventId))
     })
     .catch((err) => {
         console.log(err);
@@ -142,12 +195,12 @@ export const joinEvent = (eventId) => (dispatch, getState) => {
 }
 
 
-export const leaveEvent = (eventId) => (dispatch, getState) => {
+export const leaveEvent = (event) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
     api.delete(`/events/guest-list`, {
-        eventId,
+        eventId: event.eventId,
         sessionToken,
     })
     .then((apiResponse) => {
@@ -156,8 +209,9 @@ export const leaveEvent = (eventId) => (dispatch, getState) => {
                 type: actionTypes.INVALID_SESSION,
             })
         }
-        // update the list again
-        return dispatch(getGuestList(eventId))
+
+        dispatch(getEvents())
+        return dispatch(getGuestList(event.eventId))
     })
     .catch((err) => {
         console.log(err);

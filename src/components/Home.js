@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Image, Platform, Linking, Alert } from 'react-native';
-import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3 } from 'native-base';
+import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3, Badge } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -11,6 +11,7 @@ import { ActionCreators } from '../actions';
 import Loading from './Loading';
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
+import notificationsSelector from '../selectors/notifications';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
@@ -50,7 +51,7 @@ class Home extends React.Component {
     confirmDeleteEvent(eventId) {
         Alert.alert(
             'Delete Event',
-            `Are you sure you want to delete this event?`,
+            `This event has ended. Would you like to delete it?`,
             [
                 {
                     text: 'No',
@@ -91,9 +92,21 @@ class Home extends React.Component {
     }
 
     getFooter(isCreator = false, item) {
-        if(isCreator === true){
+        if(isCreator === true && new Date() <= new Date(item.endDatetime)){
             return (
-                <Button transparent danger small iconLeft onPress={() => {
+                <Button transparent small dark iconLeft onPress={() => {
+                    this.props.navigation.navigate('CreateEvent', {
+                        existingEvent: item,
+                    });
+                }}>
+                    <Icon name="create" />
+                    <Text>Edit</Text>
+                </Button>
+            )
+        }
+        else if(isCreator === true && new Date() > new Date(item.endDatetime)){
+            return (
+                <Button transparent small danger iconLeft onPress={() => {
                     this.confirmDeleteEvent(item.eventId);
                 }}>
                     <Icon name="trash" />
@@ -101,6 +114,34 @@ class Home extends React.Component {
                 </Button>
             )
         }
+    }
+
+    getNotificationsBadge() {
+        if(this.props.badgeCount > 0){
+            return (
+                <React.Fragment>
+                    <Badge style={{ position: 'absolute' }}><Text>{this.props.badgeCount}</Text></Badge>
+                    <Icon style={{fontSize: 30}} name='notifications' />
+                </React.Fragment>
+            )
+        }
+    }
+
+    // Fallback to a static map image if no photo references available
+    getPlaceImage(itemLocation) {
+        const photos = get(itemLocation, 'photos', []);
+        if(photos.length === 0){
+            return (
+                <Image source={{
+                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=100x100&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+            )
+        }
+        return (
+            <Image source={{
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=200&key=${GOOGLE_API_KEY}`
+            }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+        )
     }
 
     openMaps(label, lat, lng) {
@@ -126,9 +167,11 @@ class Home extends React.Component {
                         // to get a value that is either negative, positive, or zero.
                         return new Date(a.startDatetime) - new Date(b.startDatetime);
                       }).map((item, index) => {
+                          console.log(item)
+                          const isCreator = (item.userId === this.props.loggedInUserId);
                         return(
                             <Card style={styles.center} key={index}>
-                                {this.getHeader(item.userId === this.props.loggedInUserId, item)}
+                                {this.getHeader(isCreator, item)}
                                 <CardItem>
                                     <Body>
                                         <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
@@ -138,15 +181,14 @@ class Home extends React.Component {
                                         {this.getEventEndedMessage(item.endDatetime)}
                                     </Body>
                                     <Right>
-                                        <Image source={{
-                                                uri: `https://maps.googleapis.com/maps/api/staticmap?center=${item.location.formatted_address}&zoom=18&size=100x100&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                                            }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                                        {this.getPlaceImage(item.location)}
                                     </Right>
                                 </CardItem>
                                 <CardItem style={{fontSize: 10}}>
                                     <Button transparent dark small iconLeft onPress={() => {
                                         this.props.navigation.navigate('GuestList', {
-                                            eventId: item.eventId,
+                                            event: item,
+                                            isCreator,
                                             guestList: get(item, 'guestList', [])
                                         });
                                     }}>
@@ -159,7 +201,7 @@ class Home extends React.Component {
                                         <Icon name="navigate" />
                                         <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
                                     </Button>
-                                    {this.getFooter(item.userId === this.props.loggedInUserId, item)}
+                                    {this.getFooter(isCreator, item)}
                                 </CardItem>
                             </Card>
                         )
@@ -185,9 +227,11 @@ class Home extends React.Component {
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
-                                    {/* <Button transparent dark onPress={() => { 'Send toast to sort' }}>
-                                        <Icon name='list' />
-                                    </Button> */}
+                                    <Button transparent dark onPress={() => {
+                                        this.props.navigation.navigate('Notifications')
+                                    }}>
+                                        {this.getNotificationsBadge()}
+                                    </Button>
                                 </Left>
                                 <Body>
                                     <H1 style={{color: '#f58b07d6'}}>Flaker</H1>
@@ -234,6 +278,7 @@ function mapStateToProps(state) {
         loggedInUserId: userSelector(state).loggedInUserId,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
+        badgeCount: notificationsSelector(state).badgeCount,
     }    
 }
   

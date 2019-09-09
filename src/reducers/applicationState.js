@@ -2,6 +2,10 @@ export default {
     appInfo: {
         connected: true,
     },
+    notifications: {
+        list: [],
+        badgeCount: 0,
+    },
     spinner: {
         visible: false,
         message: '',

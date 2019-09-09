@@ -9,6 +9,7 @@ import CreateEvent from './src/components/CreateEvent';
 import GuestList from './src/components/GuestList';
 import AlexaConnections from './src/components/AlexaConnections';
 import AlexaSync from './src/components/AlexaSync';
+import Notifications from './src/components/Notifications';
 
 const AppNavigator = createStackNavigator(
     {
@@ -28,13 +29,16 @@ const AppNavigator = createStackNavigator(
             screen: GuestList,
         },
         Settings: {
-            screen: Settings
+            screen: Settings,
         },
         AlexaConnections: {
-            screen: AlexaConnections
+            screen: AlexaConnections,
         },
         AlexaSync: {
-            screen: AlexaSync
+            screen: AlexaSync,
+        },
+        Notifications: {
+            screen: Notifications,
         }
     },
     {
