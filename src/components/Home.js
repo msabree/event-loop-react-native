@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Platform, Linking, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Platform, Linking, Alert, FlatList } from 'react-native';
 import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3, Badge } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -160,54 +160,57 @@ class Home extends React.Component {
         }
         else if(this.props.eventList.length > 0){
             return (
-                <Content>
-                {
-                    this.props.eventList.sort(function(a,b){
-                        // Turn your strings into dates, and then subtract them
-                        // to get a value that is either negative, positive, or zero.
-                        return new Date(a.startDatetime) - new Date(b.startDatetime);
-                      }).map((item, index) => {
-                          console.log(item)
-                          const isCreator = (item.userId === this.props.loggedInUserId);
-                        return(
-                            <Card style={styles.center} key={index}>
-                                {this.getHeader(isCreator, item)}
-                                <CardItem>
-                                    <Body>
-                                        <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
-                                        <Text note style={{marginBottom: 5}}>{item.details || ''}</Text>
-                                        <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
-                                        <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
-                                        {this.getEventEndedMessage(item.endDatetime)}
-                                    </Body>
-                                    <Right>
-                                        {this.getPlaceImage(item.location)}
-                                    </Right>
-                                </CardItem>
-                                <CardItem style={{fontSize: 10}}>
-                                    <Button transparent dark small iconLeft onPress={() => {
-                                        this.props.navigation.navigate('GuestList', {
-                                            event: item,
-                                            isCreator,
-                                            guestList: get(item, 'guestList', [])
-                                        });
-                                    }}>
-                                        <Icon name="people" />
-                                        <Text>{get(item, 'guestList', []).length}</Text>
-                                    </Button>
-                                    <Button transparent dark small iconLeft onPress={() => {
-                                        this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
-                                    }}>
-                                        <Icon name="navigate" />
-                                        <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
-                                    </Button>
-                                    {this.getFooter(isCreator, item)}
-                                </CardItem>
-                            </Card>
-                        )
-                    })
-                }
-                </Content>
+                <Container>
+                    <FlatList
+                        data={this.props.eventList.sort(function(a,b){
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            return new Date(a.startDatetime) - new Date(b.startDatetime);
+                        })}
+                        onRefresh={() => { this.props.getEvents(true) }}
+                        refreshing={this.props.fetchingNew}
+                        renderItem={({ item }) => {
+                            const isCreator = (item.userId === this.props.loggedInUserId);
+                            return (
+                                <Card style={styles.center} key={item.eventId}>
+                                    {this.getHeader(isCreator, item)}
+                                    <CardItem>
+                                        <Body>
+                                            <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
+                                            <Text note style={{marginBottom: 5}}>{item.details || ''}</Text>
+                                            <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
+                                            <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
+                                            {this.getEventEndedMessage(item.endDatetime)}
+                                        </Body>
+                                        <Right>
+                                            {this.getPlaceImage(item.location)}
+                                        </Right>
+                                    </CardItem>
+                                    <CardItem style={{fontSize: 10}}>
+                                        <Button transparent dark small iconLeft onPress={() => {
+                                            this.props.navigation.navigate('GuestList', {
+                                                event: item,
+                                                isCreator,
+                                                guestList: get(item, 'guestList', [])
+                                            });
+                                        }}>
+                                            <Icon name="people" />
+                                            <Text>{get(item, 'guestList', []).length}</Text>
+                                        </Button>
+                                        <Button transparent dark small iconLeft onPress={() => {
+                                            this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
+                                        }}>
+                                            <Icon name="navigate" />
+                                            <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
+                                        </Button>
+                                        {this.getFooter(isCreator, item)}
+                                    </CardItem>
+                                </Card>
+                            )
+                        }}
+                        keyExtractor={item => item.eventId}
+                    />
+                </Container>
             )
         }
         return (
@@ -227,11 +230,11 @@ class Home extends React.Component {
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
-                                    <Button transparent dark onPress={() => {
+                                    {/* <Button transparent dark onPress={() => {
                                         this.props.navigation.navigate('Notifications')
                                     }}>
                                         {this.getNotificationsBadge()}
-                                    </Button>
+                                    </Button> */}
                                 </Left>
                                 <Body>
                                     <H1 style={{color: '#f58b07d6'}}>Flaker</H1>
@@ -274,6 +277,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         eventList: eventsSelector(state).eventList,
+        fetchingNew: eventsSelector(state).fetchingNew,
         sliderIndex: eventsSelector(state).sliderIndex,
         loggedInUserId: userSelector(state).loggedInUserId,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,

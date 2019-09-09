@@ -123,9 +123,15 @@ export const deleteEvent = (eventId) => (dispatch, getState) => {
     })   
 }
 
-export const getEvents = () => (dispatch, getState) => {
+export const getEvents = (dispatchFetchingEvents = false) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
+
+    if(dispatchFetchingEvents){
+        dispatch({
+            type: actionTypes.FETCHING_EVENTS,
+        })
+    }
 
     api.get(`/events/${sessionToken}`)
     .then((apiResponse) => {

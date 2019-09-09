@@ -45,6 +45,7 @@ export default {
         list: null,
         sliderIndex: 0,
         guestList: [],
+        fetchingNew: false,
     },
     alexa: {
         syncCode: '',

@@ -7,10 +7,16 @@ import * as actionTypes from '../constants/actionTypes';
 import applicationState from './applicationState';
 
 export const eventsReducer = createReducer(applicationState.events, {
+    [actionTypes.FETCHING_EVENTS](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'fetchingNew', true);
+        return stateClone;
+    },
     [actionTypes.GET_EVENTS](state, action){
         const stateClone = cloneDeep(state);
         const eventsList = get(action.payload.apiResponse, 'events', []);
         set(stateClone, 'list', eventsList);
+        set(stateClone, 'fetchingNew', false);
         return stateClone;
     },
     [actionTypes.GET_EVENT_GUEST_LIST](state, action){
