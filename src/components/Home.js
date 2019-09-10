@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Platform, Linking, Alert, FlatList } from 'react-native';
-import { Content, Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3, Badge } from 'native-base';
+import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
+import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3, Badge, Picker } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     mainHeader: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 20,
     },
     profilePic: {
         width: 140,
@@ -125,6 +126,11 @@ class Home extends React.Component {
                 </React.Fragment>
             )
         }
+        return (
+            <React.Fragment>
+                <Icon style={{fontSize: 30}} name='notifications' />
+            </React.Fragment>            
+        )
     }
 
     // Fallback to a static map image if no photo references available
@@ -230,24 +236,36 @@ class Home extends React.Component {
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
-                                    {/* <Button transparent dark onPress={() => {
+                                    <Button transparent dark onPress={() => {
                                         this.props.navigation.navigate('Notifications')
                                     }}>
                                         {this.getNotificationsBadge()}
-                                    </Button> */}
+                                    </Button>
                                 </Left>
-                                <Body>
-                                    <H1 style={{color: '#f58b07d6'}}>Flaker</H1>
-                                </Body>
                                 <Right>
-                                <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Profile');
-                                }}>
-                                    <Image
-                                        style={styles.headerProfilePic}  
-                                        source={{uri: this.props.loggedInProfilePic}} /> 
-                                        <Text note>{this.props.loggedInDisplayName || 'Me'}</Text> 
-                                </TouchableOpacity>
+                                <Picker
+                                    mode="dropdown"
+                                    iosHeader='Filter'
+                                    iosIcon={<Icon name='funnel' dark />}
+                                    style={{ width: undefined }}
+                                    selectedValue={this.props.eventsFilter || 'upcoming'}
+                                    onValueChange={(filter) => {
+                                        this.props.changeEventsFilter(filter);
+                                    }}
+                                >
+                                    <Picker.Item label='Upcoming' value="upcoming" />
+                                    <Picker.Item label='Past' value="past" />
+                                    <Picker.Item label='Created By Me' value="created" />
+                                    <Picker.Item label='Joined By Me' value="joined" />
+                                </Picker>
+                                    {/* <TouchableOpacity onPress={() => {
+                                        this.props.navigation.navigate('Profile');
+                                    }}>
+                                        <Image
+                                            style={styles.headerProfilePic}  
+                                            source={{uri: this.props.loggedInProfilePic}} /> 
+                                            <Text note>{this.props.loggedInDisplayName || 'Profile'}</Text> 
+                                    </TouchableOpacity> */}
                                 </Right>
                             </CardItem>
                         </Card>
@@ -279,6 +297,7 @@ function mapStateToProps(state) {
         eventList: eventsSelector(state).eventList,
         fetchingNew: eventsSelector(state).fetchingNew,
         sliderIndex: eventsSelector(state).sliderIndex,
+        eventsFilter: eventsSelector(state).eventsFilter,
         loggedInUserId: userSelector(state).loggedInUserId,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
         loggedInProfilePic: userSelector(state).loggedInProfilePic,

@@ -91,7 +91,7 @@ class TabsContainer extends Component {
                     <Footer>
                         <FooterTab>
                             <Button active={this.props.activeTabIndex === 0} onPress={() => { this.props.setActiveTab(0) }}>
-                                <Icon active={this.props.activeTabIndex === 0} name="home" />
+                                <Icon active={this.props.activeTabIndex === 0} name="calendar" />
                             </Button>
                             <Button active={this.props.activeTabIndex === 1} onPress={() => { this.props.setActiveTab(1) }}>
                                 <Icon active={this.props.activeTabIndex === 1} name="people" />

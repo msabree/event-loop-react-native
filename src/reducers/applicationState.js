@@ -5,6 +5,7 @@ export default {
     notifications: {
         list: [],
         badgeCount: 0,
+        refreshing: false,
     },
     spinner: {
         visible: false,
@@ -46,6 +47,7 @@ export default {
         sliderIndex: 0,
         guestList: [],
         fetchingNew: false,
+        filter: 'upcoming',
     },
     alexa: {
         syncCode: '',

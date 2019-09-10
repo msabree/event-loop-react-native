@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import * as actionTypes from '../constants/actionTypes';
 import formsSelector from '../selectors/forms';
 import authenticationSelector from '../selectors/authentication';
+import usersSelector from '../selectors/users';
 import api from '../utils/api';
 
 export const createEvent = () => (dispatch, getState) => {
@@ -126,6 +127,8 @@ export const deleteEvent = (eventId) => (dispatch, getState) => {
 export const getEvents = (dispatchFetchingEvents = false) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
+    const usersState = usersSelector(getState());
+    const loggedInUserId = get(usersState, 'loggedInUserId', '');
 
     if(dispatchFetchingEvents){
         dispatch({
@@ -144,7 +147,8 @@ export const getEvents = (dispatchFetchingEvents = false) => (dispatch, getState
         return dispatch({
             type: actionTypes.GET_EVENTS,
             payload: {
-                apiResponse
+                apiResponse,
+                loggedInUserId,
             }
         })
     })
@@ -228,4 +232,15 @@ export const resetEventForm = () => (dispatch) => {
     return dispatch({
         type: actionTypes.RESET_EVENT_FORM,
     })
+}
+
+export const changeEventsFilter = (filter = 'upcoming') => (dispatch) => {
+    dispatch({
+        type: actionTypes.CHANGE_EVENTS_FILTER,
+        payload: {
+            filter
+        }
+    })
+
+    return dispatch(getEvents());
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Content, ListItem, Text } from 'native-base';
+import { Content, ListItem, Body, Text } from 'native-base';
+import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,19 +15,28 @@ class Notifications extends Component {
         title: 'Notifications',
     };
 
-    componentDidMount() {
-        this.props.getNotifications();
+    async componentDidMount() {
+        await this.props.getNotifications();
+        this.props.markNotificationsRead();
     }
 
     render() {
         return (
             <Content>
                 <FlatList
+                    onRefresh={async () => { 
+                        await this.props.getNotifications(true) 
+                        this.props.markNotificationsRead()
+                    }}
+                    refreshing={this.props.refreshing}
                     data={this.props.notifications}
                     renderItem={({ item }) => {
                         return (
                             <ListItem>
-                                <Text>{item.message}</Text>
+                                <Body>
+                                    <Text>{item.message}</Text>
+                                    <Text note>{moment(item.createdDatetime).fromNow()}</Text>
+                                </Body>
                             </ListItem>
                         )
                     }}
@@ -44,6 +54,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         notifications: notificationsSelector(state).notifications,
+        refreshing: notificationsSelector(state).refreshing,
     }    
 }
 

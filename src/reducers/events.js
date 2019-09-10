@@ -14,7 +14,26 @@ export const eventsReducer = createReducer(applicationState.events, {
     },
     [actionTypes.GET_EVENTS](state, action){
         const stateClone = cloneDeep(state);
-        const eventsList = get(action.payload.apiResponse, 'events', []);
+        const eventsFilter = get(stateClone, 'filter', 'upcoming');
+        const userId = get(action.payload, 'loggedInUserId', '')
+        const eventsList = get(action.payload.apiResponse, 'events', []).filter((event) => {
+            if(eventsFilter === 'upcoming'){
+                return new Date(event.endDatetime) >= new Date();
+            }
+            else if(eventsFilter === 'past'){
+                return new Date(event.endDatetime) < new Date();
+            }
+            else if(eventsFilter === 'created') {
+                return event.userId === userId;
+            }
+            else if(eventsFilter === 'joined') {
+                return get(event, 'guestList', []).indexOf(userId) !== -1;
+            }
+            else{
+                console.log('how sway')
+                return true;
+            }
+        })
         set(stateClone, 'list', eventsList);
         set(stateClone, 'fetchingNew', false);
         return stateClone;
@@ -28,6 +47,11 @@ export const eventsReducer = createReducer(applicationState.events, {
     [actionTypes.CLEAR_EVENT_GUEST_LIST](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'guestList', []);
+        return stateClone;
+    },
+    [actionTypes.CHANGE_EVENTS_FILTER](state, action){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'filter', action.payload.filter);
         return stateClone;
     },
 });
