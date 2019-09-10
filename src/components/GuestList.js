@@ -26,10 +26,10 @@ class GuestList extends React.Component {
 
     componentDidMount() {
         const {
-            eventId,
+            event,
         } = this.props.navigation.state.params;
 
-        this.props.getGuestList(eventId);
+        this.props.getGuestList(event.eventId);
     }
 
     getListActionButton(joined, event, isCreator = false) {

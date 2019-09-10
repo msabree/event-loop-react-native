@@ -226,7 +226,7 @@ class Home extends React.Component {
         return (
             <React.Fragment>
                 <Container>
-                    <Content>
+                    <Container>
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
@@ -252,19 +252,19 @@ class Home extends React.Component {
                             </CardItem>
                         </Card>
                         {this.getContent()}
-                    </Content>   
-                        <Fab
-                            active={true}
-                            direction="up"
-                            containerStyle={{ }}
-                            style={{ backgroundColor: '#f58b07d6' }}
-                            position="bottomRight"
-                            onPress={() => {
-                                this.props.navigation.navigate('CreateEvent');
-                            }}>
-                            <Icon name="add" />
-                        </Fab>
-                    </Container>
+                    </Container>   
+                    <Fab
+                        active={true}
+                        direction="up"
+                        containerStyle={{ }}
+                        style={{ backgroundColor: '#f58b07d6' }}
+                        position="bottomRight"
+                        onPress={() => {
+                            this.props.navigation.navigate('CreateEvent');
+                        }}>
+                        <Icon name="add" />
+                    </Fab>
+                </Container>
             </React.Fragment>
         )   
     }
