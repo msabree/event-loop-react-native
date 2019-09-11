@@ -17,7 +17,7 @@ export const notificationsReducer = createReducer(applicationState.notifications
         const notificationList = get(action.payload.apiResponse, 'notifications', []);
         set(stateClone, 'list', notificationList);
         set(stateClone, 'refreshing', false);
-        set(stateClone, 'badgeCount', notificationList.filter((item) => item.viewed === false).length);
+        set(stateClone, 'badgeCount', notificationList.filter((item) => item.read === false).length);
         return stateClone;
     },
 });

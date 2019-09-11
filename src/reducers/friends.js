@@ -15,18 +15,6 @@ export const friendsReducer = createReducer(applicationState.friends, {
         set(stateClone, 'requests', requests);
         return stateClone;
     },
-    [actionTypes.REMOVE_FRIEND](state, action){
-        const stateClone = cloneDeep(state);
-        const current = get(action.payload.apiResponse, 'friends', []);
-        const removedFriendSuccessfully = get(action.payload.apiResponse, 'success', false);
-        if(removedFriendSuccessfully){
-            const updatedCurrent = current.filter((currFriend) => {
-                return currFriend.friendUserId !== action.payload.friendUserId;
-            });
-            set(stateClone, 'current', updatedCurrent);
-        }
-        return stateClone;
-    },
     [actionTypes.SET_FRIENDS_SEGMENT](state, action){
         const stateClone = cloneDeep(state);
         set(stateClone, 'activeSegment', action.payload.segment)

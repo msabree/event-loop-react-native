@@ -55,7 +55,7 @@ export const createEvent = () => (dispatch, getState) => {
     }
 }
 
-export const updateEvent = (eventId) => (dispatch, getState) => {
+export const updateEvent = (eventId, guestList = []) => (dispatch, getState) => {
     const sessionToken = get(authenticationSelector(getState()), 'sessionToken', '');
     const {
         location = null, 
@@ -82,6 +82,7 @@ export const updateEvent = (eventId) => (dispatch, getState) => {
             details,
             startDatetime,
             endDatetime,
+            guestList,
         })
         .then((apiResponse) => {
             if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
@@ -105,11 +106,14 @@ export const updateEvent = (eventId) => (dispatch, getState) => {
     }
 }
 
-export const deleteEvent = (eventId) => (dispatch, getState) => {
+export const deleteEvent = (event) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
-    api.delete(`/events/${sessionToken}/${eventId}`)
+    api.delete(`/events/${sessionToken}/${event.eventId}`, {
+        guestList: event.guestList,
+        title: event.title,
+    })
     .then((apiResponse) => {
         if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
             return dispatch({
@@ -210,7 +214,7 @@ export const leaveEvent = (event) => (dispatch, getState) => {
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
     api.delete(`/events/guest-list`, {
-        eventId: event.eventId,
+        event,
         sessionToken,
     })
     .then((apiResponse) => {

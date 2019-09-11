@@ -134,13 +134,7 @@ export const removeFriend = (friendUserId) => (dispatch, getState) => {
                 type: actionTypes.INVALID_SESSION,
             })
         }
-        return dispatch({
-            type: actionTypes.REMOVE_FRIEND,
-            payload: {
-                apiResponse,
-                friendUserId
-            }
-        })
+        return dispatch(getFriendsList())
     })
     .catch((err) => {
         console.log(err);

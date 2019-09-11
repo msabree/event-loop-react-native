@@ -40,7 +40,7 @@ export const markNotificationsRead = () => (dispatch, getState) => {
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
     const notificationsState = notificationsSelector(getState());
-    const notificationIdsUnread = get(notificationsState, 'list', []).filter((notification) => {
+    const notificationIdsUnread = get(notificationsState, 'notifications', []).filter((notification) => {
         return notification.read === false;
     }).map((notification) => {
         return notification._id;

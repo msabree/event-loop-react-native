@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { Content, List, ListItem, Text, Body, Right, Button, Icon } from 'native-base';
+import { StyleSheet, Alert} from 'react-native';
+import { Content, List, ListItem, Text, Body, Right, Button, Icon, Left, Thumbnail } from 'native-base';
+import ImagePicker from 'react-native-image-picker';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
 import userSelector from '../selectors/users';
+
+const styles = StyleSheet.create({
+    center: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
 class Settings extends Component {
 
@@ -50,11 +58,65 @@ class Settings extends Component {
                         </Body>
                     </ListItem> */}
                     <ListItem itemDivider>
-                        <Text>Account</Text>
+                        <Text>Profile</Text>
+                    </ListItem>  
+                    <ListItem avatar onPress={() => {
+                        this.props.navigation.navigate('Profile')
+                    }}> 
+                        <Left>
+                            <Thumbnail source={{ uri: this.props.loggedInProfilePic }} />
+                        </Left>
+                        <Body>
+                            <Text>{this.props.loggedInDisplayName}</Text>
+                            <Text note>{this.props.loggedInUsername}</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => {
+                                this.props.navigation.navigate('Profile')
+                            }}>
+                                <Icon name='create' />
+                            </Button>
+                        </Right>
+                    </ListItem>
+                    {/* <ListItem itemDivider>
+                        <Text>Push Notificatons</Text>
+                    </ListItem>                 
+                    <ListItem icon>
+                        <Body>
+                            <Text note>{'Incoming friend requests.'}</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => {}}>
+                                <Icon name='notifications-off' />
+                            </Button>
+                        </Right>
+                    </ListItem>
+                    <ListItem icon>
+                        <Body>
+                            <Text note>{'Someone joins/leaves your event.'}</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => {}}>
+                                <Icon name='notifications-off' />
+                            </Button>
+                        </Right>
+                    </ListItem>
+                    <ListItem icon>
+                        <Body>
+                            <Text note>{'Event changes to an event you joined.'}</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => {}}>
+                                <Icon name='notifications-off' />
+                            </Button>
+                        </Right>
+                    </ListItem> */}
+                    <ListItem itemDivider>
+                        <Text>Device</Text>
                     </ListItem>                    
                     <ListItem icon>
                         <Body>
-                            <Text>{'Logout'}</Text>
+                            <Text note>{'Logout'}</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => {
@@ -77,6 +139,9 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         loggedInActiveAlexaConnection: userSelector(state).loggedInActiveAlexaConnection,
+        loggedInProfilePic: userSelector(state).loggedInProfilePic,
+        loggedInUsername: userSelector(state).loggedInUsername,
+        loggedInDisplayName: userSelector(state).loggedInDisplayName,
     }    
 }
 

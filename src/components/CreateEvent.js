@@ -203,7 +203,7 @@ class CreateEvent extends React.Component {
                         this.props.createEvent();
                     }
                     else{
-                        this.props.updateEvent(existingEvent.eventId);
+                        this.props.updateEvent(existingEvent.eventId, existingEvent.guestList);
                     }
                 }}>
                     <Text>

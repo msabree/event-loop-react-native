@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Content, ListItem, Body, Text } from 'native-base';
+import { Container, ListItem, Body, Text } from 'native-base';
 import moment from 'moment';
 
 import { connect } from 'react-redux';
@@ -22,14 +22,18 @@ class Notifications extends Component {
 
     render() {
         return (
-            <Content>
+            <Container>
                 <FlatList
                     onRefresh={async () => { 
                         await this.props.getNotifications(true) 
                         this.props.markNotificationsRead()
                     }}
                     refreshing={this.props.refreshing}
-                    data={this.props.notifications}
+                    data={this.props.notifications.sort(function(a,b){
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        return new Date(b.createdDatetime) - new Date(a.createdDatetime);
+                    })}
                     renderItem={({ item }) => {
                         return (
                             <ListItem>
@@ -42,7 +46,7 @@ class Notifications extends Component {
                     }}
                     keyExtractor={item => item._id}
                 />
-            </Content>
+            </Container>
         );
     }
 }

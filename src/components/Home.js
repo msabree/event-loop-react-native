@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
-import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H1, H3, Badge, Picker } from 'native-base';
+import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -108,7 +108,7 @@ class Home extends React.Component {
         else if(isCreator === true && new Date() > new Date(item.endDatetime)){
             return (
                 <Button transparent small danger iconLeft onPress={() => {
-                    this.confirmDeleteEvent(item.eventId);
+                    this.confirmDeleteEvent(item);
                 }}>
                     <Icon name="trash" />
                     <Text>Delete</Text>
@@ -243,29 +243,21 @@ class Home extends React.Component {
                                     </Button>
                                 </Left>
                                 <Right>
-                                <Picker
-                                    mode="dropdown"
-                                    iosHeader='Filter'
-                                    iosIcon={<Icon name='funnel' dark />}
-                                    style={{ width: undefined }}
-                                    selectedValue={this.props.eventsFilter || 'upcoming'}
-                                    onValueChange={(filter) => {
-                                        this.props.changeEventsFilter(filter);
-                                    }}
-                                >
-                                    <Picker.Item label='Upcoming' value="upcoming" />
-                                    <Picker.Item label='Past' value="past" />
-                                    <Picker.Item label='Created By Me' value="created" />
-                                    <Picker.Item label='Joined By Me' value="joined" />
-                                </Picker>
-                                    {/* <TouchableOpacity onPress={() => {
-                                        this.props.navigation.navigate('Profile');
-                                    }}>
-                                        <Image
-                                            style={styles.headerProfilePic}  
-                                            source={{uri: this.props.loggedInProfilePic}} /> 
-                                            <Text note>{this.props.loggedInDisplayName || 'Profile'}</Text> 
-                                    </TouchableOpacity> */}
+                                    <Picker
+                                        mode='dropdown'
+                                        iosHeader='Filter'
+                                        iosIcon={<Icon name='funnel' dark />}
+                                        style={{ width: undefined }}
+                                        selectedValue={this.props.eventsFilter || 'upcoming'}
+                                        onValueChange={(filter) => {
+                                            this.props.changeEventsFilter(filter);
+                                        }}
+                                    >
+                                        <Picker.Item label='Upcoming' value='upcoming' />
+                                        <Picker.Item label='Past' value='past' />
+                                        <Picker.Item label='Created By Me' value='created' />
+                                        <Picker.Item label='Joined By Me' value="joined" />
+                                    </Picker>
                                 </Right>
                             </CardItem>
                         </Card>
