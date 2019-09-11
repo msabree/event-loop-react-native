@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Alert} from 'react-native';
+import { Alert} from 'react-native';
 import { Content, List, ListItem, Text, Body, Right, Button, Icon, Left, Thumbnail } from 'native-base';
-import ImagePicker from 'react-native-image-picker';
+import { getVersion } from 'react-native-device-info';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,14 +9,20 @@ import { ActionCreators } from '../actions';
 
 import userSelector from '../selectors/users';
 
-const styles = StyleSheet.create({
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});
-
 class Settings extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            version: '',
+        }
+
+        getVersion().then((version) => {
+            this.setState({
+                version 
+            })
+        })
+    }
 
     componentDidMount() {
         this.props.getLoggedInUserInfo();
@@ -127,6 +133,11 @@ class Settings extends Component {
                                 <Icon name='log-out' />
                             </Button>
                         </Right>
+                    </ListItem>
+                    <ListItem icon>
+                        <Body>
+                            <Text note>{`Version ${this.state.version}`}</Text>
+                        </Body>
                     </ListItem>
                 </List>
             </Content>

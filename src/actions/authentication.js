@@ -86,22 +86,28 @@ export const requestVerificationCode = () => async (dispatch, getState) => {
     const phoneNumber = get(authenticationState, 'phoneNumber', '');
     const phoneNumberParsed = parsePhoneNumberFromString(phoneNumber, 'US');
     if(phoneNumber && phoneNumberParsed){
-        if(phoneNumber.toString().trim() === '0000000000'){
-            // SUPERHERO MODE!!!!
-            // it's okay... this just unlocks a preview mode in develop
-            // to do: enable a db flag to turn this off
-            // or just change the number each time we release
-            return dispatch({
-                type: actionTypes.HERO_MODE,
-            })
-        }
-
+        
         dispatch({
             type: actionTypes.SHOW_SPINNER,
             payload: {
                 message: 'Requesting verification code.',
             }
         })
+
+        if(phoneNumber.toString().trim() === '0000000000'){
+            // SUPERHERO MODE!!!!
+            // it's okay... this just unlocks a preview mode in develop
+            // to do: enable a db flag to turn this off
+            // or just change the number each time we release
+            
+            dispatch({
+                type: actionTypes.HIDE_SPINNER,
+            })
+
+            return dispatch({
+                type: actionTypes.HERO_MODE,
+            })
+        }
         api.post(`/users/verification/${phoneNumberParsed.number}`)
         .then((apiResponse) => {
             return dispatch({

@@ -26,9 +26,7 @@ const styles = StyleSheet.create({
 export default class SpinnerModal extends React.Component {
     render() {
         return (
-            <Modal animationType="slide" transparent={true} visible={this.props.visible} onRequestClose={() => {
-                this.props.onRequestClose();
-            }}>
+            <Modal animationType='slide' transparent={true} visible={this.props.visible}>
                 <View style={styles.outerContainer}>
                     <View style={styles.innerContainer}>
                         <Content contentContainerStyle={styles.center}>

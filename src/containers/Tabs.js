@@ -10,7 +10,6 @@ import Settings from '../components/Settings';
 
 import StandardHeader from '../components/StandardHeader';
 import SearchHeader from '../components/SearchHeader';
-
 import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';
@@ -87,7 +86,7 @@ class TabsContainer extends Component {
                 <Container>
                     {this.getHeader()}
                     {this.getContent()}
-                    <SpinnerModal onRequestClose={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
+                    <SpinnerModal hideSpinner={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
                     <Footer>
                         <FooterTab>
                             <Button active={this.props.activeTabIndex === 0} onPress={() => { this.props.setActiveTab(0) }}>

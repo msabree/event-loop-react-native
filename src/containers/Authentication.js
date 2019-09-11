@@ -5,12 +5,14 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import Loading from '../components/Loading';
 import EnterPhoneNumber from '../components/EnterPhoneNumber';
 import EnterVerificationCode from '../components/EnterVerificationCode';
+import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
 import authenticationSelector from '../selectors/authentication';
+import spinnerSelector from '../selectors/spinner';
 
 class AuthenticationContainer extends Component {
     
@@ -96,6 +98,7 @@ class AuthenticationContainer extends Component {
         return (
             <Container style={{backgroundColor: '#f58b07d6'}}>
                 {this.getContent()}
+                <SpinnerModal hideSpinner={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
             </Container>
         );
     }
@@ -112,6 +115,8 @@ function mapStateToProps(state) {
         phoneNumber: authenticationSelector(state).phoneNumber,
         verificationCode: authenticationSelector(state).verificationCode,
         verificationCodeRequested: authenticationSelector(state).verificationCodeRequested,
+        spinnerVisible: spinnerSelector(state).visible,
+        spinnerMessage: spinnerSelector(state).message,
     }    
 }
 
