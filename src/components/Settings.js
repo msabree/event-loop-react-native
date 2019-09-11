@@ -69,6 +69,8 @@ class Settings extends Component {
                         <Body>
                             <Text>{this.props.loggedInDisplayName}</Text>
                             <Text note>{this.props.loggedInUsername}</Text>
+                            <Text note>{' '}</Text>
+                            <Text note>{' '}</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => {

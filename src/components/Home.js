@@ -236,14 +236,13 @@ class Home extends React.Component {
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
-                                    <Button transparent dark onPress={() => {
+                                    <Button transparent dark style={{fontSize: 14}} onPress={() => {
                                         this.props.navigation.navigate('Notifications')
                                     }}>
                                         {this.getNotificationsBadge()}
                                     </Button>
                                 </Left>
-                                <Right>
-                                    <Picker
+                                <Picker
                                         mode='dropdown'
                                         iosHeader='Filter'
                                         iosIcon={<Icon name='funnel' dark />}
@@ -258,7 +257,6 @@ class Home extends React.Component {
                                         <Picker.Item label='Created By Me' value='created' />
                                         <Picker.Item label='Joined By Me' value="joined" />
                                     </Picker>
-                                </Right>
                             </CardItem>
                         </Card>
                         {this.getContent()}
