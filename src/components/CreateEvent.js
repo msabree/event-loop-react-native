@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { Content, Card, CardItem, Item, Textarea, Button, Input, Text } from 'native-base';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import DatePicker from 'react-native-datepicker';
@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import moment from 'moment';
 
 import formsSelector from '../selectors/forms';
+import eventSelector from '../selectors/events';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -61,6 +62,47 @@ class CreateEvent extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.newEventCreated !== prevProps.newEventCreated && this.props.newEventCreated === true) {
+            console.log('GO BACK??')
+            this.props.navigation.goBack();
+        }
+    }
+
+    confirmDeleteEvent(existingEvent) {
+        Alert.alert(
+            'Delete Event',
+            `This is a future event. Are you sure you would like to delete it?`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes', onPress: () => {
+                        this.props.deleteEvent(existingEvent);
+                        this.props.navigation.goBack();
+                    }
+                },
+            ],
+            {cancelable: false},
+        );    
+    }
+
+
+    getDeleteButton(existingEvent){
+        if(existingEvent){
+            return (
+                <Button style={styles.center} danger transparent onPress={() => { 
+                    this.confirmDeleteEvent(existingEvent);
+                }}>
+                    <Text>{'Delete Event'}</Text>
+                </Button>   
+            )
+        }
+    }
+
     render() {
         const {
             existingEvent,
@@ -68,6 +110,9 @@ class CreateEvent extends React.Component {
 
         return (
             <Content>
+                {
+                    this.getDeleteButton(existingEvent)
+                }
                 <Card transparent>
                     <CardItem transparent>
                         <Item regular>
@@ -222,6 +267,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         event: formsSelector(state).event,
+        newEventCreated: eventSelector(state).newEventCreated,
     }    
 }
 

@@ -49,7 +49,7 @@ class Home extends React.Component {
         }
     };
 
-    confirmDeleteEvent(eventId) {
+    confirmDeleteEvent(event) {
         Alert.alert(
             'Delete Event',
             `This event has ended. Would you like to delete it?`,
@@ -61,7 +61,7 @@ class Home extends React.Component {
                 },
                 {
                     text: 'Yes', onPress: () => {
-                        this.props.deleteEvent(eventId);
+                        this.props.deleteEvent(event);
                     }
                 },
             ],

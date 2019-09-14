@@ -52,17 +52,6 @@ class Settings extends Component {
         return (
             <Content>
                 <List>
-                    {/* <ListItem itemDivider>
-                        <Text>Device</Text>
-                    </ListItem>                    
-                    <ListItem onPress={() => { this.props.navigation.navigate('AlexaConnections', {
-                        activeAlexaConnection: this.props.loggedInActiveAlexaConnection
-                    }); }}>
-                        <Body>
-                            <Text>Alexa</Text>
-                            <Text note>{this.props.loggedInActiveAlexaConnection === true ? 'Active connection' : 'No connection'}</Text>
-                        </Body>
-                    </ListItem> */}
                     <ListItem itemDivider>
                         <Text>Profile</Text>
                     </ListItem>  
@@ -121,7 +110,21 @@ class Settings extends Component {
                     </ListItem> */}
                     <ListItem itemDivider>
                         <Text>Device</Text>
-                    </ListItem>                    
+                    </ListItem>
+                    {/* <ListItem icon onPress={() => { this.props.navigation.navigate('AlexaConnections', {
+                        activeAlexaConnection: this.props.loggedInActiveAlexaConnection
+                    }); }}>
+                        <Body>
+                            <Text>Connect to Alexa</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => { this.props.navigation.navigate('AlexaConnections', {
+                                activeAlexaConnection: this.props.loggedInActiveAlexaConnection
+                            }); }}>
+                                <Icon name='radio-button-on' />
+                            </Button>
+                        </Right>
+                    </ListItem>                     */}
                     <ListItem icon>
                         <Body>
                             <Text note>{'Logout'}</Text>
@@ -151,7 +154,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        loggedInActiveAlexaConnection: userSelector(state).loggedInActiveAlexaConnection,
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         loggedInUsername: userSelector(state).loggedInUsername,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,

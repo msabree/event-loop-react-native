@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { AppRegistry } from 'react-native';
+import { Root } from "native-base";
 import App from './App';
 import {name as appName} from './app.json';
 
@@ -29,7 +30,9 @@ const store = configureStore({});
 
 const AppWithReduxStore = () => (
     <Provider store={store}>
-        <App />
+        <Root>
+            <App />
+        </Root>
     </Provider>
 )
 

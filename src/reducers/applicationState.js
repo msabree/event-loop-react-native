@@ -48,6 +48,7 @@ export default {
         guestList: [],
         fetchingNew: false,
         filter: 'upcoming',
+        created: false,
     },
     alexa: {
         syncCode: '',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Card, CardItem, Text, Fab, Icon } from 'native-base';
+import { Container, Card, CardItem, Text, Fab, Icon, Button } from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -41,10 +41,20 @@ class AlexaConnections extends React.Component {
             <Card transparent style={styles.center}>
                 <CardItem transparent header>
                     <Text>
-                        Your Alexa device is already connected. 
-                        To delete this connection press the button in the bottom right corner. 
-                        For details on how to use the Alexa skill please visit the skill's home page.
+                        Your Amazon Alexa device is already connected. You can use the Flaker skill on any Alexa device associated
+                        with your Amazon Alexa account. If your Alexa pairing is not working you can resync at anytime using
+                        the button in the bottom right corner. Please remember any previous Alexa sessions will be reset.
                     </Text>
+                </CardItem>
+                <CardItem transparent header>
+                    <Text>
+                        If you would like to delete the pairing you can do so a well.
+                    </Text>
+                </CardItem>
+                <CardItem transparent header>
+                    <Button danger>
+                        <Text>Delete Alexa Connection</Text>
+                    </Button>
                 </CardItem>
             </Card>
         )
@@ -66,7 +76,8 @@ class AlexaConnections extends React.Component {
                                 activeAlexaConnection
                             } = this.props.navigation.state.params;
                             if(activeAlexaConnection){
-                                alert('Delete coming soon');
+                                //alert('Delete coming soon');
+                                this.props.navigation.navigate('AlexaSync');
                             }
                             else{
                                 this.props.navigation.navigate('AlexaSync');

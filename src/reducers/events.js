@@ -34,6 +34,7 @@ export const eventsReducer = createReducer(applicationState.events, {
                 return true;
             }
         })
+        set(stateClone, 'created', false);
         set(stateClone, 'list', eventsList);
         set(stateClone, 'fetchingNew', false);
         return stateClone;
@@ -52,6 +53,11 @@ export const eventsReducer = createReducer(applicationState.events, {
     [actionTypes.CHANGE_EVENTS_FILTER](state, action){
         const stateClone = cloneDeep(state);
         set(stateClone, 'filter', action.payload.filter);
+        return stateClone;
+    },
+    [actionTypes.NEW_EVENT_CREATED](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'created', true);
         return stateClone;
     },
 });
