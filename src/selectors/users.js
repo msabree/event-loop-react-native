@@ -1,8 +1,5 @@
 const usersSelector = (state) => {
     return {
-        searchRequested: state.usersReducer.searchRequested,
-        searchQuery: state.usersReducer.searchQuery,
-        searchedUserId: state.usersReducer.searchedUserId,
         loggedInUsername: state.usersReducer.loggedIn.username,
         loggedInDisplayName: state.usersReducer.loggedIn.displayName,
         loggedInProfilePic: state.usersReducer.loggedIn.profilePic,

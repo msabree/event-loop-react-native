@@ -64,7 +64,6 @@ class CreateEvent extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.newEventCreated !== prevProps.newEventCreated && this.props.newEventCreated === true) {
-            console.log('GO BACK??')
             this.props.navigation.goBack();
         }
     }

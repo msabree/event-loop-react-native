@@ -15,6 +15,8 @@
     "native-base": "^2.13.6",
     "react": "16.8.6",
     "react-native": "0.60.5",
+    "react-native-autocomplete-input": "^4.1.0",
+    "react-native-contacts": "^5.0.3",
     "react-native-datepicker": "^1.7.2",
     "react-native-device-info": "^3.0.0",
     "react-native-gesture-handler": "^1.4.1",

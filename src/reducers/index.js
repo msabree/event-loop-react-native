@@ -8,6 +8,7 @@ import * as friends from './friends';
 import * as spinner from './spinner';
 import * as alexa from './alexa';
 import * as notifications from './notifications';
+import * as search from './search';
 
 export default combineReducers(Object.assign(
     authenticationReducer,
@@ -19,4 +20,5 @@ export default combineReducers(Object.assign(
     spinner,
     alexa,
     notifications,
+    search,
 ))

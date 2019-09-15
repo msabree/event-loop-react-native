@@ -7,9 +7,6 @@ import platform from '../../native-base-theme/variables/platform';
 import Home from '../components/Home';
 import Friends from '../components/Friends';
 import Settings from '../components/Settings';
-
-import StandardHeader from '../components/StandardHeader';
-import SearchHeader from '../components/SearchHeader';
 import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';
@@ -69,22 +66,10 @@ class TabsContainer extends Component {
         }
     }
 
-    getHeader() {
-        switch(this.props.activeTabIndex){
-            case 1:
-                return <SearchHeader/>;
-            case 2:
-                return <StandardHeader title='Settings'/>;                                
-            default:
-                return;
-        } 
-    }
-
     render() {
         return (
             <StyleProvider style={getTheme(platform)}>
                 <Container>
-                    {this.getHeader()}
                     {this.getContent()}
                     <SpinnerModal hideSpinner={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
                     <Footer>

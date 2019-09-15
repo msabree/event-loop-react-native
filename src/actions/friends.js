@@ -1,3 +1,4 @@
+import { Toast } from 'native-base';
 import get from 'lodash/get';
 
 import * as actionTypes from '../constants/actionTypes';
@@ -60,11 +61,9 @@ export const setFriendsActiveSegment = (segment = 'current') => (dispatch) => {
     })
 }
 
-export const sendFriendRequest = () => (dispatch, getState) => {
+export const sendFriendRequest = (friendUserId) => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
-    const usersState = usersSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
-    const friendUserId = get(usersState, 'searchedUserId', '');
 
     api.post(`/friends/request`, {
         sessionToken,
@@ -76,11 +75,21 @@ export const sendFriendRequest = () => (dispatch, getState) => {
                 type: actionTypes.INVALID_SESSION,
             })
         }
+
+        console.log(apiResponse)
+        
+        Toast.show({
+            text: 'Sent friend request.',
+            buttonText: 'Close',
+            type: 'success',
+            duration: 3000,
+        })
+
+        // CLEAR SEARCH DROPDOWN
         return dispatch({
-            type: actionTypes.SEND_FRIEND_REQUEST,
+            type: actionTypes.UPDATED_SEARCH_SUGGESTIONS,
             payload: {
-                apiResponse,
-                friendUserId
+                suggestions: [],
             }
         })
     })

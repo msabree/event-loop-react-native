@@ -27,9 +27,4 @@ export const friendsReducer = createReducer(applicationState.friends, {
         set(stateClone, 'requests', requests.filter((req) => req.requestId !== requestId));
         return stateClone;
     },
-    [actionTypes.SEND_FRIEND_REQUEST](state){
-        const stateClone = cloneDeep(state);
-        set(stateClone, 'sendFriendRequestPending', false);
-        return stateClone;
-    },
 });

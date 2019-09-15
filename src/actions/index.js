@@ -7,6 +7,7 @@ import * as FriendsActions from './friends';
 import * as UsersActions from './users';
 import * as AlexaActions from './alexa';
 import * as NotificationsActions from './notifications';
+import * as SearchActions from './search';
 
 export const ActionCreators = Object.assign({}, 
     TabActions,
@@ -18,4 +19,5 @@ export const ActionCreators = Object.assign({},
     UsersActions,
     AlexaActions,
     NotificationsActions,
+    SearchActions,
 );

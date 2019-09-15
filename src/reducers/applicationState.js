@@ -2,6 +2,9 @@ export default {
     appInfo: {
         connected: true,
     },
+    search: {
+        suggestions: [],
+    },
     notifications: {
         list: [],
         badgeCount: 0,
@@ -18,7 +21,6 @@ export default {
         activeSegment: 'current',
         current: [],
         requests: [],
-        sendFriendRequestPending: false,
     },
     authentication: {
         heroMode: false,
@@ -34,9 +36,6 @@ export default {
             userId: '',
             profilePic: 'https://flaker-images.s3.amazonaws.com/default-profile.png',
         },
-        searchQuery: '',
-        searchedUserId: '',
-        searchRequested: false,
         // edit user info
         editUserInfoModalOpen: false,
         edittedUsername: '',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, StyleProvider } from 'native-base';
+import Autocomplete from 'react-native-autocomplete-input';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 import moment from 'moment';
@@ -11,53 +12,26 @@ import { ActionCreators } from '../actions';
 
 import friendsSelector from '../selectors/friends';
 import usersSelector from '../selectors/users';
+import searchSelector from '../selectors/search';
+
+const styles = StyleSheet.create({
+    searchBoxContainer: {
+        flex: 1,
+        paddingTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    autocompleteContainer: {
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    inputContainerStyle: {}
+});
 
 class Friends extends Component {
 
     componentDidMount() {
         this.props.getFriendsList();
-    }
-
-    componentDidUpdate() {
-        if(this.props.searchRequested === false){
-            return;
-        }
-        else if(this.props.searchedUserId !== '' && this.props.searchQuery !== ''){
-            Alert.alert(
-                'Friend Request',
-                `Would you like to send friend request to ${this.props.searchQuery}?`,
-                [
-                    {
-                        text: 'No',
-                        onPress: () => {
-                            this.props.resetFriendSearch();
-                        },
-                        style: 'cancel',
-                    },
-                    {
-                        text: 'Yes', onPress: () => {
-                            this.props.sendFriendRequest();
-                            this.props.resetFriendSearch();
-                        }
-                    },
-                ],
-                {cancelable: false},
-            );
-        }
-        else if(this.props.searchedUserId === '' && this.props.searchQuery !== ''){
-            Alert.alert(
-                'Friend Request',
-                `${this.props.searchQuery} not found.`,
-                [
-                    {
-                        text: 'OK', onPress: () => {
-                            this.props.resetFriendSearch();
-                        }
-                    },
-                ],
-                {cancelable: false},
-            );
-        }
     }
 
     confirmRemoveFriend(friendUserId) {
@@ -179,6 +153,25 @@ class Friends extends Component {
         )        
     }
 
+    getSearchResultButton(type, potentialFriendUserId){
+        if(type === 'invite'){
+            return (
+                <Button success transparent onPress={() => {}}>
+                    <Text>Invite</Text>
+                </Button>
+            )
+        }
+        else if(type === 'add'){
+            return (
+                <Button success transparent onPress={() => {
+                    this.props.sendFriendRequest(potentialFriendUserId);
+                }}>
+                    <Text>Friend Request</Text>
+                </Button>
+            )   
+        }
+    }
+
     switchSegment(segment) {
         if(this.props.activeSegment !== segment){
             this.props.getFriendsList();
@@ -189,12 +182,39 @@ class Friends extends Component {
     render() {
         return (
             <StyleProvider style={getTheme(platform)}>
-                <Content>
+                <Content>                    
+                    <Autocomplete
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        containerStyle={styles.autocompleteContainer}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        data={this.props.suggestions}
+                        defaultValue={''}
+                        placeholder={'Search by phone contact name or username.'}
+                        onChangeText={(query) => {
+                            this.props.search(query)
+                        }}
+                        renderItem={({ item, i }) => (
+                            <ListItem avatar>
+                                <Left>
+                                    <Thumbnail source={{uri: item.pic}} />
+                                </Left>
+                                <Body>
+                                    <Text>{item.nameIdentifier}</Text>
+                                    <Text note>{item.phone}</Text>
+                                    <Text note>{' '}</Text>
+                                </Body>
+                                <Right>
+                                    {this.getSearchResultButton(item.type)}
+                                </Right>
+                            </ListItem>
+                        )}
+                    />
                     <Segment style={getTheme(platform)}>
-                        <Button first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
+                        <Button transparent first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
                             <Text>Friends</Text>
                         </Button>
-                        <Button last active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
+                        <Button transparent last active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
                             <Text>Requests</Text>
                         </Button>
                     </Segment>
@@ -216,10 +236,7 @@ function mapStateToProps(state) {
         activeSegment: friendsSelector(state).activeSegment,
         current: friendsSelector(state).current,
         requests: friendsSelector(state).requests,
-        sendFriendRequestPending: friendsSelector(state).sendFriendRequestPending,
-        searchedUserId: usersSelector(state).searchedUserId,
-        searchQuery: usersSelector(state).searchQuery,
-        searchRequested: usersSelector(state).searchRequested,
+        suggestions: searchSelector(state).suggestions,
     }    
 }
 

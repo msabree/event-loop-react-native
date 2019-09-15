@@ -9,43 +9,6 @@ import friendsSelector from '../selectors/friends';
 
 const USERNAME_REGEX = new RegExp(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/im);
 
-// query -> username or phonenumber
-export const searchForUser = () => (dispatch, getState) => {
-    const authenticationState = authenticationSelector(getState());
-    const usersState = usersSelector(getState());
-    const friendsState = friendsSelector(getState());
-    const currentFriendsUsernames = get(friendsState, 'current', []).map((friend) => {
-        return friend._username;
-    });
-    const sessionToken = get(authenticationState, 'sessionToken', '');
-    const searchQuery = get(usersState, 'searchQuery', '');
-
-    if(currentFriendsUsernames.indexOf(searchQuery.trim()) !== -1){
-        alert('This user is already a connection.')
-    }
-    else if(searchQuery.trim() !== ''){
-        api.get(`/users/search/${sessionToken}/${searchQuery}`)
-        .then((apiResponse) => {
-            if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
-                return dispatch({
-                    type: actionTypes.INVALID_SESSION,
-                })
-            }
-    
-            const searchedUserId = get(apiResponse, 'user.userId', '');
-            return dispatch({
-                type: actionTypes.SEARCH_FOR_USER,
-                payload: {
-                    searchedUserId,
-                }
-            })
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
-}
-
 export const updateUserInfo = (updateObject, verifyUsername = false) => (dispatch, getState) => {
     
     const authenticationState = authenticationSelector(getState());
@@ -115,15 +78,6 @@ export const updateUserInfo = (updateObject, verifyUsername = false) => (dispatc
     })
     .catch((err) => {
         console.log(err);
-    })
-}
-
-export const updateSearchQuery = (query) => (dispatch, getState) => {
-    return dispatch({
-        type: actionTypes.UPDATE_SEARCH_QUERY,
-        payload: {
-            query,
-        }
     })
 }
 
