@@ -93,7 +93,7 @@ export const search = (query) => async (dispatch, getState) => {
             PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
             {
                 title: 'Contacts',
-                message: 'Flaker would like to access your contacts to help find friends.',
+                message: 'Event Loop would like to access your contacts to help find friends.',
             },
         );
         

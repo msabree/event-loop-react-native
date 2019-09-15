@@ -34,7 +34,7 @@ export default class EnterPhoneNumber extends React.Component {
     render() {
         return (
             <Content contentContainerStyle={styles.content}>
-                <H3 style={styles.header}>Welcome to Flaker! To get started, enter your phone number.</H3>
+                <H3 style={styles.header}>Welcome to Event Loop! To get started, enter your phone number.</H3>
                 <Item regular style={styles.item}>
                     <Input
                         autoFocus={true}

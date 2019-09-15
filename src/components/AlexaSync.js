@@ -89,7 +89,7 @@ class AlexaSync extends React.Component {
                 <Card transparent style={styles.center}>
                     <CardItem>
                         <Text note>
-                            To sync a new device you must first enable the Flaker Alexa skill on your Alexa device.
+                            To sync a new device you must first enable the Event Loop Alexa skill on your Alexa device.
                             To sync device please follow the two steps listed below. Remember to confirm the request to
                             complete the process.
                         </Text>
@@ -101,7 +101,7 @@ class AlexaSync extends React.Component {
                     </CardItem>
                     <CardItem>
                         <Text note>
-                            Say: 'Alexa, Open Flaker.' (Wait for response)
+                            Say: 'Alexa, Open Event Loop.' (Wait for response)
                         </Text>
                     </CardItem>
                     <CardItem>

@@ -31,7 +31,7 @@ class AlexaConnections extends React.Component {
                         <Text>
                             There are no Alexa devices currently paired. 
                             To connect a new device press the button in the bottom right corner.
-                            Ensure your Alexa device already has the Flaker skill enabled.
+                            Ensure your Alexa device already has the Event Loop skill enabled.
                         </Text>
                     </CardItem>
                 </Card>
@@ -41,7 +41,7 @@ class AlexaConnections extends React.Component {
             <Card transparent style={styles.center}>
                 <CardItem transparent header>
                     <Text>
-                        Your Amazon Alexa device is already connected. You can use the Flaker skill on any Alexa device associated
+                        Your Amazon Alexa device is already connected. You can use the Event Loop skill on any Alexa device associated
                         with your Amazon Alexa account. If your Alexa pairing is not working you can resync at anytime using
                         the button in the bottom right corner. Please remember any previous Alexa sessions will be reset.
                     </Text>
