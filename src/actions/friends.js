@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import * as actionTypes from '../constants/actionTypes';
 import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
-import usersSelector from '../selectors/users';
 
 export const getFriendsListProfileActivity = () => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
@@ -76,14 +75,33 @@ export const sendFriendRequest = (friendUserId) => (dispatch, getState) => {
             })
         }
 
-        console.log(apiResponse)
-        
-        Toast.show({
-            text: 'Sent friend request.',
-            buttonText: 'Close',
-            type: 'success',
-            duration: 3000,
-        })
+        if(apiResponse.success === true){
+            Toast.show({
+                text: 'Sent friend request.',
+                buttonText: 'Close',
+                type: 'success',
+                duration: 3000,
+            })
+        }
+        else if(apiResponse.message === 'friends') {
+            Toast.show({
+                text: 'You are already friends with this user.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 4000,
+            })
+        }
+        else if(apiResponse.message === 'requested') {
+            Toast.show({
+                text: 'You already requested this user as a friend.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 4000,
+            })
+        }
+
+        // GET NEW FRIENDS LIST
+        dispatch(getFriendsList())
 
         // CLEAR SEARCH DROPDOWN
         return dispatch({
@@ -119,6 +137,9 @@ export const respondToRequest = (requestId, isConfirmed = false) => (dispatch, g
                 type: actionTypes.INVALID_SESSION,
             })
         }
+
+        dispatch(getFriendsList())
+
         return dispatch({
             type: actionTypes.RESPOND_TO_FRIEND_REQUEST,
             payload: {

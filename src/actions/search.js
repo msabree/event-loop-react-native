@@ -6,6 +6,7 @@ import find from 'lodash/find';
 import * as actionTypes from '../constants/actionTypes';
 import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
+import friendsSelector from '../selectors/friends';
 
 // Ensure the call to this is debounced.
 export const search = (query) => (dispatch, getState) => {
@@ -80,7 +81,6 @@ export const search = (query) => (dispatch, getState) => {
             }
     
             const matches = apiResponse.matches;
-            console.log(matches)
             for(let i = 0; i < matches.length; i++){
                 let nameIdentifier = '';
                 const displayName = get(matches[i], 'displayName', '');
@@ -102,14 +102,31 @@ export const search = (query) => (dispatch, getState) => {
                     type: 'add',
                     phone,
                     nameIdentifier,
-                    userId: get(matches[i], 'userId', '')
+                    userId: get(matches[i], 'userId', ''),
+                    key: get(matches[i], 'userId', ''),
                 }) 
             }
+
+            // Handle sent requests and existing friends
+            // When we do invites we'd handle those as well
+            const friendsState = friendsSelector(getState());
+            const current = get(friendsState, 'current', []).map((curr) => curr.friendUserId);
+            const sentRequests = get(friendsState, 'sentRequests', []).map((sent) => sent.userId);
+
+            const suggestionsFiltered = suggestions.filter((suggestion) => {
+                if(current.indexOf(suggestion.userId) !== -1){
+                    return false;
+                }
+                else if(sentRequests.indexOf(suggestion.userId) !== -1) {
+                    return false;
+                }
+                return true;
+            })
 
             return dispatch({
                 type: actionTypes.UPDATED_SEARCH_SUGGESTIONS,
                 payload: {
-                    suggestions,
+                    suggestions: suggestionsFiltered,
                 }
             })
         })

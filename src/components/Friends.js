@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, StyleProvider } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 import moment from 'moment';
+import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
 import friendsSelector from '../selectors/friends';
-import usersSelector from '../selectors/users';
 import searchSelector from '../selectors/search';
 
 const styles = StyleSheet.create({
@@ -74,6 +74,26 @@ class Friends extends Component {
         );    
     }
 
+    confirmCancelSentFriendRequest(requestId) {
+        Alert.alert(
+            'Cancel Friend Request',
+            `Are you sure you want to cancel this sent friend request?`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes', onPress: () => {
+                        this.props.respondToRequest(requestId, false)
+                    }
+                },
+            ],
+            {cancelable: false},
+        );    
+    }
+
     confirmFriend(requestId) {
         Alert.alert(
             'Confirm Friend Request',
@@ -98,8 +118,11 @@ class Friends extends Component {
         if(this.props.activeSegment === 'current'){
             return this.getCurrent();
         }
-        else{
+        else if(this.props.activeSegment === 'requests'){
             return this.getRequests();
+        }
+        else{
+            return this.getSentRequests();
         }
     }
 
@@ -153,6 +176,28 @@ class Friends extends Component {
         )        
     }
 
+    getSentRequests() {
+        return (
+            this.props.sentRequests.map((currRequest, index) => {
+                return (
+                    <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
+                        <Left>
+                            <Thumbnail source={{ uri: currRequest._profilePic }} />
+                        </Left>
+                        <Body>
+                            <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
+                            <Text note>Sent: {moment(currRequest.dateRequested).format("MMM Do YYYY")}</Text>
+                            <Button danger transparent onPress={() => { this.confirmCancelSentFriendRequest(currRequest.requestId) }}>
+                                <Text style={{fontSize: 12}}>Cancel sent friend request.</Text>
+                            </Button>
+                        </Body>
+                        <Right/>
+                    </ListItem>
+                )
+            })
+        )        
+    }
+
     getSearchResultButton(type, potentialFriendUserId){
         if(type === 'invite'){
             return (
@@ -166,9 +211,9 @@ class Friends extends Component {
                 <Button success transparent onPress={() => {
                     this.props.sendFriendRequest(potentialFriendUserId);
                 }}>
-                    <Text>Friend Request</Text>
+                    <Text>Send Request</Text>
                 </Button>
-            )   
+            )
         }
     }
 
@@ -205,7 +250,7 @@ class Friends extends Component {
                                     <Text note>{' '}</Text>
                                 </Body>
                                 <Right>
-                                    {this.getSearchResultButton(item.type)}
+                                    {this.getSearchResultButton(item.type, item.userId)}
                                 </Right>
                             </ListItem>
                         )}
@@ -214,8 +259,11 @@ class Friends extends Component {
                         <Button transparent first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
                             <Text>Friends</Text>
                         </Button>
-                        <Button transparent last active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
+                        <Button transparent second active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
                             <Text>Requests</Text>
+                        </Button>
+                        <Button transparent last active={this.props.activeSegment === 'sent'} onPress={() => {this.switchSegment('sent')}}>
+                            <Text>Sent</Text>
                         </Button>
                     </Segment>
                     <List>
@@ -236,6 +284,7 @@ function mapStateToProps(state) {
         activeSegment: friendsSelector(state).activeSegment,
         current: friendsSelector(state).current,
         requests: friendsSelector(state).requests,
+        sentRequests: friendsSelector(state).sentRequests,
         suggestions: searchSelector(state).suggestions,
     }    
 }
