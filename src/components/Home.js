@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
 import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
+import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -183,7 +184,9 @@ class Home extends React.Component {
                                     <CardItem>
                                         <Body>
                                             <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
-                                            <Text note style={{marginBottom: 5}}>{item.details || ''}</Text>
+                                            <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
+                                                <Text note style={{marginBottom: 10}}>{item.details || ''}</Text>
+                                            </Hyperlink>
                                             <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
                                             <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
                                             {this.getEventEndedMessage(item.endDatetime)}
