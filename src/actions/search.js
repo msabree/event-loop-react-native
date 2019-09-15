@@ -52,17 +52,17 @@ const getContacts = (query) => {
                     // for now just grab phone numbers from matched contact to find user
                     // good enough for a new build.... 
                     // for invites we need a text message module
-                    let familyName = get(matchedContacts[i], 'familyName')
-                    if(familyName === null || familyName === undefined){
-                        familyName = '';
-                    }
+                    // let familyName = get(matchedContacts[i], 'familyName')
+                    // if(familyName === null || familyName === undefined){
+                    //     familyName = '';
+                    // }
     
-                    suggestions.push({
-                        pic, 
-                        type: 'invite',
-                        phone,
-                        nameIdentifier: `${get(matchedContacts[i], 'givenName', '')} ${familyName}`,
-                    })
+                    // suggestions.push({
+                    //     pic, 
+                    //     type: 'invite',
+                    //     phone,
+                    //     nameIdentifier: `${get(matchedContacts[i], 'givenName', '')} ${familyName}`,
+                    // })
                 }
             }
             resolve({
