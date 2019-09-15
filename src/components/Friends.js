@@ -5,6 +5,7 @@ import Autocomplete from 'react-native-autocomplete-input';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 import moment from 'moment';
+import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -242,9 +243,9 @@ class Friends extends Component {
                         data={this.props.suggestions}
                         defaultValue={''}
                         placeholder={'Search by phone contact name or username.'}
-                        onChangeText={(query) => {
+                        onChangeText={debounce((query) => {
                             this.props.search(query)
-                        }}
+                        }, 2000)}
                         hideResults={this.state.hideAutoComplete}
                         onBlur={() => {
                             this.setState({

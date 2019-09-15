@@ -52,13 +52,17 @@ const getContacts = (query) => {
                     // for now just grab phone numbers from matched contact to find user
                     // good enough for a new build.... 
                     // for invites we need a text message module
+                    let familyName = get(matchedContacts[i], 'familyName')
+                    if(familyName === null || familyName === undefined){
+                        familyName = '';
+                    }
     
-                    // suggestions.push({
-                    //     pic, 
-                    //     type: 'invite',
-                    //     phone,
-                    //     nameIdentifier: `${get(matchedContacts[i], 'givenName', '')} ${get(matchedContacts[i], 'familyName', '')}`,
-                    // })
+                    suggestions.push({
+                        pic, 
+                        type: 'invite',
+                        phone,
+                        nameIdentifier: `${get(matchedContacts[i], 'givenName', '')} ${familyName}`,
+                    })
                 }
             }
             resolve({
@@ -69,7 +73,6 @@ const getContacts = (query) => {
     })
 }
 
-// Ensure the call to this is debounced.
 export const search = (query) => async (dispatch, getState) => {
 
     if(query.trim() === ''){

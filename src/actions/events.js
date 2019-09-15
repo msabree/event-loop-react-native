@@ -108,13 +108,36 @@ export const updateEvent = (eventId, guestList = []) => (dispatch, getState) => 
     } = get(formsSelector(getState()), 'event', {});
 
     if(location === null){
-        alert('Use the autocomplete to select an address or specific location.');
+        Toast.show({
+            text: 'Use the autocomplete to select an address or specific location.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
     }
     else if(title === ''){
-        alert('Enter a title for this event.');
+        Toast.show({
+            text: 'Enter a title for this event.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
     }
     else if(new Date(startDatetime) >= new Date(endDatetime)){
-        alert('The end date time must be after the start date time.');
+        Toast.show({
+            text: 'The end date time must be after the start date time.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
+    }
+    else if(new Date() > new Date(startDatetime)){
+        Toast.show({
+            text: 'The start time must be in the future.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
     }
     else{
         api.put(`/events/${eventId}`, {
@@ -134,16 +157,32 @@ export const updateEvent = (eventId, guestList = []) => (dispatch, getState) => 
             }
 
             if(apiResponse.success === true){
-                alert('Event has been updated!');
+                Toast.show({
+                    text: 'Event was updated successfully!',
+                    buttonText: 'Close',
+                    type: 'success',
+                    duration: 3000,
+                })
             }
             else{
-                alert('Unable to create event. Please try again later.');
+                Toast.show({
+                    text: 'Unable to update event. Please try again later.',
+                    buttonText: 'Close',
+                    type: 'warning',
+                    duration: 5000,
+                })
             }
     
             dispatch(getEvents())
         })
         .catch((err) => {
             console.log(err);
+            Toast.show({
+                text: 'Unhandled error. Unable to update event. Please try again later.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 5000,
+            })
         })
     }
 }

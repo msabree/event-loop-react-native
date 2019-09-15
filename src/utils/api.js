@@ -48,15 +48,19 @@ class Api {
         })
         .then((json) => {
             if(json.message === 'Invalid session.'){
-                alert('Session has expired. Please login again.');
+                Toast.show({
+                    text: 'Session has expired. Please login again.',
+                    buttonText: 'Close',
+                    type: 'warning',
+                    duration: 5000,
+                })
             }
             return json;
         })
         .catch((e) => {
             if(__DEV__){
-                console.log(e);
                 Toast.show({
-                    text: 'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists',
+                    text: e.message,
                     buttonText: 'Close',
                     type: 'warning',
                     duration: 5000,
@@ -64,7 +68,7 @@ class Api {
             }
             else{
                 Toast.show({
-                    text: 'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists',
+                    text: 'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists.',
                     buttonText: 'Close',
                     type: 'warning',
                     duration: 5000,
