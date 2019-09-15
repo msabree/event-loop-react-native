@@ -5,7 +5,6 @@ import Autocomplete from 'react-native-autocomplete-input';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 import moment from 'moment';
-import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,6 +28,13 @@ const styles = StyleSheet.create({
 });
 
 class Friends extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            hideAutoComplete: false,
+        }
+    }
 
     componentDidMount() {
         this.props.getFriendsList();
@@ -140,8 +146,8 @@ class Friends extends Component {
                             <Text note>{' '}</Text>
                         </Body>
                         <Right>
-                            <Button danger transparent onPress={() => { this.confirmRemoveFriend(currFriend.friendUserId); }}>
-                                <Text>Remove</Text>
+                            <Button dark transparent onPress={() => { this.confirmRemoveFriend(currFriend.friendUserId); }}>
+                                <Text>Unfriend</Text>
                             </Button>
                         </Right>
                     </ListItem>
@@ -186,7 +192,7 @@ class Friends extends Component {
                         </Left>
                         <Body>
                             <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
-                            <Text note>Sent: {moment(currRequest.dateRequested).format("MMM Do YYYY")}</Text>
+                            <Text note>Sent: {moment(currRequest.dateRequested).fromNow()}</Text>
                             <Button danger transparent onPress={() => { this.confirmCancelSentFriendRequest(currRequest.requestId) }}>
                                 <Text style={{fontSize: 12}}>Cancel sent friend request.</Text>
                             </Button>
@@ -227,7 +233,7 @@ class Friends extends Component {
     render() {
         return (
             <StyleProvider style={getTheme(platform)}>
-                <Content>                    
+                <Content style={{marginTop: 20}}>                    
                     <Autocomplete
                         autoCapitalize='none'
                         autoCorrect={false}
@@ -238,6 +244,17 @@ class Friends extends Component {
                         placeholder={'Search by phone contact name or username.'}
                         onChangeText={(query) => {
                             this.props.search(query)
+                        }}
+                        hideResults={this.state.hideAutoComplete}
+                        onBlur={() => {
+                            this.setState({
+                                hideAutoComplete: true,
+                            })
+                        }}
+                        onFocus={() => {
+                            this.setState({
+                                hideAutoComplete: false,
+                            })
                         }}
                         renderItem={({ item, i }) => (
                             <ListItem avatar>
