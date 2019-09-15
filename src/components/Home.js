@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Platform, Linking, Alert, FlatList, View } from 'react-native';
+import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
 import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
     mainHeader: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 50,
-        marginTop: 30,
+        marginTop: 20,
     },
     profilePic: {
         width: 140,
@@ -261,20 +260,18 @@ class Home extends React.Component {
                             </CardItem>
                         </Card>
                         {this.getContent()}
-                    </Container> 
-                    <View style={{ flex: 1 }}>
-                        <Fab
-                            active={false}
-                            direction="left"
-                            containerStyle={{ }}
-                            style={{ backgroundColor: 'orange' }}
-                            position="bottomRight"
-                            onPress={() => {
-                                this.props.navigation.navigate('CreateEvent');
-                            }}>
-                            <Icon name="add" />
-                        </Fab>
-                    </View>
+                    </Container>
+                    <Fab
+                        active={false}
+                        direction="left"
+                        containerStyle={{ }}
+                        style={{ backgroundColor: 'orange' }}
+                        position="bottomRight"
+                        onPress={() => {
+                            this.props.navigation.navigate('CreateEvent');
+                        }}>
+                        <Icon name="add" />
+                    </Fab>
                 </Container>
             </React.Fragment>
         )   

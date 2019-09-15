@@ -144,8 +144,8 @@ export default {
   tabBarTextSize: 11,
   activeTab: "#fff",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: "#fff",
-  tabActiveBgColor: "#3F51B5",
+  tabBarActiveTextColor: "orange",
+  tabActiveBgColor: "F8F8F8",
 
   // Header
   toolbarBtnColor: "#fff",
@@ -217,12 +217,12 @@ export default {
   },
 
   // Segment
-  segmentBackgroundColor: "#F8F8F8",
+  segmentBackgroundColor: "orange",
   segmentActiveBackgroundColor: "#007aff",
-  segmentTextColor: "#007aff",
+  segmentTextColor: "orange",
   segmentActiveTextColor: "#fff",
-  segmentBorderColor: "#007aff",
-  segmentBorderColorMain: "#a7a6ab",
+  segmentBorderColor: "orange",
+  segmentBorderColorMain: "orange",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",

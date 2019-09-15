@@ -1,3 +1,5 @@
+import { Toast } from 'native-base';
+
 class Api {
     static headers() {
       return {
@@ -53,10 +55,20 @@ class Api {
         .catch((e) => {
             if(__DEV__){
                 console.log(e);
-                alert(JSON.stringify(e.message))
+                Toast.show({
+                    text: 'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists',
+                    buttonText: 'Close',
+                    type: 'warning',
+                    duration: 5000,
+                })
             }
             else{
-                alert('We are experiencing issues with our APIs. Please try again later.');
+                Toast.show({
+                    text: 'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists',
+                    buttonText: 'Close',
+                    type: 'warning',
+                    duration: 5000,
+                })
             }
         });
     }

@@ -273,13 +273,13 @@ class Friends extends Component {
                         )}
                     />
                     <Segment style={getTheme(platform)}>
-                        <Button transparent first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
+                        <Button transparent warning first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
                             <Text>Friends</Text>
                         </Button>
-                        <Button transparent second active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
+                        <Button transparent warning second active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
                             <Text>Requests</Text>
                         </Button>
-                        <Button transparent last active={this.props.activeSegment === 'sent'} onPress={() => {this.switchSegment('sent')}}>
+                        <Button transparent warning last active={this.props.activeSegment === 'sent'} onPress={() => {this.switchSegment('sent')}}>
                             <Text>Sent</Text>
                         </Button>
                     </Segment>

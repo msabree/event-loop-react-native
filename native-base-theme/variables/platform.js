@@ -144,8 +144,8 @@ export default {
   tabBarTextSize: platform === "ios" ? 14 : 11,
   activeTab: platform === "ios" ? "#007aff" : "#007aff",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: platform === "ios" ? "#007aff" : "#007aff",
-  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#cde1f9",
+  tabBarActiveTextColor: platform === "ios" ? "orange" : "orange",
+  tabActiveBgColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#007aff",
@@ -218,11 +218,11 @@ export default {
 
   // Segment
   segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
-  segmentActiveBackgroundColor: platform === "ios" ? "#007aff" : "#007aff",
-  segmentTextColor: platform === "ios" ? "#007aff" : "#007aff",
+  segmentActiveBackgroundColor: platform === "ios" ? "orange" : "orange",
+  segmentTextColor: platform === "ios" ? "orange" : "orange",
   segmentActiveTextColor: platform === "ios" ? "#fff" : "#fff",
-  segmentBorderColor: platform === "ios" ? "#007aff" : "#007aff",
-  segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#a7a6ab",
+  segmentBorderColor: platform === "ios" ? "orange" : "orange",
+  segmentBorderColorMain: platform === "ios" ? "orange" : "orange",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",

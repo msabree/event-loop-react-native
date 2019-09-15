@@ -136,16 +136,16 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  footerDefaultBg: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
   footerPaddingBottom: 0,
 
   // FooterTab
   tabBarTextColor: platform === "ios" ? "#737373" : "#bfc6ea",
   tabBarTextSize: platform === "ios" ? 14 : 11,
-  activeTab: platform === "ios" ? "#007aff" : "#fff",
+  activeTab: platform === "ios" ? "yellow" : "yellow",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: platform === "ios" ? "#2874F0" : "#fff",
-  tabActiveBgColor: platform === "ios" ? "#cde1f9" : "#3F51B5",
+  tabBarActiveTextColor: platform === "ios" ? "orange" : "orange",
+  tabActiveBgColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
@@ -218,11 +218,11 @@ export default {
 
   // Segment
   segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
-  segmentActiveBackgroundColor: platform === "ios" ? "#007aff" : "#007aff",
-  segmentTextColor: platform === "ios" ? "#007aff" : "#007aff",
+  segmentActiveBackgroundColor: platform === "ios" ? "orange" : "orange",
+  segmentTextColor: platform === "ios" ? "orange" : "orange",
   segmentActiveTextColor: platform === "ios" ? "#fff" : "#fff",
-  segmentBorderColor: platform === "ios" ? "#007aff" : "#007aff",
-  segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#a7a6ab",
+  segmentBorderColor: platform === "ios" ? "orange" : "orange",
+  segmentBorderColorMain: platform === "ios" ? "orange" : "orange",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",

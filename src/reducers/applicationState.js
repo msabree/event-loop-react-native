@@ -21,6 +21,7 @@ export default {
         activeSegment: 'current',
         current: [],
         requests: [],
+        sentRequests: [],
     },
     authentication: {
         heroMode: false,
