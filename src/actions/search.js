@@ -38,11 +38,6 @@ const getContacts = (query) => {
                     }
                     contactsPhoneNumbers.push(phoneNumberString);
     
-                    let phone = get(matchedContacts[i], 'phoneNumber', '');
-                    if(parsePhoneNumberFromString(phoneNumberString)){
-                        phone = parsePhoneNumberFromString(phoneNumberString).formatNational();
-                    }
-    
                     let pic = 'https://flaker-images.s3.amazonaws.com/default-profile.png';
                     if(matchedContacts[i].hasThumbnail && matchedContacts[i].thumbnailPath !== ''){
                         pic = matchedContacts[i].thumbnailPath;
@@ -60,8 +55,8 @@ const getContacts = (query) => {
                     // suggestions.push({
                     //     pic, 
                     //     type: 'invite',
-                    //     phone,
-                    //     nameIdentifier: `${get(matchedContacts[i], 'givenName', '')} ${familyName}`,
+                    //     username: `${get(matchedContacts[i], 'givenName', '')} ${familyName}`,
+                    //     displayName: '', 
                     // })
                 }
             }
@@ -130,23 +125,12 @@ export const search = (query) => async (dispatch, getState) => {
             let nameIdentifier = '';
             const displayName = get(matches[i], 'displayName', '');
             const username = get(matches[i], 'username', '');
-            if(displayName === ''){
-                nameIdentifier = username;
-            }
-            else{
-                nameIdentifier = `${displayName} (${username})`;
-            }
-
-            let phone = get(matches[i], 'phoneNumber', '');
-            if(parsePhoneNumberFromString(phone)){
-                phone = parsePhoneNumberFromString(phone).formatNational();
-            }
 
             suggestions.push({
                 pic: get(matches[i], 'profilePic', 'https://flaker-images.s3.amazonaws.com/default-profile.png'),
                 type: 'add',
-                phone,
-                nameIdentifier,
+                username,
+                displayName,
                 userId: get(matches[i], 'userId', ''),
                 key: get(matches[i], 'userId', ''),
             }) 

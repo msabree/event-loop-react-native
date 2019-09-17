@@ -30,6 +30,8 @@ build/
 local.properties
 *.iml
 
+keystore.jks
+
 # node.js
 #
 node_modules/

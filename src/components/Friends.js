@@ -263,8 +263,8 @@ class Friends extends Component {
                                     <Thumbnail source={{uri: item.pic}} />
                                 </Left>
                                 <Body>
-                                    <Text>{item.nameIdentifier}</Text>
-                                    <Text note>{item.phone}</Text>
+                                    <Text>{item.username}</Text>
+                                    <Text note>{item.displayName}</Text>
                                     <Text note>{' '}</Text>
                                 </Body>
                                 <Right>
