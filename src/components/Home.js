@@ -118,6 +118,19 @@ class Home extends React.Component {
         }
     }
 
+    getNavigationButton(isCreator, item) {
+        if(isCreator === false){
+            return (
+                <Button transparent dark small iconLeft onPress={() => {
+                    this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
+                }}>
+                    <Icon name="navigate" />
+                    <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
+                </Button>
+            )
+        }
+    }
+
     getNotificationsBadge() {
         if(this.props.badgeCount > 0){
             return (
@@ -140,14 +153,14 @@ class Home extends React.Component {
         if(photos.length === 0){
             return (
                 <Image source={{
-                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=100x100&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=380x200&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                }} style={{height: 200, width: 370, borderRadius: 5, flex: 1}}/>
             )
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=200&key=${GOOGLE_API_KEY}`
-            }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=380&key=${GOOGLE_API_KEY}`
+            }} style={{height: 200, width: 380, borderRadius: 5, flex: 1}}/>
         )
     }
 
@@ -183,19 +196,29 @@ class Home extends React.Component {
                                     {this.getHeader(isCreator, item)}
                                     <CardItem>
                                         <Body>
+                                            {this.getPlaceImage(item.location)}
+                                        </Body>
+                                    </CardItem>
+                                    <CardItem>
+                                        <Body>
                                             <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
                                             <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
                                                 <Text note style={{marginBottom: 10}}>{item.details || ''}</Text>
                                             </Hyperlink>
-                                            <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
-                                            <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
+                                            <Text note style={{marginBottom: 5}}>{`${moment(item.startDatetime).format("MMM Do h:mm a")} - ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
                                             {this.getEventEndedMessage(item.endDatetime)}
                                         </Body>
-                                        <Right>
-                                            {this.getPlaceImage(item.location)}
-                                        </Right>
                                     </CardItem>
-                                    <CardItem style={{fontSize: 10}}>
+                                    <CardItem style={{fontSize: 8}}>
+                                        <Button transparent dark small iconLeft onPress={() => {
+                                            this.props.navigation.navigate('Comments', {
+                                                event: item,
+                                                isCreator,
+                                            });
+                                        }}>
+                                            <Icon name="chatboxes" />
+                                            <Text>{2800}</Text>
+                                        </Button>
                                         <Button transparent dark small iconLeft onPress={() => {
                                             this.props.navigation.navigate('GuestList', {
                                                 event: item,
@@ -206,12 +229,7 @@ class Home extends React.Component {
                                             <Icon name="people" />
                                             <Text>{get(item, 'guestList', []).length}</Text>
                                         </Button>
-                                        <Button transparent dark small iconLeft onPress={() => {
-                                            this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
-                                        }}>
-                                            <Icon name="navigate" />
-                                            <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
-                                        </Button>
+                                        {this.getNavigationButton(isCreator, item)}
                                         {this.getFooter(isCreator, item)}
                                     </CardItem>
                                 </Card>

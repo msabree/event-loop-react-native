@@ -8,6 +8,7 @@ import * as UsersActions from './users';
 import * as AlexaActions from './alexa';
 import * as NotificationsActions from './notifications';
 import * as SearchActions from './search';
+import * as CommentsActions from './comments';
 
 export const ActionCreators = Object.assign({}, 
     TabActions,
@@ -20,4 +21,5 @@ export const ActionCreators = Object.assign({},
     AlexaActions,
     NotificationsActions,
     SearchActions,
+    CommentsActions,
 );
