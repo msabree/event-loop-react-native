@@ -45,6 +45,12 @@ export const eventsReducer = createReducer(applicationState.events, {
         set(stateClone, 'guestList', eventGuestList);
         return stateClone;
     },
+    [actionTypes.GET_EVENT_COMMENTS](state, action){
+        const comments = get(action.payload.apiResponse, 'comments', []);
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'comments', comments);
+        return stateClone;
+    },
     [actionTypes.CLEAR_EVENT_GUEST_LIST](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'guestList', []);

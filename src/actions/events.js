@@ -329,3 +329,52 @@ export const changeEventsFilter = (filter = 'upcoming') => (dispatch) => {
 
     return dispatch(getEvents());
 }
+
+export const getComments = (eventId = '') => (dispatch, getState) => {
+    const authenticationState = authenticationSelector(getState());
+    const sessionToken = get(authenticationState, 'sessionToken', '');
+
+    api.get(`/events/comments/${eventId}/${sessionToken}`)
+    .then((apiResponse) => {
+        if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
+            return dispatch({
+                type: actionTypes.INVALID_SESSION,
+            })
+        }
+
+        return dispatch({
+            type: actionTypes.GET_EVENT_COMMENTS,
+            payload: {
+                apiResponse
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })   
+}
+
+export const postComment = (eventId, comment = '', isCreator) => (dispatch, getState) => {
+    if(comment.trim !== ''){
+        const authenticationState = authenticationSelector(getState());
+        const sessionToken = get(authenticationState, 'sessionToken', '');
+    
+        api.post(`/events/comments/${sessionToken}`, {
+            eventId,
+            comment,
+            isCreator
+        })
+        .then((apiResponse) => {
+            if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
+                return dispatch({
+                    type: actionTypes.INVALID_SESSION,
+                })
+            }
+
+            console.log(apiResponse)
+        })
+        .catch((err) => {
+            console.log(err);
+        })  
+    }
+}

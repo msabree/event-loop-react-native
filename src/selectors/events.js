@@ -4,6 +4,7 @@ const eventsSelector = (state) => {
         fetchingNew: state.eventsReducer.fetchingNew,
         sliderIndex: state.eventsReducer.sliderIndex,
         guestList: state.eventsReducer.guestList,
+        comments: state.eventsReducer.comments,
         eventsFilter: state.eventsReducer.filter,
         newEventCreated: state.eventsReducer.created,
     }

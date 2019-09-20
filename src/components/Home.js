@@ -217,17 +217,16 @@ class Home extends React.Component {
                                             });
                                         }}>
                                             <Icon name="chatboxes" />
-                                            <Text>{2800}</Text>
+                                            <Text>{get(item, 'commentCount', 0)}</Text>
                                         </Button>
                                         <Button transparent dark small iconLeft onPress={() => {
                                             this.props.navigation.navigate('GuestList', {
                                                 event: item,
                                                 isCreator,
-                                                guestList: get(item, 'guestList', [])
                                             });
                                         }}>
                                             <Icon name="people" />
-                                            <Text>{get(item, 'guestList', []).length}</Text>
+                                            <Text>{get(item, 'guestListCount', 0)}</Text>
                                         </Button>
                                         {this.getNavigationButton(isCreator, item)}
                                         {this.getFooter(isCreator, item)}
