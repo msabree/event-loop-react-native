@@ -89,11 +89,11 @@ export const confirmSyncRequest = () => (dispatch, getState) => {
         console.log(err);
     })
 }
-export const deleteConnection = () => (dispatch, getState) => {
+export const deleteAlexaConnection = () => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
-    api.delete(`/alexa/connection/${sessionToken}`, {})
+    api.delete(`/alexa/connection/${sessionToken}`)
     .then((apiResponse) => {
         if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
             return dispatch({

@@ -111,20 +111,20 @@ class Settings extends Component {
                     <ListItem itemDivider>
                         <Text>Device</Text>
                     </ListItem>
-                    {/* <ListItem icon onPress={() => { this.props.navigation.navigate('AlexaConnections', {
-                        activeAlexaConnection: this.props.loggedInActiveAlexaConnection
+                    <ListItem icon onPress={() => { this.props.navigation.navigate('AlexaConnections', {
+                        activeAlexaConnection: this.props.loggedInActiveAlexaSessionTokenActive
                     }); }}>
                         <Body>
                             <Text note>Connect to Alexa</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => { this.props.navigation.navigate('AlexaConnections', {
-                                activeAlexaConnection: this.props.loggedInActiveAlexaConnection
+                                activeAlexaConnection: this.props.loggedInActiveAlexaSessionTokenActive
                             }); }}>
                                 <Icon name='radio-button-on' />
                             </Button>
                         </Right>
-                    </ListItem>                     */}
+                    </ListItem>                    
                     <ListItem icon>
                         <Body>
                             <Text note>{'Logout'}</Text>
@@ -157,6 +157,7 @@ function mapStateToProps(state) {
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         loggedInUsername: userSelector(state).loggedInUsername,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
+        loggedInActiveAlexaSessionTokenActive: userSelector(state).loggedInActiveAlexaSessionTokenActive,
     }    
 }
 

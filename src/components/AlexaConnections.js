@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { Container, Card, CardItem, Text, Fab, Icon, Button } from 'native-base';
 
 import { connect } from 'react-redux';
@@ -18,6 +18,28 @@ class AlexaConnections extends React.Component {
     static navigationOptions = {
         title: 'Alexa Connection',
     };
+
+    confirmDeleteAlexaConnection() {
+        Alert.alert(
+            'Confirm Delete Alexa Connection',
+            `Are you sure you want to delete the Alexa connection? You will have to resync your device.`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes', onPress: async () => {
+                        await this.props.deleteAlexaConnection()
+                        await this.props.getLoggedInUserInfo();
+                        this.props.navigation.goBack();
+                    }
+                },
+            ],
+            {cancelable: false},
+        ); 
+    }
 
     getConnections() {
         const {
@@ -52,7 +74,9 @@ class AlexaConnections extends React.Component {
                     </Text>
                 </CardItem>
                 <CardItem transparent header>
-                    <Button danger>
+                    <Button danger onPress={() => {
+                        this.confirmDeleteAlexaConnection()
+                    }}>
                         <Text>Delete Alexa Connection</Text>
                     </Button>
                 </CardItem>
