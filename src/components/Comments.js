@@ -35,12 +35,16 @@ class Comments extends React.Component {
         this.props.getComments(event.eventId)
     }
 
+    componentWillUnmount() {
+        this.props.clearComments();
+    }
+
     getChatListItem(commentObject, isCreator){
         if(isCreator === true){
             return (
                 <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
                     <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
-                        <Thumbnail small source={{ uri: 'https://flaker-images.s3.amazonaws.com/default-profile.png' }} />
+                        <Thumbnail small source={{ uri: commentObject.profilePic }} />
                         <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
                                 {commentObject.comment}
@@ -48,7 +52,12 @@ class Comments extends React.Component {
                         </Hyperlink>
                     </Content>
                     <Content>
-                        <Text style={{color: 'grey', fontSize: 12}}>{moment(new Date()).format("MMM Do h:mm a")}</Text>
+                        <Text style={{color: 'grey', fontSize: 12}}>
+                            {(commentObject.displayName === '') ? commentObject.username : commentObject.displayName}
+                        </Text>
+                    </Content>
+                    <Content>
+                        <Text style={{color: 'grey', fontSize: 12}}>{moment(commentObject.datetimePosted).format("MMM Do h:mm a")}</Text>
                     </Content>
                 </ListItem>
             )
@@ -61,10 +70,15 @@ class Comments extends React.Component {
                             {commentObject.comment}
                         </Text>
                     </Hyperlink>
-                    <Thumbnail small source={{ uri: 'https://flaker-images.s3.amazonaws.com/default-profile.png'}} />
+                    <Thumbnail small source={{ uri: commentObject.profilePic}} />
                 </Content>
                 <Content>
-                    <Text style={{color: 'grey', fontSize: 12}}>{moment(new Date()).format("MMM Do h:mm a")}</Text>
+                    <Text style={{color: 'grey', fontSize: 12}}>
+                        {(commentObject.displayName === '') ? commentObject.username : commentObject.displayName}
+                    </Text>
+                </Content>
+                <Content>
+                    <Text style={{color: 'grey', fontSize: 12}}>{moment(commentObject.datetimePosted).format("MMM Do h:mm a")}</Text>
                 </Content>
             </ListItem>
         )

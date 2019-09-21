@@ -115,7 +115,7 @@ class Settings extends Component {
                         activeAlexaConnection: this.props.loggedInActiveAlexaConnection
                     }); }}>
                         <Body>
-                            <Text>Connect to Alexa</Text>
+                            <Text note>Connect to Alexa</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => { this.props.navigation.navigate('AlexaConnections', {

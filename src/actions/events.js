@@ -371,10 +371,18 @@ export const postComment = (eventId, comment = '', isCreator) => (dispatch, getS
                 })
             }
 
+            dispatch(getComments(eventId))
+
             console.log(apiResponse)
         })
         .catch((err) => {
             console.log(err);
         })  
     }
+}
+
+export const clearComments = () => (dispatch, getState) => {
+    return dispatch({
+        type: actionTypes.CLEAR_EVENT_COMMENTS,
+    })
 }

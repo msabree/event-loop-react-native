@@ -66,4 +66,9 @@ export const eventsReducer = createReducer(applicationState.events, {
         set(stateClone, 'created', true);
         return stateClone;
     },
+    [actionTypes.CLEAR_EVENT_COMMENTS](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'comments', []);
+        return stateClone;
+    },
 });

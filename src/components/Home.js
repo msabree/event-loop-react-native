@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
-import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
+import { StyleSheet, Image, Platform, Linking, Alert, FlatList, Dimensions } from 'react-native';
+import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -13,6 +13,7 @@ import Loading from './Loading';
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';
+import authenticationSelector from '../selectors/authentication';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
@@ -49,6 +50,13 @@ class Home extends React.Component {
             visible: false
         }
     };
+
+    componentDidMount() {
+        if(this.props.sessionToken !== '' && this.props.sessionToken !== null){
+            this.props.getEvents();
+            this.props.getNotifications();
+        }
+    }
 
     confirmDeleteEvent(event) {
         Alert.alert(
@@ -149,18 +157,19 @@ class Home extends React.Component {
 
     // Fallback to a static map image if no photo references available
     getPlaceImage(itemLocation) {
+        const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const photos = get(itemLocation, 'photos', []);
         if(photos.length === 0){
             return (
                 <Image source={{
-                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=380x200&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                }} style={{height: 200, width: 370, borderRadius: 5, flex: 1}}/>
+                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=${imageWidth}x200&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
             )
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=380&key=${GOOGLE_API_KEY}`
-            }} style={{height: 200, width: 380, borderRadius: 5, flex: 1}}/>
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
+            }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
         )
     }
 
@@ -304,6 +313,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
+        sessionToken: authenticationSelector(state).sessionToken,
         eventList: eventsSelector(state).eventList,
         fetchingNew: eventsSelector(state).fetchingNew,
         sliderIndex: eventsSelector(state).sliderIndex,

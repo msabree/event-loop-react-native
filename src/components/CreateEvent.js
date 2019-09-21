@@ -55,7 +55,7 @@ class CreateEvent extends React.Component {
             this.props.inputChange('event.location', existingEventLocation);
             this.props.inputChange('event.startDatetime', new Date(existingEventStartDatetime));
             this.props.inputChange('event.endDatetime', new Date(existingEventEndDatetime));
-            this.props.inputChange('event.detais', existingEventDetails)
+            this.props.inputChange('event.details', existingEventDetails)
         }
         else{
             this.props.resetEventForm();
