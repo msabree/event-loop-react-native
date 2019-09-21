@@ -43,6 +43,7 @@ const getContacts = (query) => {
                         pic = matchedContacts[i].thumbnailPath;
                     }
     
+                    // THIS MAY BE FLAWED LOGIC>>> ONLY INVITE IF NOT IN OUR SYSTEM!!!!
                     // We will do invites on the next build
                     // for now just grab phone numbers from matched contact to find user
                     // good enough for a new build.... 
@@ -122,7 +123,6 @@ export const search = (query) => async (dispatch, getState) => {
 
         const matches = apiResponse.matches;
         for(let i = 0; i < matches.length; i++){
-            let nameIdentifier = '';
             const displayName = get(matches[i], 'displayName', '');
             const username = get(matches[i], 'username', '');
 

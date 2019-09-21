@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Image, Platform, Linking, Alert, FlatList } from 'react-native';
-import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
+import { StyleSheet, Image, Platform, Linking, Alert, FlatList, Dimensions } from 'react-native';
+import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
@@ -13,6 +13,7 @@ import Loading from './Loading';
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';
+import authenticationSelector from '../selectors/authentication';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
@@ -49,6 +50,13 @@ class Home extends React.Component {
             visible: false
         }
     };
+
+    componentDidMount() {
+        if(this.props.sessionToken !== '' && this.props.sessionToken !== null){
+            this.props.getEvents();
+            this.props.getNotifications();
+        }
+    }
 
     confirmDeleteEvent(event) {
         Alert.alert(
@@ -118,6 +126,19 @@ class Home extends React.Component {
         }
     }
 
+    getNavigationButton(isCreator, item) {
+        if(isCreator === false){
+            return (
+                <Button transparent dark small iconLeft onPress={() => {
+                    this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
+                }}>
+                    <Icon name="navigate" />
+                    <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
+                </Button>
+            )
+        }
+    }
+
     getNotificationsBadge() {
         if(this.props.badgeCount > 0){
             return (
@@ -136,18 +157,19 @@ class Home extends React.Component {
 
     // Fallback to a static map image if no photo references available
     getPlaceImage(itemLocation) {
+        const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const photos = get(itemLocation, 'photos', []);
         if(photos.length === 0){
             return (
                 <Image source={{
-                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=100x100&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=${imageWidth}x200&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
             )
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=200&key=${GOOGLE_API_KEY}`
-            }} style={{height: 100, width: 100, borderRadius: 5, flex: 1}}/>
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
+            }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
         )
     }
 
@@ -183,35 +205,39 @@ class Home extends React.Component {
                                     {this.getHeader(isCreator, item)}
                                     <CardItem>
                                         <Body>
+                                            {this.getPlaceImage(item.location)}
+                                        </Body>
+                                    </CardItem>
+                                    <CardItem>
+                                        <Body>
                                             <H3 style={{color: '#58534d', marginBottom: 5}}>{item.title}</H3>
                                             <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
                                                 <Text note style={{marginBottom: 10}}>{item.details || ''}</Text>
                                             </Hyperlink>
-                                            <Text note style={{marginBottom: 5}}>{`Starts: ${moment(item.startDatetime).format("MMM Do h:mm a")}`}</Text>
-                                            <Text note style={{marginBottom: 5}}>{`Ends: ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
+                                            <Text note style={{marginBottom: 5}}>{`${moment(item.startDatetime).format("MMM Do h:mm a")} - ${moment(item.endDatetime).format("MMM Do h:mm a")}`}</Text>
                                             {this.getEventEndedMessage(item.endDatetime)}
                                         </Body>
-                                        <Right>
-                                            {this.getPlaceImage(item.location)}
-                                        </Right>
                                     </CardItem>
-                                    <CardItem style={{fontSize: 10}}>
+                                    <CardItem style={{fontSize: 8}}>
+                                        <Button transparent dark small iconLeft onPress={() => {
+                                            this.props.navigation.navigate('Comments', {
+                                                event: item,
+                                                isCreator,
+                                            });
+                                        }}>
+                                            <Icon name="chatboxes" />
+                                            <Text>{get(item, 'commentCount', 0)}</Text>
+                                        </Button>
                                         <Button transparent dark small iconLeft onPress={() => {
                                             this.props.navigation.navigate('GuestList', {
                                                 event: item,
                                                 isCreator,
-                                                guestList: get(item, 'guestList', [])
                                             });
                                         }}>
                                             <Icon name="people" />
-                                            <Text>{get(item, 'guestList', []).length}</Text>
+                                            <Text>{get(item, 'guestListCount', 0)}</Text>
                                         </Button>
-                                        <Button transparent dark small iconLeft onPress={() => {
-                                            this.openMaps(item.location.name, item.location.geometry.location.lat, item.location.geometry.location.lng)
-                                        }}>
-                                            <Icon name="navigate" />
-                                            <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>{item.location.name}</Text>
-                                        </Button>
+                                        {this.getNavigationButton(isCreator, item)}
                                         {this.getFooter(isCreator, item)}
                                     </CardItem>
                                 </Card>
@@ -287,6 +313,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
+        sessionToken: authenticationSelector(state).sessionToken,
         eventList: eventsSelector(state).eventList,
         fetchingNew: eventsSelector(state).fetchingNew,
         sliderIndex: eventsSelector(state).sliderIndex,

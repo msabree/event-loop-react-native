@@ -18,7 +18,7 @@ export const authenticationReducer = createReducer(applicationState.authenticati
         const stateClone = cloneDeep(state);
         // DEBUG SESSION 
         set(stateClone, 'heroMode', true);
-        set(stateClone, 'sessionToken', 'ec690110-b944-11e9-a138-5350a0cdfd9f_01');
+        set(stateClone, 'sessionToken', 'dcfd780b-827f-4fda-97ea-ba27402e7dcc');
         set(stateClone, 'verificationCodeRequested', false);
         return stateClone;
     },

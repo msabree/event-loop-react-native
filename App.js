@@ -10,6 +10,7 @@ import GuestList from './src/components/GuestList';
 import AlexaConnections from './src/components/AlexaConnections';
 import AlexaSync from './src/components/AlexaSync';
 import Notifications from './src/components/Notifications';
+import Comments from './src/components/Comments';
 
 const AppNavigator = createStackNavigator(
     {
@@ -39,7 +40,10 @@ const AppNavigator = createStackNavigator(
         },
         Notifications: {
             screen: Notifications,
-        }
+        },
+        Comments: {
+            screen: Comments,
+        },
     },
     {
         initialRouteName: 'Tabs',

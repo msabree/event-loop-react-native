@@ -45,6 +45,12 @@ export const eventsReducer = createReducer(applicationState.events, {
         set(stateClone, 'guestList', eventGuestList);
         return stateClone;
     },
+    [actionTypes.GET_EVENT_COMMENTS](state, action){
+        const comments = get(action.payload.apiResponse, 'comments', []);
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'comments', comments);
+        return stateClone;
+    },
     [actionTypes.CLEAR_EVENT_GUEST_LIST](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'guestList', []);
@@ -58,6 +64,11 @@ export const eventsReducer = createReducer(applicationState.events, {
     [actionTypes.NEW_EVENT_CREATED](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'created', true);
+        return stateClone;
+    },
+    [actionTypes.CLEAR_EVENT_COMMENTS](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'comments', []);
         return stateClone;
     },
 });

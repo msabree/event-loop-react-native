@@ -46,6 +46,7 @@ export default {
         list: null,
         sliderIndex: 0,
         guestList: [],
+        comments: [],
         fetchingNew: false,
         filter: 'upcoming',
         created: false,
@@ -65,5 +66,5 @@ export default {
         appFeedback: {
             feedback: ''
         },
-    }
+    },
 }
