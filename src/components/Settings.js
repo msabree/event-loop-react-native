@@ -28,6 +28,14 @@ class Settings extends Component {
         this.props.getLoggedInUserInfo();
     }
 
+    componentDidUpdate(prevProps) {
+        if(this.props.notifyFriendRequests !== prevProps.notifyFriendRequests ||
+            this.props.notifyHostEventChanges !== prevProps.notifyHostEventChanges ||
+            this.props.notifyJoinedEventChanges !== prevProps.notifyJoinedEventChanges){
+                this.props.getLoggedInUserInfo();
+        }
+    }
+
     confirmLogout() {
         Alert.alert(
             'Confirm Logout',
@@ -71,7 +79,7 @@ class Settings extends Component {
                             <Button transparent dark onPress={() => {
                                 this.props.navigation.navigate('Profile')
                             }}>
-                                <Icon name='create' />
+                                <Icon name='create' style={{color: '#CBCE74'}}/>
                             </Button>
                         </Right>
                     </ListItem>
@@ -83,18 +91,30 @@ class Settings extends Component {
                             <Text note>{'Incoming friend requests.'}</Text>
                         </Body>
                         <Right>
-                            <Button transparent dark onPress={() => {}}>
-                                <Icon name='notifications-off' />
+                            <Button transparent dark onPress={() => {
+                                this.props.updateUserInfo({
+                                    notifyFriendRequests: !this.props.notifyFriendRequests,
+                                })
+                            }}>
+                                {
+                                    (this.props.notifyFriendRequests) ? <Icon name='notifications' style={{color: '#5FC469'}}/> : <Icon name='notifications-off' />
+                                }
                             </Button>
                         </Right>
                     </ListItem>
                     <ListItem icon>
                         <Body>
-                            <Text note>{'Joins, leaves, or comments on your event.'}</Text>
+                            <Text note>{'User joins, leaves, or comments on your event.'}</Text>
                         </Body>
                         <Right>
-                            <Button transparent dark onPress={() => {}}>
-                                <Icon name='notifications-off' />
+                            <Button transparent dark onPress={() => {
+                                this.props.updateUserInfo({
+                                    notifyHostEventChanges: !this.props.notifyHostEventChanges,
+                                })
+                            }}>
+                                {
+                                    (this.props.notifyHostEventChanges) ? <Icon name='notifications' style={{color: '#5FC469'}}/> : <Icon name='notifications-off' />
+                                }
                             </Button>
                         </Right>
                     </ListItem>
@@ -103,25 +123,27 @@ class Settings extends Component {
                             <Text note>{'Changes & comments for an event you joined.'}</Text>
                         </Body>
                         <Right>
-                            <Button transparent dark onPress={() => {}}>
-                                <Icon name='notifications-off' />
+                            <Button transparent dark onPress={() => {
+                                this.props.updateUserInfo({
+                                    notifyJoinedEventChanges: !this.props.notifyJoinedEventChanges,
+                                })
+                            }}>
+                                {
+                                    (this.props.notifyJoinedEventChanges) ? <Icon name='notifications' style={{color: '#5FC469'}}/> : <Icon name='notifications-off' />
+                                }
                             </Button>
                         </Right>
                     </ListItem>
                     <ListItem itemDivider>
                         <Text>Device</Text>
                     </ListItem>
-                    <ListItem icon onPress={() => { this.props.navigation.navigate('AlexaConnections', {
-                        activeAlexaConnection: this.props.loggedInActiveAlexaSessionTokenActive
-                    }); }}>
+                    <ListItem icon onPress={() => { this.props.navigation.navigate('AlexaConnections') }}>
                         <Body>
                             <Text note>Connect to Alexa</Text>
                         </Body>
                         <Right>
-                            <Button transparent dark onPress={() => { this.props.navigation.navigate('AlexaConnections', {
-                                activeAlexaConnection: this.props.loggedInActiveAlexaSessionTokenActive
-                            }); }}>
-                                <Icon name='radio-button-on' />
+                            <Button transparent dark onPress={() => { this.props.navigation.navigate('AlexaConnections') }}>
+                                <Icon name='radio-button-on' style={{color: '#427CBF'}} />
                             </Button>
                         </Right>
                     </ListItem>                    
@@ -133,7 +155,7 @@ class Settings extends Component {
                             <Button transparent dark onPress={() => {
                                 this.confirmLogout()
                             }}>
-                                <Icon name='log-out' />
+                                <Icon name='log-out' style={{color: '#F3757D'}} />
                             </Button>
                         </Right>
                     </ListItem>
@@ -157,6 +179,9 @@ function mapStateToProps(state) {
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         loggedInUsername: userSelector(state).loggedInUsername,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
+        notifyFriendRequests: userSelector(state).notifyFriendRequests,
+        notifyHostEventChanges: userSelector(state).notifyHostEventChanges,
+        notifyJoinedEventChanges: userSelector(state).notifyJoinedEventChanges,
     }    
 }
 
