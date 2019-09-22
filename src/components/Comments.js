@@ -39,8 +39,8 @@ class Comments extends React.Component {
         this.props.clearComments();
     }
 
-    getChatListItem(commentObject, isCreator){
-        if(isCreator === true){
+    getChatListItem(commentObject){
+        if(commentObject.isCreator === true){
             return (
                 <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
                     <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
@@ -97,7 +97,7 @@ class Comments extends React.Component {
                     {
                         this.props.comments.map((comment) => {
                             return (
-                                this.getChatListItem(comment, isCreator)
+                                this.getChatListItem(comment)
                             )
                         })
                     }
