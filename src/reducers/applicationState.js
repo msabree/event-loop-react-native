@@ -36,6 +36,9 @@ export default {
             displayName: '',
             userId: '',
             profilePic: 'https://flaker-images.s3.amazonaws.com/default-profile.png',
+            notifyFriendRequests: false,
+            notifyHostEventChanges: false,
+            notifyJoinedEventChanges: false,
         },
         // edit user info
         editUserInfoModalOpen: false,

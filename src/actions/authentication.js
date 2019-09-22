@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import get from 'lodash/get';
+import { Platform } from 'react-native';
 
 import * as actionTypes from '../constants/actionTypes';
 import * as storageKeys from '../constants/storageKeys';
@@ -46,10 +47,16 @@ export const getSessionTokenFromLocalStorage = () => async (dispatch, getState) 
     }
     
     if(__DEV__){
+        if(Platform.OS === 'ios'){
+            sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
+        }
+        else{
+            sessionToken = '26863360-b8a3-11e9-873e-eb2226ce8f3f'
+        }
         return dispatch({
             type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,
             payload: {
-                sessionToken: 'ec690110-b944-11e9-a138-5350a0cdfd9f_01',
+                sessionToken,
             }
         })
     }

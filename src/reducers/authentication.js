@@ -1,3 +1,4 @@
+import {Platform } from 'react-native';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 import get from 'lodash/get';
@@ -17,8 +18,16 @@ export const authenticationReducer = createReducer(applicationState.authenticati
     [actionTypes.HERO_MODE](state){
         const stateClone = cloneDeep(state);
         // DEBUG SESSION 
+        let sessionToken = '';
+        if(Platform.OS === 'ios'){
+            sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
+        }
+        else{
+            sessionToken = '26863360-b8a3-11e9-873e-eb2226ce8f3f'
+        }
+
         set(stateClone, 'heroMode', true);
-        set(stateClone, 'sessionToken', 'ec690110-b944-11e9-a138-5350a0cdfd9f_01');
+        set(stateClone, 'sessionToken', sessionToken);
         set(stateClone, 'verificationCodeRequested', false);
         return stateClone;
     },

@@ -54,7 +54,7 @@ class AlexaConnections extends React.Component {
     }
 
     getSyncButton() {
-        if(this.props.loggedInActiveAlexaSessionTokenActive === false){
+        if(this.props.alexaSessionTokenActive === false){
             return (
                 <Container>  
                     <Fab
@@ -75,7 +75,7 @@ class AlexaConnections extends React.Component {
 
     getConnections() {
 
-        if(this.props.loggedInActiveAlexaSessionTokenActive === false){
+        if(this.props.alexaSessionTokenActive === false){
             return(
                 <Card transparent style={styles.center}>
                     <CardItem transparent header>
@@ -124,7 +124,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        loggedInActiveAlexaSessionTokenActive: userSelector(state).loggedInActiveAlexaSessionTokenActive,
+        alexaSessionTokenActive: userSelector(state).alexaSessionTokenActive,
         connected: alexaSelector(state).connected,
     }    
 }

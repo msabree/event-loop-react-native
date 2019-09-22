@@ -15,12 +15,18 @@ export const usersReducer = createReducer(applicationState.users , {
         const userId = get(apiResponse, 'profile.userId', '');
         const profilePic = get(apiResponse, 'profile.profilePic', 'https://flaker-images.s3.amazonaws.com/default-profile.png');
         const alexaSessionTokenActive = get(apiResponse, 'profile.alexaSessionTokenActive', false);
+        const notifyFriendRequests = get(apiResponse, 'profile.notifyFriendRequests', true);
+        const notifyHostEventChanges = get(apiResponse, 'profile.notifyHostEventChanges', true);
+        const notifyJoinedEventChanges = get(apiResponse, 'profile.notifyJoinedEventChanges', true);
 
         set(stateClone, 'loggedIn.username', username);
         set(stateClone, 'loggedIn.profilePic', profilePic);
         set(stateClone, 'loggedIn.userId', userId);
         set(stateClone, 'loggedIn.displayName', displayName);
         set(stateClone, 'loggedIn.alexaSessionTokenActive', alexaSessionTokenActive);
+        set(stateClone, 'loggedIn.notifyFriendRequests', notifyFriendRequests);
+        set(stateClone, 'loggedIn.notifyHostEventChanges', notifyHostEventChanges);
+        set(stateClone, 'loggedIn.notifyJoinedEventChanges', notifyJoinedEventChanges);
 
         // default for edits
         set(stateClone, 'edittedUsername', username);

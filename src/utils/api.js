@@ -1,11 +1,13 @@
 import { Toast } from 'native-base';
+import { getVersion } from 'react-native-device-info';
 
 class Api {
-    static headers() {
+    static headers(version) {
       return {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'dataType': 'json',
+        'APP-INSTALLED-VERSION': version,
       }
     }
   
@@ -29,7 +31,7 @@ class Api {
       return this.xhr(route, params, 'DELETE')
     }
   
-    static xhr = (route, params, verb) => {
+    static xhr = async (route, params, verb) => {
         let host = 'https://api-flaker.herokuapp.com'; // live
         if(__DEV__){
             host = 'https://dev-api-flaker.herokuapp.com'; // dev
@@ -37,7 +39,8 @@ class Api {
         }
         const url = `${host}${route}`;
         let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
-        options.headers = Api.headers()
+        const version = await getVersion();
+        options.headers = Api.headers(version)
         return fetch(url, options)
         .then( resp => {
             let json = resp.json();
