@@ -54,6 +54,7 @@ export default {
     alexa: {
         syncCode: '',
         showConfirmation: false,
+        connected: '',
     },
     forms: {
         event: {

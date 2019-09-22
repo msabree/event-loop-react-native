@@ -17,4 +17,16 @@ export const alexaReducer = createReducer(applicationState.alexa, {
         set(stateClone, 'showConfirmation', true);
         return stateClone;
     },
+    [actionTypes.ALEXA_CONNECTED](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'connected', true);
+        set(stateClone, 'showConfirmation', false);
+        return stateClone;
+    },
+    [actionTypes.ALEXA_DISCONNECTED](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'connected', false);
+        set(stateClone, 'showConfirmation', false);
+        return stateClone;
+    },
 })

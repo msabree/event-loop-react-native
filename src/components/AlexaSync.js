@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, Card, CardItem, H1, Text } from 'native-base';
+import { Content, Card, CardItem, H1, Text, Toast } from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,9 +23,10 @@ class AlexaSync extends React.Component {
 
     constructor(props){
         super(props);
-
-        state = {
+        this.state = {
             pollInterval: -1,
+            attempt: 0,
+            maxAttempts: 20,
         }
     }
 
@@ -37,6 +38,10 @@ class AlexaSync extends React.Component {
 
         const pollInterval = setInterval(() => {
             this.props.checkAlexaSync();
+            const attempt = this.state.attempt + 1;
+            this.setState({
+                attempt,
+            })
         }, 3000);
 
         this.setState({
@@ -48,6 +53,17 @@ class AlexaSync extends React.Component {
     async componentDidUpdate(prevProps) {
         if (this.props.showConfirmation !== prevProps.showConfirmation && this.props.showConfirmation === true) {
             this.confirmSyncDevice();
+        }
+        console.log(this.state)
+        if(this.state.attempt > this.state.maxAttempts && this.state.pollInterval !== -1){
+            Toast.show({
+                text: 'Pairing timed out. Please try again later.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
+            clearInterval(this.state.pollInterval);
+            this.props.navigation.goBack();
         }
     }
 
@@ -74,8 +90,7 @@ class AlexaSync extends React.Component {
                 {
                     text: 'Accept', onPress: () => {
                         this.props.confirmSyncRequest();
-
-                        // Navigate back
+                        this.props.navigation.goBack();
                     }
                 },
             ],

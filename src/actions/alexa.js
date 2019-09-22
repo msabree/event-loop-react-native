@@ -1,3 +1,4 @@
+import { Toast } from 'native-base';
 import get from 'lodash/get';
 import * as actionTypes from '../constants/actionTypes';
 import authenticationSelector from '../selectors/authentication';
@@ -16,16 +17,14 @@ export const checkAlexaSync = () => (dispatch, getState) => {
         }
 
         // use api message
-        if(apiResponse.success === false){
-            console.log(apiResponse)
-        }
-        else if(apiResponse.paired === true){
+        if(apiResponse.paired === true){
             return dispatch({
                 type: actionTypes.ALEXA_SYNC_CONFIRM,
             })
         }
-        else{
-            console.log('Keep polling...')
+
+        if(__DEV__){
+            console.log(apiResponse)
         }
     })
     .catch((err) => {
@@ -47,7 +46,12 @@ export const inititateAlexaSync = () => (dispatch, getState) => {
 
         // use api message
         if(apiResponse.success === false){
-            alert('Unable to generate a new sync code. Please try again later.')
+            Toast.show({
+                text: 'Unable to generate a new sync code. Please try again later.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
         }
         else{
             return dispatch({
@@ -77,9 +81,21 @@ export const confirmSyncRequest = () => (dispatch, getState) => {
 
         // use api message
         if(apiResponse.success === false){
-            alert('Unable to complete sync process. Please try again later.')
+            Toast.show({
+                text: 'Unable to complete sync process. Please try again later.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
         }
         else{
+            Toast.show({
+                text: 'Your alexa device is now connected!',
+                buttonText: 'Close',
+                type: 'success',
+                duration: 3000,
+            })
+
             return dispatch({
                 type: actionTypes.ALEXA_CONNECTED,
             })
@@ -103,11 +119,23 @@ export const deleteAlexaConnection = () => (dispatch, getState) => {
 
         // use api message
         if(apiResponse.success === false){
-            alert('Unable to delete the connection. Please try again later.')
+            Toast.show({
+                text: 'Unable to delete the connection. Please try again later.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
         }
         else{
+            Toast.show({
+                text: 'Your alexa device is no longer connected!',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
+
             return dispatch({
-                type: actionTypes.ALEXA_CONNECTION_DELETED,
+                type: actionTypes.ALEXA_DISCONNECTED,
             })
         }
     })

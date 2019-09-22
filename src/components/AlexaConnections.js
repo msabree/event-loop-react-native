@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
+import userSelector from '../selectors/users';
+import alexaSelector from '../selectors/alexa';
+
 const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
@@ -19,6 +22,16 @@ class AlexaConnections extends React.Component {
         title: 'Alexa Connection',
     };
 
+    componentDidMount() {
+        this.props.getLoggedInUserInfo()
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.connected !== prevProps.connected){
+            this.props.getLoggedInUserInfo();
+        }
+    }
+
     confirmDeleteAlexaConnection() {
         Alert.alert(
             'Confirm Delete Alexa Connection',
@@ -30,9 +43,8 @@ class AlexaConnections extends React.Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: async () => {
-                        await this.props.deleteAlexaConnection()
-                        await this.props.getLoggedInUserInfo();
+                    text: 'Yes', onPress: () => {
+                        this.props.deleteAlexaConnection()
                         this.props.navigation.goBack();
                     }
                 },
@@ -41,12 +53,29 @@ class AlexaConnections extends React.Component {
         ); 
     }
 
-    getConnections() {
-        const {
-            activeAlexaConnection
-        } = this.props.navigation.state.params;
+    getSyncButton() {
+        if(this.props.loggedInActiveAlexaSessionTokenActive === false){
+            return (
+                <Container>  
+                    <Fab
+                        active={true}
+                        direction="up"
+                        containerStyle={{ }}
+                        style={{ backgroundColor: '#f58b07d6' }}
+                        position="bottomRight"
+                        onPress={() => {
+                            this.props.navigation.navigate('AlexaSync');
+                        }}>
+                        <Icon name="sync" />
+                    </Fab>
+                </Container>
+            )
+        }
+    }
 
-        if(activeAlexaConnection === false){
+    getConnections() {
+
+        if(this.props.loggedInActiveAlexaSessionTokenActive === false){
             return(
                 <Card transparent style={styles.center}>
                     <CardItem transparent header>
@@ -63,14 +92,9 @@ class AlexaConnections extends React.Component {
             <Card transparent style={styles.center}>
                 <CardItem transparent header>
                     <Text>
-                        Your Amazon Alexa device is already connected. You can use the Event Loop skill on any Alexa device associated
-                        with your Amazon Alexa account. If your Alexa pairing is not working you can resync at anytime using
-                        the button in the bottom right corner. Please remember any previous Alexa sessions will be reset.
-                    </Text>
-                </CardItem>
-                <CardItem transparent header>
-                    <Text>
-                        If you would like to delete the pairing you can do so a well.
+                        Your Amazon Alexa device is connected. You can use the Event Loop skill on any Alexa device associated
+                        with your Amazon Alexa account. If your Alexa pairing is not working you can delete the connection and resync. 
+                        Please remember any previous Alexa sessions will be reset.
                     </Text>
                 </CardItem>
                 <CardItem transparent header>
@@ -88,28 +112,7 @@ class AlexaConnections extends React.Component {
         return (
             <React.Fragment>
                 {this.getConnections()}
-                <Container>  
-                    <Fab
-                        active={true}
-                        direction="up"
-                        containerStyle={{ }}
-                        style={{ backgroundColor: '#f58b07d6' }}
-                        position="bottomRight"
-                        onPress={() => {
-                            const {
-                                activeAlexaConnection
-                            } = this.props.navigation.state.params;
-                            if(activeAlexaConnection){
-                                //alert('Delete coming soon');
-                                this.props.navigation.navigate('AlexaSync');
-                            }
-                            else{
-                                this.props.navigation.navigate('AlexaSync');
-                            }
-                        }}>
-                        <Icon name="sync" />
-                    </Fab>
-                </Container>
+                {this.getSyncButton()}
             </React.Fragment>
         )
     }
@@ -120,7 +123,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {}    
+    return {
+        loggedInActiveAlexaSessionTokenActive: userSelector(state).loggedInActiveAlexaSessionTokenActive,
+        connected: alexaSelector(state).connected,
+    }    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlexaConnections);

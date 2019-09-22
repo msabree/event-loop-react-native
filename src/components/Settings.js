@@ -157,7 +157,6 @@ function mapStateToProps(state) {
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         loggedInUsername: userSelector(state).loggedInUsername,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
-        loggedInActiveAlexaSessionTokenActive: userSelector(state).loggedInActiveAlexaSessionTokenActive,
     }    
 }
 
