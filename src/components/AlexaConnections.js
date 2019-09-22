@@ -61,7 +61,7 @@ class AlexaConnections extends React.Component {
                         active={true}
                         direction="up"
                         containerStyle={{ }}
-                        style={{ backgroundColor: '#f58b07d6' }}
+                        style={{ backgroundColor: 'orange' }}
                         position="bottomRight"
                         onPress={() => {
                             this.props.navigation.navigate('AlexaSync');
