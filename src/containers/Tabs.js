@@ -47,7 +47,7 @@ class TabsContainer extends Component {
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function(token) {
-                console.log("TOKEN:", token);
+                this.props.updateUserInfo({pushObject: token}, false);
             },
             
             // (required) Called when a remote or local notification is opened or received

@@ -75,7 +75,7 @@ class Settings extends Component {
                             </Button>
                         </Right>
                     </ListItem>
-                    {/* <ListItem itemDivider>
+                    <ListItem itemDivider>
                         <Text>Push Notificatons</Text>
                     </ListItem>                 
                     <ListItem icon>
@@ -90,7 +90,7 @@ class Settings extends Component {
                     </ListItem>
                     <ListItem icon>
                         <Body>
-                            <Text note>{'Someone joins/leaves your event.'}</Text>
+                            <Text note>{'Joins, leaves, or comments on your event.'}</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => {}}>
@@ -100,14 +100,14 @@ class Settings extends Component {
                     </ListItem>
                     <ListItem icon>
                         <Body>
-                            <Text note>{'Event changes to an event you joined.'}</Text>
+                            <Text note>{'Changes & comments for an event you joined.'}</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => {}}>
                                 <Icon name='notifications-off' />
                             </Button>
                         </Right>
-                    </ListItem> */}
+                    </ListItem>
                     <ListItem itemDivider>
                         <Text>Device</Text>
                     </ListItem>

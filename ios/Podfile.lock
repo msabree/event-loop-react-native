@@ -85,6 +85,8 @@ PODS:
     - React-Core (= 0.60.5)
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNCPushNotificationIOS (1.0.2):
+    - React
   - RNDeviceInfo (3.0.0):
     - React
   - RNGestureHandler (1.4.1):
@@ -121,6 +123,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)
+  - RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios/RNCPushNotificationIOS.podspec`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -175,6 +178,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native/Libraries/WebSocket
   RNCAsyncStorage:
     :path: ../node_modules/@react-native-community/async-storage
+  RNCPushNotificationIOS:
+    :path: ../node_modules/@react-native-community/push-notification-ios/RNCPushNotificationIOS.podspec
   RNDeviceInfo:
     :path: ../node_modules/react-native-device-info
   RNGestureHandler:
@@ -213,6 +218,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: dabb8d59bb47e1d9124b3f77bfdc1b33d42b0a74
   React-RCTWebSocket: 2e7f6e98fd6d2bf447d145e499c3a235cc13e350
   RNCAsyncStorage: e99188b8a89ea0edddc82d8831cd5142f4550fdc
+  RNCPushNotificationIOS: e063e649fa697b77869c05fd18e370799285db4f
   RNDeviceInfo: 5b5b42b12587207b6bd686441ac42d19d8e07933
   RNGestureHandler: 311e3b1cef021a7c9ef31e97e7dc31970cc6288d
   RNReanimated: 9f7976535c5cde50189acd84751871f5414190b9
@@ -220,6 +226,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 66af4d5c8ff4f584c7b7cd9c4b0780920f27fce2
   yoga: 88c514f310aff89b94a14c5fbf44b95735af0cb7
 
-PODFILE CHECKSUM: ad4e3602aee00c9d6c3688bbec3df8b1e2cf91f9
+PODFILE CHECKSUM: a9864e37473bda34a6da8db97bd27f3b395beeb6
 
 COCOAPODS: 1.4.0

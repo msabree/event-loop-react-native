@@ -29,6 +29,8 @@ target 'Flaker' do
 
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios/RNCPushNotificationIOS.podspec'
+
   target 'FlakerTests' do
     inherit! :search_paths
     # Pods for testing
