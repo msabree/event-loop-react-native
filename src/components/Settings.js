@@ -147,7 +147,7 @@ class Settings extends Component {
                             </Button>
                         </Right>
                     </ListItem>                    
-                    <ListItem icon>
+                    <ListItem icon onPress={() => { this.confirmLogout() }}>
                         <Body>
                             <Text note>{'Logout'}</Text>
                         </Body>

@@ -46,14 +46,13 @@ class TabsContainer extends Component {
         // Setup push notifications
         PushNotification.configure({
             // (optional) Called when Token is generated (iOS and Android)
-            onRegister: function(token) {
+            onRegister: (token) => {
                 this.props.updateUserInfo({pushObject: token}, false);
             },
             
             // (required) Called when a remote or local notification is opened or received
             onNotification: function(notification) {
                 console.log("NOTIFICATION:", notification);
-            
                 // process the notification
             
                 // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
