@@ -84,7 +84,7 @@ class Settings extends Component {
                         </Right>
                     </ListItem>
                     <ListItem itemDivider>
-                        <Text>Push Notificatons</Text>
+                        <Text>Push Notifications</Text>
                     </ListItem>                 
                     <ListItem icon>
                         <Body>
