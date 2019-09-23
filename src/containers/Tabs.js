@@ -80,6 +80,8 @@ class TabsContainer extends Component {
              */
             requestPermissions: true
         });
+
+        PushNotification.setApplicationIconBadgeNumber(0);
     }
 
     componentDidUpdate() {
