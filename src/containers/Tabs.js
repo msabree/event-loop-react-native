@@ -52,9 +52,6 @@ class TabsContainer extends Component {
             
             // (required) Called when a remote or local notification is opened or received
             onNotification: function(notification) {
-                console.log("NOTIFICATION:", notification);
-                // process the notification
-            
                 // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
                 if(Platform.OS === 'ios'){
                     notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -62,7 +59,7 @@ class TabsContainer extends Component {
             },
             
             // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
-            senderID: "119662908325",
+            senderID: '119662908325',
             
             // IOS ONLY (optional): default: all - Permissions to register.
             permissions: {
