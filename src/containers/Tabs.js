@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Platform, PushNotificationIOS } from 'react-native';
+import { Platform } from 'react-native';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { Container, Footer, FooterTab, Button, Icon, StyleProvider } from 'native-base';
 import { StackActions, NavigationActions } from 'react-navigation';
 import PushNotification from 'react-native-push-notification';

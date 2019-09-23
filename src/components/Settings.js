@@ -120,7 +120,7 @@ class Settings extends Component {
                     </ListItem>
                     <ListItem icon>
                         <Body>
-                            <Text note>{'Changes & comments for an event you joined.'}</Text>
+                            <Text note>{'Changes to an event you joined.'}</Text>
                         </Body>
                         <Right>
                             <Button transparent dark onPress={() => {
