@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, StyleProvider } from 'native-base';
+import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
-import getTheme from '../../native-base-theme/components';
-import platform from '../../native-base-theme/variables/platform';
 import moment from 'moment';
 import debounce from 'lodash/debounce';
 
@@ -233,7 +231,7 @@ class Friends extends Component {
 
     render() {
         return (
-            <StyleProvider style={getTheme(platform)}>
+            
                 <Content style={{marginTop: 20}}>                    
                     <Autocomplete
                         autoCapitalize='none'
@@ -273,7 +271,7 @@ class Friends extends Component {
                             </ListItem>
                         )}
                     />
-                    <Segment style={getTheme(platform)}>
+                    <Segment>
                         <Button transparent warning first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
                             <Text>Friends</Text>
                         </Button>
@@ -288,7 +286,7 @@ class Friends extends Component {
                         {this.getContent()}
                     </List>
                 </Content>
-            </StyleProvider>
+            
         );
     }
 }

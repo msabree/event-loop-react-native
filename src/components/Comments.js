@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Linking } from 'react-native';
-import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button } from 'native-base';
+import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
-import get from 'lodash/get';
 import moment from 'moment';
 
 import eventsSelector from '../selectors/events';
@@ -102,7 +101,7 @@ class Comments extends React.Component {
                         })
                     }
                 </List>
-                <Content>
+                <Container>
                     <Item regular>
                         <Input value={this.state.comment} placeholder='Add a comment' onChangeText={(text) => {
                             this.setState({
@@ -118,7 +117,7 @@ class Comments extends React.Component {
                             <Text>Post</Text>
                         </Button>
                     </Item>
-                </Content>
+                </Container>
             </Content>
         )
     }
