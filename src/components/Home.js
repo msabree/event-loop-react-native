@@ -4,6 +4,7 @@ import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Fab, Contain
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
+import firebase from 'react-native-firebase';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,6 +17,16 @@ import notificationsSelector from '../selectors/notifications';
 import authenticationSelector from '../selectors/authentication';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
+
+const Banner = firebase.admob.Banner;
+const AdRequest = firebase.admob.AdRequest;
+const request = new AdRequest();
+
+request.addKeyword('events');
+request.addKeyword('social');
+request.addKeyword('party');
+request.addKeyword('nightlife');
+request.addKeyword('dining');
 
 const styles = StyleSheet.create({
     center: {
@@ -158,18 +169,19 @@ class Home extends React.Component {
     // Fallback to a static map image if no photo references available
     getPlaceImage(itemLocation) {
         const imageWidth = Math.round(Dimensions.get('window').width * .9);
+        const imageHeight = Math.round(imageWidth / 2);
         const photos = get(itemLocation, 'photos', []);
         if(photos.length === 0){
             return (
                 <Image source={{
-                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=${imageWidth}x200&maptype=roadmap&key=${GOOGLE_API_KEY}`
-                }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
+                    uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=${imageWidth}x${imageHeight}&maptype=roadmap&key=${GOOGLE_API_KEY}`
+                }} style={{height: imageHeight, width: imageWidth, borderRadius: 5, flex: 1}}/>
             )
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=200&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
-            }} style={{height: 200, width: imageWidth, borderRadius: 5, flex: 1}}/>
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=${imageHeight}&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
+            }} style={{height: imageHeight, width: imageWidth, borderRadius: 5, flex: 1}}/>
         )
     }
 
@@ -181,6 +193,16 @@ class Home extends React.Component {
             android: `${scheme}${latLng}(${label})`
         });
         Linking.openURL(url); 
+    }
+
+    getBannerUnitId(){
+        if(__DEV__){
+            return 'ca-app-pub-3940256099942544/6300978111';
+        }
+        else if(Platform.OS === 'android'){
+            return 'ca-app-pub-9804482407199604/7027103890';
+        }
+        return 'ca-app-pub-9804482407199604/4029760684';
     }
 
     getContent() {
@@ -245,6 +267,11 @@ class Home extends React.Component {
                         }}
                         keyExtractor={item => item.eventId}
                     />
+                    <Banner
+                        unitId={this.getBannerUnitId()}
+                        size={'FULL_BANNER'}
+                        request={request.build()}
+                    />
                 </Container>
             )
         }
@@ -265,7 +292,7 @@ class Home extends React.Component {
                         <Card transparent style={styles.mainHeader}>
                             <CardItem transparent>
                                 <Left>
-                                    <Button transparent dark style={{fontSize: 14}} onPress={() => {
+                                    <Button transparent dark style={{fontSize: 10}} onPress={() => {
                                         this.props.navigation.navigate('Notifications')
                                     }}>
                                         {this.getNotificationsBadge()}
