@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Container } from 'native-base';
 import { StackActions, NavigationActions } from 'react-navigation';
 
+import EnterPhoneNumber from '../screens/EnterPhoneNumber';
+import EnterVerificationCode from '../screens/EnterVerificationCode';
+
 import Loading from '../components/Loading';
-import EnterPhoneNumber from '../components/EnterPhoneNumber';
-import EnterVerificationCode from '../components/EnterVerificationCode';
 import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';

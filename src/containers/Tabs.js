@@ -7,9 +7,10 @@ import PushNotification from 'react-native-push-notification';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 
-import Home from '../components/Home';
-import Friends from '../components/Friends';
-import Settings from '../components/Settings';
+import Home from '../screens/Home';
+import Friends from '../screens/Friends';
+import Settings from '../screens/Settings';
+
 import SpinnerModal from '../components/SpinnerModal';
 
 import { connect } from 'react-redux';

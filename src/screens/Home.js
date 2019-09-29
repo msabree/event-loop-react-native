@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
-import Loading from './Loading';
+import Loading from '../components/Loading';
+
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';

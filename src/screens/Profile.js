@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
+import EditUserInfoModal from '../components/BasicModal';
+
 import usersSelector from '../selectors/users';
 import formsSelector from '../selectors/forms';
-
-import EditUserInfoModal from './BasicModal';
 
 const styles = StyleSheet.create({
     center: {
