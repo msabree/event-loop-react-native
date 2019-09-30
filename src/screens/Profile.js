@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
-import EditUserInfoModal from '../components/BasicModal';
+import BasicModal from '../components/BasicModal';
 
 import usersSelector from '../selectors/users';
 import formsSelector from '../selectors/forms';
@@ -76,7 +76,7 @@ class Profile extends React.Component {
     render() {
         return (
             <Content>
-                <EditUserInfoModal
+                <BasicModal
                     isOpen={this.props.editUserInfoModalOpen}
                     onRequestClose={() => { this.props.closeEditUserInfoModal() }}
                     content={

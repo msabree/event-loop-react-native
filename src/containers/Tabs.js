@@ -43,6 +43,7 @@ class TabsContainer extends Component {
         else{
             this.props.getEvents();
             this.props.getNotifications();
+            this.props.getFriendsList();
         }
  
         // Setup push notifications

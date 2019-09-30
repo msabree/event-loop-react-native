@@ -1,14 +1,18 @@
 import React from 'react';
-import { StyleSheet, Linking } from 'react-native';
+import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 
 import eventsSelector from '../selectors/events';
+import friendsSelector from '../selectors/friends';
+import usersSelector from '../selectors/users';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+
+import ProfilePreviewModal from '../components/ProfilePreviewModal';
 
 const styles = StyleSheet.create({
     center: {
@@ -43,7 +47,16 @@ class Comments extends React.Component {
             return (
                 <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
                     <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
-                        <Thumbnail small source={{ uri: commentObject.profilePic }} />
+                        <TouchableOpacity onPress={() => {
+                            if(commentObject.userId === this.props.loggedInUserId){
+                                this.props.navigation.navigate('Profile');
+                            }
+                            else{
+                                this.props.showProfilePreviewModal(commentObject);
+                            }
+                        }}>
+                            <Thumbnail small source={{ uri: commentObject.profilePic }} />
+                        </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
                                 {commentObject.comment}
@@ -69,7 +82,16 @@ class Comments extends React.Component {
                             {commentObject.comment}
                         </Text>
                     </Hyperlink>
-                    <Thumbnail small source={{ uri: commentObject.profilePic}} />
+                    <TouchableOpacity onPress={() => {
+                        if(commentObject.userId === this.props.loggedInUserId){
+                            this.props.navigation.navigate('Profile');
+                        }
+                        else{
+                            this.props.showProfilePreviewModal(commentObject);
+                        }
+                    }}>
+                        <Thumbnail small source={{ uri: commentObject.profilePic}} />
+                    </TouchableOpacity>
                 </Content>
                 <Content>
                     <Text style={{color: 'grey', fontSize: 12}}>
@@ -118,6 +140,13 @@ class Comments extends React.Component {
                         </Button>
                     </Item>
                 </Container>
+                <ProfilePreviewModal 
+                    isOpen={this.props.profilePreviewModalVisible}
+                    onRequestClose={this.props.closeProfilePreviewModal}
+                    profile={this.props.profileToPreview}
+                    friendStatus={this.props.friendStatus}
+                    removeFriend={this.props.removeFriend.bind(this)}
+                />
             </Content>
         )
     }
@@ -130,6 +159,10 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         comments: eventsSelector(state).comments,
+        loggedInUserId: usersSelector(state).loggedInUserId,
+        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
+        profileToPreview: friendsSelector(state).profileToPreview,
+        friendStatus: friendsSelector(state).friendStatus
     }    
 }
 

@@ -355,7 +355,7 @@ export const getComments = (eventId = '') => (dispatch, getState) => {
 }
 
 export const postComment = (eventId, comment = '', isCreator) => (dispatch, getState) => {
-    if(comment.trim !== ''){
+    if(comment.trim() !== ''){
         const authenticationState = authenticationSelector(getState());
         const sessionToken = get(authenticationState, 'sessionToken', '');
     

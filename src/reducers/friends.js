@@ -31,4 +31,18 @@ export const friendsReducer = createReducer(applicationState.friends, {
         set(stateClone, 'sentRequests', sentRequests.filter((req) => req.requestId !== requestId));
         return stateClone;
     },
+    [actionTypes.SHOW_PROFILE_PREVIEW_MODAL](state, action){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'previewUser.modalVisible', true);
+        set(stateClone, 'previewUser.profile', action.payload.profile);
+        set(stateClone, 'previewUser.friendStatus', action.payload.friendStatus);
+        return stateClone;
+    },
+    [actionTypes.CLOSE_PROFILE_PREVIEW_MODAL](state){
+        const stateClone = cloneDeep(state);
+        set(stateClone, 'previewUser.modalVisible', false);
+        set(stateClone, 'previewUser.profile', null);
+        set(stateClone, 'previewUser.friendStatus', 'none');
+        return stateClone;
+    },
 });

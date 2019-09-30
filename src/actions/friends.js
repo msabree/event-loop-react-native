@@ -1,9 +1,11 @@
 import { Toast } from 'native-base';
 import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
 
 import * as actionTypes from '../constants/actionTypes';
 import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
+import friendsSelector from '../selectors/friends';
 
 export const getFriendsListProfileActivity = () => (dispatch, getState) => {
     const authenticationState = authenticationSelector(getState());
@@ -169,4 +171,56 @@ export const removeFriend = (friendUserId) => (dispatch, getState) => {
     .catch((err) => {
         console.log(err);
     })
+}
+
+// friendStatus -> current, incomingRequest, outgoingRequest, or none
+export const showProfilePreviewModal = (profile, isExistingFriend) => async (dispatch, getState) => {
+
+    const friendState = friendsSelector(getState());
+    const currentFriends = get(friendState, 'current', []);
+    const sentRequests = get(friendState, 'sentRequests', []);
+    const requests = get(friendState, 'requests', []);
+
+    console.log(requests)
+
+    let friendStatus;
+    if(isExistingFriend === undefined){
+        if(findIndex(currentFriends, (item) => {
+            return item.friendUserId === profile.userId;
+        }) !== -1){
+            friendStatus = 'current';
+        }
+        else if(findIndex(sentRequests, (item) => {
+            return item.userId === profile.userId;
+        }) !== -1){
+            friendStatus = 'outgoingRequest';
+        }
+        else if(findIndex(requests, (item) => {
+            return item.userId === profile.requestorUserId;
+        }) !== -1){
+            friendStatus = 'incomingRequest';
+        }
+    }
+    else{
+        friendStatus = 'current';
+    }
+
+    if(friendStatus !== undefined){
+        return dispatch({
+            type: actionTypes.SHOW_PROFILE_PREVIEW_MODAL,
+            payload: {
+                profile,
+                friendStatus,
+            }
+        })
+    }
+    else{
+        console.log(profile.userId)
+    }
+}
+
+export const closeProfilePreviewModal = () => (dispatch, getState) => {
+    return dispatch({
+        type: actionTypes.CLOSE_PROFILE_PREVIEW_MODAL,
+    })   
 }

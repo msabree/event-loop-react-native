@@ -22,6 +22,11 @@ export default {
         current: [],
         requests: [],
         sentRequests: [],
+        previewUser: {
+            modalVisible: false,
+            friendStatus: 'none',
+            profile: null,
+        }
     },
     authentication: {
         heroMode: false,

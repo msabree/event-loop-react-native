@@ -23,7 +23,7 @@ export const authenticationReducer = createReducer(applicationState.authenticati
             sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
         }
         else{
-            sessionToken = '26863360-b8a3-11e9-873e-eb2226ce8f3f'
+            sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_02'
         }
 
         set(stateClone, 'heroMode', true);
