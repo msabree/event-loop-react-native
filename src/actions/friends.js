@@ -183,7 +183,7 @@ export const showProfilePreviewModal = (profile, isExistingFriend) => async (dis
 
     console.log(requests)
 
-    let friendStatus;
+    let friendStatus = 'none';
     if(isExistingFriend === undefined){
         if(findIndex(currentFriends, (item) => {
             return item.friendUserId === profile.userId;

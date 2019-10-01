@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Platform, Linking, Alert, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Image, Platform, Linking, Alert, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
@@ -10,12 +10,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
+import ProfilePreviewModal from '../components/ProfilePreviewModal';
 import Loading from '../components/Loading';
 
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';
 import authenticationSelector from '../selectors/authentication';
+import friendsSelector from '../selectors/friends';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
@@ -95,7 +97,11 @@ class Home extends React.Component {
             return (
                 <CardItem>
                     <Left>
-                        <Thumbnail source={{uri: item.associatedUserProfile.profilePic}} />
+                        <TouchableOpacity onPress={() => {
+                            this.props.showProfilePreviewModal(item.associatedUserProfile, true);
+                        }}>
+                            <Thumbnail source={{uri: item.associatedUserProfile.profilePic}} />
+                        </TouchableOpacity>
                         <Body>
                             <Text note>Host: {item.associatedUserProfile.displayName || item.associatedUserProfile.username}</Text>
                         </Body>
@@ -330,6 +336,13 @@ class Home extends React.Component {
                         <Icon name="add" />
                     </Fab>
                 </Container>
+                <ProfilePreviewModal 
+                    isOpen={this.props.profilePreviewModalVisible}
+                    onRequestClose={this.props.closeProfilePreviewModal}
+                    profile={this.props.profileToPreview}
+                    friendStatus={this.props.friendStatus}
+                    removeFriend={this.props.removeFriend.bind(this)}
+                />
             </React.Fragment>
         )   
     }
@@ -350,6 +363,9 @@ function mapStateToProps(state) {
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         badgeCount: notificationsSelector(state).badgeCount,
+        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
+        profileToPreview: friendsSelector(state).profileToPreview,
+        friendStatus: friendsSelector(state).friendStatus
     }    
 }
   
