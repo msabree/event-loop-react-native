@@ -54,7 +54,7 @@ class AlexaSync extends React.Component {
         if (this.props.showConfirmation !== prevProps.showConfirmation && this.props.showConfirmation === true) {
             this.confirmSyncDevice();
         }
-        console.log(this.state)
+        
         if(this.state.attempt > this.state.maxAttempts && this.state.pollInterval !== -1){
             Toast.show({
                 text: 'Pairing timed out. Please try again later.',

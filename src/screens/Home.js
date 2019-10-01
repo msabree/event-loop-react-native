@@ -177,7 +177,10 @@ class Home extends React.Component {
     getPlaceImage(itemLocation) {
         const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const imageHeight = Math.round(imageWidth / 2);
-        const photos = get(itemLocation, 'photos', []);
+        const photos = get(itemLocation, 'photos', []).sort((imageA, imageB) => {
+            return (((imageHeight/imageWidth) - (imageB.height/imageB.width)) - ((imageHeight/imageWidth) - (imageA.height/imageA.width)))
+        });
+
         if(photos.length === 0){
             return (
                 <Image source={{
