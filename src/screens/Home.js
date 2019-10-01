@@ -177,11 +177,23 @@ class Home extends React.Component {
     getPlaceImage(itemLocation) {
         const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const imageHeight = Math.round(imageWidth / 2);
+        let bestPhotos = null;
         const photos = get(itemLocation, 'photos', []).sort((imageA, imageB) => {
             return (((imageHeight/imageWidth) - (imageB.height/imageB.width)) - ((imageHeight/imageWidth) - (imageA.height/imageA.width)))
         });
 
-        if(photos.length === 0){
+        const filteredPhotos = photos.filter((photo) => {
+            return photo.height > imageHeight && photo.width > imageWidth;
+        })
+
+        if(filteredPhotos.length > 0){
+            bestPhotos = filteredPhotos;
+        }
+        else{
+            bestPhotos = photos;
+        }
+
+        if(bestPhotos.length === 0){
             return (
                 <Image source={{
                     uri: `https://maps.googleapis.com/maps/api/staticmap?center=${itemLocation.formatted_address}&zoom=18&size=${imageWidth}x${imageHeight}&maptype=roadmap&key=${GOOGLE_API_KEY}`
@@ -190,7 +202,7 @@ class Home extends React.Component {
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=${imageHeight}&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${bestPhotos[0].photo_reference}&maxheight=${imageHeight}&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
             }} style={{height: imageHeight, width: imageWidth, borderRadius: 5, flex: 1}}/>
         )
     }
