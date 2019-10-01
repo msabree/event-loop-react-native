@@ -95,7 +95,7 @@ export const sendFriendRequest = (friendUserId) => (dispatch, getState) => {
         }
         else if(apiResponse.message === 'requested') {
             Toast.show({
-                text: 'You already requested this user as a friend.',
+                text: 'User request pending. Check sent and incoming friend requests.',
                 buttonText: 'Close',
                 type: 'warning',
                 duration: 4000,
