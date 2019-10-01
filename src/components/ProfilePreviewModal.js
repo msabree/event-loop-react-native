@@ -5,6 +5,10 @@ import { Button, Text } from 'native-base';
 
 import BasicModal from './BasicModal';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
+
 const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
@@ -25,7 +29,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class ProfilePreviewModal extends React.Component {
+class ProfilePreviewModal extends React.Component {
     
     confirmRemoveFriend(friendUserId) {
         Alert.alert(
@@ -40,6 +44,8 @@ export default class ProfilePreviewModal extends React.Component {
                 {
                     text: 'Yes', onPress: () => {
                         this.props.removeFriend(friendUserId);
+                        this.props.closeProfilePreviewModal();
+                        this.props.getEvents();
                     }
                 },
             ],
@@ -60,7 +66,7 @@ export default class ProfilePreviewModal extends React.Component {
         else if(friendStatus === 'current'){
             return (
                 <Button danger transparent onPress={() => {
-                    this.confirmRemoveFriend(userId);      
+                    this.confirmRemoveFriend(userId);
                 }}>
                     <Text>Remove Friend</Text>
                 </Button>
@@ -115,3 +121,13 @@ export default class ProfilePreviewModal extends React.Component {
         )
     }
 }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePreviewModal);

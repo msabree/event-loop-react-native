@@ -87,6 +87,7 @@ class Comments extends React.Component {
                             this.props.navigation.navigate('Profile');
                         }
                         else{
+                            console.log(commentObject)
                             this.props.showProfilePreviewModal(commentObject);
                         }
                     }}>

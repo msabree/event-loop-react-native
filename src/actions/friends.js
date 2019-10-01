@@ -124,13 +124,17 @@ export const resetFriendSearch = () => (dispatch) => {
     })
 }
 
-export const respondToRequest = (requestId, isConfirmed = false) => (dispatch, getState) => {
+export const respondToRequest = (userId, isConfirmed = false) => (dispatch, getState) => {
+    const friendsState = friendsSelector(getState());
+    const sentRequests = get(friendsState, 'sentRequests', []).filter((request) => request.userId === userId);
+    const requests = get(friendsState, 'requests', []).filter((request) => request.requestorUserId === userId);
+
     const authenticationState = authenticationSelector(getState());
     const sessionToken = get(authenticationState, 'sessionToken', '');
 
     api.post(`/friends/request-response`, {
         sessionToken,
-        requestId,
+        requestId: (sentRequests.length > 0) ? sentRequests[0].requestId : requests[0].requestId,
         isConfirmed,
     })
     .then((apiResponse) => {
@@ -176,10 +180,10 @@ export const removeFriend = (friendUserId) => (dispatch, getState) => {
 // friendStatus -> current, incomingRequest, outgoingRequest, or none
 export const showProfilePreviewModal = (profile, isExistingFriend) => async (dispatch, getState) => {
 
-    const friendState = friendsSelector(getState());
-    const currentFriends = get(friendState, 'current', []);
-    const sentRequests = get(friendState, 'sentRequests', []);
-    const requests = get(friendState, 'requests', []);
+    const friendsState = friendsSelector(getState());
+    const currentFriends = get(friendsState, 'current', []);
+    const sentRequests = get(friendsState, 'sentRequests', []);
+    const requests = get(friendsState, 'requests', []);
 
     console.log(requests)
 

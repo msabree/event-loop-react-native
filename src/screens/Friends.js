@@ -41,7 +41,7 @@ class Friends extends Component {
         this.props.getFriendsList();
     }
 
-    confirmDeleteFriendRequest(requestId) {
+    confirmDeleteFriendRequest(userId) {
         Alert.alert(
             'Delete Friend Request',
             `Are you sure you want to delete this friend request?`,
@@ -53,7 +53,7 @@ class Friends extends Component {
                 },
                 {
                     text: 'Yes', onPress: () => {
-                        this.props.respondToRequest(requestId, false)
+                        this.props.respondToRequest(userId, false)
                     }
                 },
             ],
@@ -61,7 +61,7 @@ class Friends extends Component {
         );    
     }
 
-    confirmCancelSentFriendRequest(requestId) {
+    confirmCancelSentFriendRequest(userId) {
         Alert.alert(
             'Cancel Friend Request',
             `Are you sure you want to cancel this sent friend request?`,
@@ -73,7 +73,7 @@ class Friends extends Component {
                 },
                 {
                     text: 'Yes', onPress: () => {
-                        this.props.respondToRequest(requestId, false)
+                        this.props.respondToRequest(userId, false)
                     }
                 },
             ],
@@ -81,7 +81,7 @@ class Friends extends Component {
         );    
     }
 
-    confirmFriend(requestId) {
+    confirmFriend(userId) {
         Alert.alert(
             'Confirm Friend Request',
             `Are you sure you want to add this user as friend?`,
@@ -93,7 +93,7 @@ class Friends extends Component {
                 },
                 {
                     text: 'Yes', onPress: () => {
-                        this.props.respondToRequest(requestId, true)
+                        this.props.respondToRequest(userId, true)
                     }
                 },
             ],
@@ -153,12 +153,12 @@ class Friends extends Component {
                         <Body>
                             <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
                             <Text note>Requested: {moment(currRequest.dateRequested).format("MMM Do YYYY")}</Text>
-                            <Button danger transparent onPress={() => { this.confirmDeleteFriendRequest(currRequest.requestId) }}>
+                            <Button danger transparent onPress={() => { this.confirmDeleteFriendRequest(currRequest.requestorUserId) }}>
                                 <Text style={{fontSize: 12}}>Delete friend request.</Text>
                             </Button>
                         </Body>
                         <Right>
-                            <Button success transparent onPress={() => { this.confirmFriend(currRequest.requestId) }}>
+                            <Button success transparent onPress={() => { this.confirmFriend(currRequest.requestorUserId) }}>
                                 <Text>Confirm</Text>
                             </Button>
                         </Right>
@@ -179,7 +179,7 @@ class Friends extends Component {
                         <Body>
                             <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
                             <Text note>Sent: {moment(currRequest.dateRequested).fromNow()}</Text>
-                            <Button danger transparent onPress={() => { this.confirmCancelSentFriendRequest(currRequest.requestId) }}>
+                            <Button danger transparent onPress={() => { this.confirmCancelSentFriendRequest(currRequest.userId) }}>
                                 <Text style={{fontSize: 12}}>Cancel sent friend request.</Text>
                             </Button>
                         </Body>
