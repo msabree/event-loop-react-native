@@ -42,8 +42,51 @@ class ProfilePreviewModal extends React.Component {
                     style: 'cancel',
                 },
                 {
+                    text: 'Yes', onPress: async () => {
+                        await this.props.removeFriend(friendUserId);
+                        this.props.closeProfilePreviewModal();
+                        this.props.getEvents();
+                    }
+                },
+            ],
+            {cancelable: false},
+        );    
+    }
+
+    confirmCancelSentFriendRequest(userId) {
+        Alert.alert(
+            'Cancel Friend Request',
+            `Are you sure you want to cancel this sent friend request?`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
                     text: 'Yes', onPress: () => {
-                        this.props.removeFriend(friendUserId);
+                        this.props.respondToRequest(userId, false)
+                        this.props.closeProfilePreviewModal();
+                    }
+                },
+            ],
+            {cancelable: false},
+        );    
+    }
+
+    confirmFriend(userId) {
+        Alert.alert(
+            'Confirm Friend Request',
+            `Are you sure you want to add this user as friend?`,
+            [
+                {
+                    text: 'No',
+                    onPress: () => {},
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes', onPress: async () => {
+                        await this.props.respondToRequest(userId, true)
                         this.props.closeProfilePreviewModal();
                         this.props.getEvents();
                     }
@@ -57,9 +100,10 @@ class ProfilePreviewModal extends React.Component {
         if(friendStatus === 'none'){
             return (
                 <Button transparent onPress={() => {
-                                
+                    this.props.sendFriendRequest(userId);
+                    this.props.closeProfilePreviewModal();          
                 }}>
-                    <Text>Add Friend</Text>
+                    <Text>Send Friend Request</Text>
                 </Button>
             )
         }
@@ -75,7 +119,7 @@ class ProfilePreviewModal extends React.Component {
         else if(friendStatus === 'outgoingRequest'){
             return (
                 <Button warning transparent onPress={() => {
-                                
+                    this.confirmCancelSentFriendRequest(userId)        
                 }}>
                     <Text>Cancel Friend Request</Text>
                 </Button>
@@ -83,10 +127,10 @@ class ProfilePreviewModal extends React.Component {
         }
         else if(friendStatus === 'incomingRequest'){
             return (
-                <Button warning transparent onPress={() => {
-                                
+                <Button success transparent onPress={() => {
+                    this.confirmFriend(userId)
                 }}>
-                    <Text>Confirm Friend Request</Text>
+                    <Text>Confirm Friend</Text>
                 </Button>
             )    
         }

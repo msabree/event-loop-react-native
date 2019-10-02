@@ -86,8 +86,7 @@ class GuestList extends React.Component {
                                                 this.props.navigation.navigate('Profile');
                                             }
                                             else{
-                                                console.log(guest.profile)
-                                                this.props.showProfilePreviewModal(guest.profile, false);
+                                                this.props.showProfilePreviewModal(guest.profile);
                                             }
                                         }}>
                                             <Thumbnail source={{ uri: get(guest, 'profile.profilePic', '') }} />

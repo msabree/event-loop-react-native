@@ -180,7 +180,7 @@ class Home extends React.Component {
         const photos = get(itemLocation, 'photos', []).sort((imageA, imageB) => {
             return (((imageHeight/imageWidth) - (imageB.height/imageB.width)) - ((imageHeight/imageWidth) - (imageA.height/imageA.width)))
         });
-
+        console.log(photos)
         if(photos.length === 0){
             return (
                 <Image source={{
@@ -277,11 +277,11 @@ class Home extends React.Component {
                         }}
                         keyExtractor={item => item.eventId}
                     />
-                    <Banner
+                    {/* <Banner
                         unitId={this.getBannerUnitId()}
                         size={'FULL_BANNER'}
                         request={request.build()}
-                    />
+                    /> */}
                 </Container>
             )
         }

@@ -146,6 +146,23 @@ export const respondToRequest = (userId, isConfirmed = false) => (dispatch, getS
 
         dispatch(getFriendsList())
 
+        if(isConfirmed){
+            Toast.show({
+                text: 'Request has been confirmed.',
+                buttonText: 'Close',
+                type: 'success',
+                duration: 3000,
+            })
+        }
+        else{
+            Toast.show({
+                text: 'Request has been deleted.',
+                buttonText: 'Close',
+                type: 'warning',
+                duration: 3000,
+            })
+        }
+
         return dispatch({
             type: actionTypes.RESPOND_TO_FRIEND_REQUEST,
             payload: {
@@ -178,17 +195,15 @@ export const removeFriend = (friendUserId) => (dispatch, getState) => {
 }
 
 // friendStatus -> current, incomingRequest, outgoingRequest, or none
-export const showProfilePreviewModal = (profile, isExistingFriend) => async (dispatch, getState) => {
+export const showProfilePreviewModal = (profile, isExistingFriend = false) => async (dispatch, getState) => {
 
     const friendsState = friendsSelector(getState());
     const currentFriends = get(friendsState, 'current', []);
     const sentRequests = get(friendsState, 'sentRequests', []);
     const requests = get(friendsState, 'requests', []);
 
-    console.log(requests)
-
-    let friendStatus = 'none';
-    if(isExistingFriend === undefined){
+    let friendStatus = 'current';
+    if(isExistingFriend === false){
         if(findIndex(currentFriends, (item) => {
             return item.friendUserId === profile.userId;
         }) !== -1){
@@ -200,13 +215,13 @@ export const showProfilePreviewModal = (profile, isExistingFriend) => async (dis
             friendStatus = 'outgoingRequest';
         }
         else if(findIndex(requests, (item) => {
-            return item.userId === profile.requestorUserId;
+            return item.requestorUserId === profile.userId;
         }) !== -1){
             friendStatus = 'incomingRequest';
         }
-    }
-    else{
-        friendStatus = 'current';
+        else{
+            friendStatus = 'none';
+        }
     }
 
     if(friendStatus !== undefined){

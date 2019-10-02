@@ -55,7 +55,6 @@ class Comments extends React.Component {
                     title: "Action Sheet"
                     },
                     buttonIndex => {
-                    console.log(buttonIndex)
                     if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
                     else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
                     else ActionSheet.hide() 
@@ -73,7 +72,7 @@ class Comments extends React.Component {
                         }}>
                             <Thumbnail small source={{ uri: commentObject.profilePic }} />
                         </TouchableOpacity>
-                        <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
+                        <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
                                 {commentObject.comment}
                             </Text>
@@ -101,7 +100,6 @@ class Comments extends React.Component {
                     title: "Action Sheet"
                   },
                   buttonIndex => {
-                    console.log(buttonIndex)
                     if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
                     else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
                     else ActionSheet.hide() 
@@ -109,7 +107,7 @@ class Comments extends React.Component {
                 )}
             >
                 <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
-                    <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
+                    <Hyperlink linkStyle={ { color: '#86BAFD', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                         <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
                             {commentObject.comment}
                         </Text>
@@ -119,7 +117,6 @@ class Comments extends React.Component {
                             this.props.navigation.navigate('Profile');
                         }
                         else{
-                            console.log(commentObject)
                             this.props.showProfilePreviewModal(commentObject);
                         }
                     }}>

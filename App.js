@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Tabs from './src/containers/Tabs';
 import Authentication from './src/containers/Authentication';
 import Profile from './src/screens/Profile';
+import Friends from './src/screens/Friends';
 import Settings from './src/screens/Settings';
 import CreateEvent from './src/screens/CreateEvent';
 import GuestList from './src/screens/GuestList';
@@ -19,6 +20,9 @@ const AppNavigator = createStackNavigator(
         },
         Authentication: {
             screen: Authentication,
+        },
+        Friends: {
+            screen: Friends,
         },
         Profile: {
             screen: Profile,
