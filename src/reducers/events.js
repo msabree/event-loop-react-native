@@ -71,4 +71,22 @@ export const eventsReducer = createReducer(applicationState.events, {
         set(stateClone, 'comments', []);
         return stateClone;
     },
+    [actionTypes.DELETE_COMMENT](state, action){
+        const stateClone = cloneDeep(state);
+        // action.payload.commentId
+        const filteredComments = stateClone.comments.filter(comment => comment.commentId != action.payload)
+        console.log(filteredComments)
+        set(stateClone, 'comments', filteredComments);
+        return stateClone;
+    },
+    [actionTypes.EDIT_COMMENT](state, action){
+        const stateClone = cloneDeep(state);
+        // action.payload.commentId
+        const editedComments = stateClone.comments.map(comment => {
+            return comment.commentId == action.payload ? { ...comment, comment: 'edited'} : comment
+        })
+        // console.log(filteredComments)
+        set(stateClone, 'comments', editedComments);
+        return stateClone;
+    }
 });

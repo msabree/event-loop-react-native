@@ -386,3 +386,15 @@ export const clearComments = () => (dispatch, getState) => {
         type: actionTypes.CLEAR_EVENT_COMMENTS,
     })
 }
+export const deleteComment = (commentId) => (dispatch, getState) => {
+    return dispatch({
+        type: actionTypes.DELETE_COMMENT,
+        payload: commentId
+    })
+}
+export const editComment = (commentId) => (dispatch, getState) => {
+    return dispatch({
+        type: actionTypes.EDIT_COMMENT,
+        payload: commentId
+    })
+}
