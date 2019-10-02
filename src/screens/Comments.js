@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container } from 'native-base';
+import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container, ActionSheet } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 
@@ -45,7 +45,23 @@ class Comments extends React.Component {
     getChatListItem(commentObject){
         if(commentObject.isCreator === true){
             return (
-                <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
+            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
+            onLongPress={() =>
+                ActionSheet.show(
+                    {
+                    options: ['Edit', 'Delete', 'Cancel'],
+                    cancelButtonIndex: 2,
+                    destructiveButtonIndex: 1,
+                    title: "Action Sheet"
+                    },
+                    buttonIndex => {
+                    console.log(buttonIndex)
+                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
+                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
+                    else ActionSheet.hide() 
+                    }
+                )}
+            >
                     <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
                         <TouchableOpacity onPress={() => {
                             if(commentObject.userId === this.props.loggedInUserId){
@@ -75,7 +91,23 @@ class Comments extends React.Component {
             )
         }
         return (
-            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
+            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
+            onLongPress={() =>
+                ActionSheet.show(
+                  {
+                    options: ['Edit', 'Delete', 'Cancel'],
+                    cancelButtonIndex: 2,
+                    destructiveButtonIndex: 1,
+                    title: "Action Sheet"
+                  },
+                  buttonIndex => {
+                    console.log(buttonIndex)
+                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
+                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
+                    else ActionSheet.hide() 
+                  }
+                )}
+            >
                 <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
                     <Hyperlink linkStyle={ { color: '#606aa1' } } onPress={ (url) => Linking.openURL(url) }>
                         <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
