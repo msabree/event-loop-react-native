@@ -3,6 +3,7 @@ import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container, ActionSheet } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
+import noop from 'lodash/noop'
 
 import eventsSelector from '../selectors/events';
 import friendsSelector from '../selectors/friends';
@@ -46,7 +47,7 @@ class Comments extends React.Component {
         if(commentObject.isCreator === true){
             return (
             <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
-            onLongPress={() =>
+            onLongPress={(commentObject.userId !== this.props.loggedInUserId) ? noop() : () =>
                 ActionSheet.show(
                     {
                     options: ['Edit', 'Delete', 'Cancel'],
@@ -91,19 +92,19 @@ class Comments extends React.Component {
         }
         return (
             <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
-            onLongPress={() =>
+            onLongPress={(commentObject.userId !== this.props.loggedInUserId) ? noop() : () =>
                 ActionSheet.show(
-                  {
+                    {
                     options: ['Edit', 'Delete', 'Cancel'],
                     cancelButtonIndex: 2,
                     destructiveButtonIndex: 1,
                     title: "Action Sheet"
-                  },
-                  buttonIndex => {
+                    },
+                    buttonIndex => {
                     if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
                     else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
                     else ActionSheet.hide() 
-                  }
+                    }
                 )}
             >
                 <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
