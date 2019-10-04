@@ -25,6 +25,7 @@ export const usersReducer = createReducer(applicationState.users , {
         set(stateClone, 'loggedIn.userId', userId);
         set(stateClone, 'loggedIn.displayName', displayName);
         set(stateClone, 'loggedIn.alexaSessionTokenActive', alexaSessionTokenActive);
+        set(stateClone, 'loggedIn.notifyNewEvents', notifyNewEvents);
         set(stateClone, 'loggedIn.notifyFriendRequests', notifyFriendRequests);
         set(stateClone, 'loggedIn.notifyHostEventChanges', notifyHostEventChanges);
         set(stateClone, 'loggedIn.notifyJoinedEventChanges', notifyJoinedEventChanges);

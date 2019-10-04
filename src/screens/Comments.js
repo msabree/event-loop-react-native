@@ -6,14 +6,11 @@ import moment from 'moment';
 import noop from 'lodash/noop'
 
 import eventsSelector from '../selectors/events';
-import friendsSelector from '../selectors/friends';
 import usersSelector from '../selectors/users';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-
-import ProfilePreviewModal from '../components/ProfilePreviewModal';
 
 const styles = StyleSheet.create({
     center: {
@@ -169,13 +166,6 @@ class Comments extends React.Component {
                         </Button>
                     </Item>
                 </Container>
-                <ProfilePreviewModal 
-                    isOpen={this.props.profilePreviewModalVisible}
-                    onRequestClose={this.props.closeProfilePreviewModal}
-                    profile={this.props.profileToPreview}
-                    friendStatus={this.props.friendStatus}
-                    removeFriend={this.props.removeFriend.bind(this)}
-                />
             </Content>
         )
     }
@@ -189,9 +179,6 @@ function mapStateToProps(state) {
     return {
         comments: eventsSelector(state).comments,
         loggedInUserId: usersSelector(state).loggedInUserId,
-        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
-        profileToPreview: friendsSelector(state).profileToPreview,
-        friendStatus: friendsSelector(state).friendStatus
     }    
 }
 

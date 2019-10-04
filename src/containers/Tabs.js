@@ -12,6 +12,7 @@ import Friends from '../screens/Friends';
 import Settings from '../screens/Settings';
 
 import SpinnerModal from '../components/SpinnerModal';
+import ProfilePreviewModal from '../components/ProfilePreviewModal';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,6 +21,7 @@ import { ActionCreators } from '../actions';
 import tabsSelector from '../selectors/tabs';
 import authenticationSelector from '../selectors/authentication';
 import spinnerSelector from '../selectors/spinner';
+import friendsSelector from '../selectors/friends';
 
 class TabsContainer extends Component {
 
@@ -116,6 +118,13 @@ class TabsContainer extends Component {
                 <Container>
                     {this.getContent()}
                     <SpinnerModal hideSpinner={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
+                    <ProfilePreviewModal 
+                        isOpen={this.props.profilePreviewModalVisible}
+                        onRequestClose={this.props.closeProfilePreviewModal}
+                        profile={this.props.profileToPreview}
+                        friendStatus={this.props.friendStatus}
+                        removeFriend={this.props.removeFriend.bind(this)}
+                    />
                     <Footer>
                         <FooterTab>
                             <Button active={this.props.activeTabIndex === 0} onPress={() => { this.props.setActiveTab(0) }}>
@@ -145,6 +154,9 @@ function mapStateToProps(state) {
         sessionToken: authenticationSelector(state).sessionToken,
         spinnerVisible: spinnerSelector(state).visible,
         spinnerMessage: spinnerSelector(state).message,
+        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
+        profileToPreview: friendsSelector(state).profileToPreview,
+        friendStatus: friendsSelector(state).friendStatus
     }    
 }
 

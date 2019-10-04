@@ -10,14 +10,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
-import ProfilePreviewModal from '../components/ProfilePreviewModal';
 import Loading from '../components/Loading';
 
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';
 import authenticationSelector from '../selectors/authentication';
-import friendsSelector from '../selectors/friends';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
@@ -342,13 +340,6 @@ class Home extends React.Component {
                         <Icon name="add" />
                     </Fab>
                 </Container>
-                <ProfilePreviewModal 
-                    isOpen={this.props.profilePreviewModalVisible}
-                    onRequestClose={this.props.closeProfilePreviewModal}
-                    profile={this.props.profileToPreview}
-                    friendStatus={this.props.friendStatus}
-                    removeFriend={this.props.removeFriend.bind(this)}
-                />
             </React.Fragment>
         )   
     }
@@ -369,9 +360,6 @@ function mapStateToProps(state) {
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         badgeCount: notificationsSelector(state).badgeCount,
-        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
-        profileToPreview: friendsSelector(state).profileToPreview,
-        friendStatus: friendsSelector(state).friendStatus
     }    
 }
   

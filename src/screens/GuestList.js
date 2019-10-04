@@ -8,11 +8,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
-import ProfilePreviewModal from '../components/ProfilePreviewModal';
-
 import eventsSelector from '../selectors/events';
 import usersSelector from '../selectors/users';
-import friendsSelector from '../selectors/friends';
 
 const styles = StyleSheet.create({
     center: {
@@ -105,13 +102,6 @@ class GuestList extends React.Component {
                         })
                     }
                 </List>
-                <ProfilePreviewModal 
-                    isOpen={this.props.profilePreviewModalVisible}
-                    onRequestClose={this.props.closeProfilePreviewModal}
-                    profile={this.props.profileToPreview}
-                    friendStatus={this.props.friendStatus}
-                    removeFriend={this.props.removeFriend.bind(this)}
-                />
             </Content>
         )
     }
@@ -125,9 +115,6 @@ function mapStateToProps(state) {
     return {
         guestList: eventsSelector(state).guestList,
         loggedInUserId: usersSelector(state).loggedInUserId,
-        profilePreviewModalVisible: friendsSelector(state).profilePreviewModalVisible,
-        profileToPreview: friendsSelector(state).profileToPreview,
-        friendStatus: friendsSelector(state).friendStatus
     }    
 }
 

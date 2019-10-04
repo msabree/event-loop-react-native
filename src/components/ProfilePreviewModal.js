@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     innerContainer: {
         backgroundColor:'#fff',
         width: 300,
-        height: 400,
+        maxHeight: 400,
         borderRadius: 14,
     },
     starIcon: {
