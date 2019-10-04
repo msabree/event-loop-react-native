@@ -243,3 +243,7 @@ export const closeProfilePreviewModal = () => (dispatch, getState) => {
         type: actionTypes.CLOSE_PROFILE_PREVIEW_MODAL,
     })   
 }
+
+export const updateFavorite = (isFavorite, friendUserId) => (dispatch, getState) => {
+    console.log(isFavorite, friendUserId)
+}

@@ -41,6 +41,7 @@ export default {
             displayName: '',
             userId: '',
             profilePic: 'https://flaker-images.s3.amazonaws.com/default-profile.png',
+            notifyNewEvents: false,
             notifyFriendRequests: false,
             notifyHostEventChanges: false,
             notifyJoinedEventChanges: false,

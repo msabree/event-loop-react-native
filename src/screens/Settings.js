@@ -85,6 +85,22 @@ class Settings extends Component {
                     </ListItem>
                     <ListItem itemDivider>
                         <Text>Push Notifications</Text>
+                    </ListItem>
+                    <ListItem icon>
+                        <Body>
+                            <Text note>{'New events from your starred friends.'}</Text>
+                        </Body>
+                        <Right>
+                            <Button transparent dark onPress={() => {
+                                this.props.updateUserInfo({
+                                    notifyNewEvents: !this.props.notifyNewEvents,
+                                })
+                            }}>
+                                {
+                                    (this.props.notifyNewEvents) ? <Icon name='notifications' style={{color: '#5FC469'}}/> : <Icon name='notifications-off' />
+                                }
+                            </Button>
+                        </Right>
                     </ListItem>                 
                     <ListItem icon>
                         <Body>
@@ -179,6 +195,7 @@ function mapStateToProps(state) {
         loggedInProfilePic: userSelector(state).loggedInProfilePic,
         loggedInUsername: userSelector(state).loggedInUsername,
         loggedInDisplayName: userSelector(state).loggedInDisplayName,
+        notifyNewEvents: userSelector(state).notifyNewEvents,
         notifyFriendRequests: userSelector(state).notifyFriendRequests,
         notifyHostEventChanges: userSelector(state).notifyHostEventChanges,
         notifyJoinedEventChanges: userSelector(state).notifyJoinedEventChanges,

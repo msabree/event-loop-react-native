@@ -40,7 +40,7 @@ class PhysicalLocationEvent extends React.Component {
                     <Item regular>
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
-                            placeholder={`Enter a short title`}
+                            placeholder={`Enter a title`}
                             value={get(this.props, 'physicalLocationEvent.title', '')}
                             onChangeText={(value) => this.props.inputChange('physicalLocationEvent.title', value)}
                         />
@@ -162,7 +162,7 @@ class PhysicalLocationEvent extends React.Component {
                         rowSpan={2} 
                         bordered
                         onChangeText={(value) => { this.props.inputChange('physicalLocationEvent.details', value); }} 
-                        placeholder='Any additional details for your friends... (optional)' />
+                        placeholder='Enter any event details here.' />
                 </CardItem>
             </Content>
         )

@@ -15,6 +15,7 @@ export const usersReducer = createReducer(applicationState.users , {
         const userId = get(apiResponse, 'profile.userId', '');
         const profilePic = get(apiResponse, 'profile.profilePic', 'https://flaker-images.s3.amazonaws.com/default-profile.png');
         const alexaSessionTokenActive = get(apiResponse, 'profile.alexaSessionTokenActive', false);
+        const notifyNewEvents = get(apiResponse, 'profile.notifyNewEvents', true);
         const notifyFriendRequests = get(apiResponse, 'profile.notifyFriendRequests', true);
         const notifyHostEventChanges = get(apiResponse, 'profile.notifyHostEventChanges', true);
         const notifyJoinedEventChanges = get(apiResponse, 'profile.notifyJoinedEventChanges', true);

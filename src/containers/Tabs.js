@@ -102,9 +102,9 @@ class TabsContainer extends Component {
             case 0: 
                 return <Home navigation={this.props.navigation} />;
             case 1: 
-                return <Friends/>;
+                return <Friends navigation={this.props.navigation} />;
             case 2: 
-                return <Settings navigation={this.props.navigation}/>;                                           
+                return <Settings navigation={this.props.navigation} />;                                           
             default:
                 return <Home/>;
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, Icon } from 'native-base';
+import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, Icon, Container, Fab } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import moment from 'moment';
 import debounce from 'lodash/debounce';
@@ -117,7 +117,12 @@ class Friends extends Component {
         return (
             this.props.current.map((currFriend, index) => {
                 return (
-                    <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
+                    <ListItem avatar key={`${new Date().getTime()} - ${index}`} onPress={() => { this.props.showProfilePreviewModal({
+                        profilePic: currFriend._profilePic,
+                        username: currFriend._username,
+                        displayName: currFriend._displayName,
+                        userId: currFriend.friendUserId,
+                    }, true) }}>
                         <Left>
                             <Thumbnail source={{ uri: currFriend._profilePic }} />
                         </Left>
@@ -218,67 +223,80 @@ class Friends extends Component {
 
     render() {
         return (
-            <Content style={{marginTop: 20}}>                    
-                <Autocomplete
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    containerStyle={styles.autocompleteContainer}
-                    inputContainerStyle={styles.inputContainerStyle}
-                    data={this.props.suggestions}
-                    defaultValue={''}
-                    placeholder={'Search by phone contact name or username.'}
-                    onChangeText={debounce((query) => {
-                        this.props.search(query)
-                    }, 2000)}
-                    hideResults={this.state.hideAutoComplete}
-                    onBlur={() => {
-                        this.setState({
-                            hideAutoComplete: true,
-                        })
-                    }}
-                    onFocus={() => {
-                        this.setState({
-                            hideAutoComplete: false,
-                        })
-                    }}
-                    renderItem={({ item, i }) => (
-                        <ListItem avatar>
-                            <Left>
-                                <Thumbnail source={{uri: item.pic}} />
-                            </Left>
-                            <Body>
-                                <Text>{item.username}</Text>
-                                <Text note>{item.displayName}</Text>
-                                <Text note>{' '}</Text>
-                            </Body>
-                            <Right>
-                                {this.getSearchResultButton(item.type, item.userId)}
-                            </Right>
-                        </ListItem>
-                    )}
-                />
-                <Segment>
-                    <Button transparent warning first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
-                        <Text>Friends</Text>
-                    </Button>
-                    <Button transparent warning second active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
-                        <Text>Requests</Text>
-                    </Button>
-                    <Button transparent warning last active={this.props.activeSegment === 'sent'} onPress={() => {this.switchSegment('sent')}}>
-                        <Text>Sent</Text>
-                    </Button>
-                </Segment>
-                <List>
-                    {this.getContent()}
-                </List>
-                <ProfilePreviewModal 
-                    isOpen={this.props.profilePreviewModalVisible}
-                    onRequestClose={this.props.closeProfilePreviewModal}
-                    profile={this.props.profileToPreview}
-                    friendStatus={this.props.friendStatus}
-                    removeFriend={this.props.removeFriend.bind(this)}
-                />
-            </Content>
+            <Container style={{marginTop: 50}}>
+                <Container>                    
+                    <Autocomplete
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        containerStyle={styles.autocompleteContainer}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        data={this.props.suggestions}
+                        defaultValue={''}
+                        placeholder={'Search by phone contact name or username.'}
+                        onChangeText={debounce((query) => {
+                            this.props.search(query)
+                        }, 2000)}
+                        hideResults={this.state.hideAutoComplete}
+                        onBlur={() => {
+                            this.setState({
+                                hideAutoComplete: true,
+                            })
+                        }}
+                        onFocus={() => {
+                            this.setState({
+                                hideAutoComplete: false,
+                            })
+                        }}
+                        renderItem={({ item, i }) => (
+                            <ListItem avatar>
+                                <Left>
+                                    <Thumbnail source={{uri: item.pic}} />
+                                </Left>
+                                <Body>
+                                    <Text>{item.username}</Text>
+                                    <Text note>{item.displayName}</Text>
+                                    <Text note>{' '}</Text>
+                                </Body>
+                                <Right>
+                                    {this.getSearchResultButton(item.type, item.userId)}
+                                </Right>
+                            </ListItem>
+                        )}
+                    />
+                    <Segment>
+                        <Button transparent warning first active={this.props.activeSegment === 'current'} onPress={() => {this.switchSegment('current')}}>
+                            <Text>Friends</Text>
+                        </Button>
+                        <Button transparent warning second active={this.props.activeSegment === 'requests'} onPress={() => {this.switchSegment('requests')}}>
+                            <Text>Requests</Text>
+                        </Button>
+                        <Button transparent warning last active={this.props.activeSegment === 'sent'} onPress={() => {this.switchSegment('sent')}}>
+                            <Text>Sent</Text>
+                        </Button>
+                    </Segment>
+                    <List>
+                        {this.getContent()}
+                    </List>
+                    <Fab
+                        active={false}
+                        direction="left"
+                        containerStyle={{ }}
+                        style={{ backgroundColor: 'orange' }}
+                        position="bottomRight"
+                        onPress={() => {
+                            this.props.navigation.navigate('Groups');
+                        }}>
+                        <Icon name="globe" />
+                    </Fab>
+                    <ProfilePreviewModal 
+                        isOpen={this.props.profilePreviewModalVisible}
+                        onRequestClose={this.props.closeProfilePreviewModal}
+                        profile={this.props.profileToPreview}
+                        friendStatus={this.props.friendStatus}
+                        removeFriend={this.props.removeFriend.bind(this)}
+                    />
+                </Container>
+            </Container>
         );
     }
 }

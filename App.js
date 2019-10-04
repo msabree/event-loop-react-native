@@ -12,6 +12,7 @@ import AlexaConnections from './src/screens/AlexaConnections';
 import AlexaSync from './src/screens/AlexaSync';
 import Notifications from './src/screens/Notifications';
 import Comments from './src/screens/Comments';
+import Groups from './src/screens/Groups';
 
 const AppNavigator = createStackNavigator(
     {
@@ -47,6 +48,9 @@ const AppNavigator = createStackNavigator(
         },
         Comments: {
             screen: Comments,
+        },
+        Groups: {
+            screen: Groups,
         },
     },
     {

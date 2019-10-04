@@ -5,6 +5,7 @@ const usersSelector = (state) => {
         loggedInProfilePic: state.usersReducer.loggedIn.profilePic,
         loggedInUserId: state.usersReducer.loggedIn.userId,
         alexaSessionTokenActive: state.usersReducer.loggedIn.alexaSessionTokenActive,
+        notifyNewEvents: state.usersReducer.loggedIn.notifyNewEvents,
         notifyFriendRequests: state.usersReducer.loggedIn.notifyFriendRequests,
         notifyHostEventChanges: state.usersReducer.loggedIn.notifyHostEventChanges,
         notifyJoinedEventChanges: state.usersReducer.loggedIn.notifyJoinedEventChanges,

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         width: 300,
         height: 300,
-        borderRadius: 20,
+        borderRadius: 14,
     }
 });
 
@@ -25,7 +25,7 @@ export default class BasicModal extends React.Component {
                 this.props.onRequestClose();
             }}>
                 <View style={styles.outerContainer}>
-                    <View style={styles.innerContainer}>
+                    <View style={this.props.innerContainerStyles || styles.innerContainer}>
                         {this.props.content || <Text>Missing content prop :)</Text>}
                     </View>
                 </View>

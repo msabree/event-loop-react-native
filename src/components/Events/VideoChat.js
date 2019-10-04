@@ -34,7 +34,7 @@ class VideoChatEvent extends React.Component {
                     <Item regular>
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
-                            placeholder={`Enter a short title`}
+                            placeholder={`Enter a title`}
                             value={get(this.props, 'videoChatEvent.title', '')}
                             onChangeText={(value) => this.props.inputChange('videoChatEvent.title', value)}
                         />

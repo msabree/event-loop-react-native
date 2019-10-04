@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import React from 'react';
 import { StyleSheet, View, Image, Alert } from 'react-native';
-import { Button, Text } from 'native-base';
+import { Button, Text, Icon, Content } from 'native-base';
 
 import BasicModal from './BasicModal';
 
@@ -26,6 +26,19 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'center'
+    },
+    innerContainer: {
+        backgroundColor:'#fff',
+        width: 300,
+        height: 400,
+        borderRadius: 14,
+    },
+    starIcon: {
+        fontSize: 35,
+        color: 'orange',
+    },
+    starIconOutline: {
+        fontSize: 35,
     },
 });
 
@@ -138,18 +151,39 @@ class ProfilePreviewModal extends React.Component {
             console.log('how sway', friendStatus)
         }
     }
+
+    getFavoriteButton(friendStatus, isFavorite = false, friendUserId) {
+        if(friendStatus === 'current'){
+            return (
+                <Button transparent dark onPress={() => {
+                    this.props.updateFavorite(!isFavorite, friendUserId)
+                }}>
+                    {
+                        (isFavorite) ? <Icon name='star' style={styles.starIcon}/> : <Icon name='star-outline' style={styles.starIconOutline}/>
+                    }
+                </Button>
+            )
+        }
+    }
     
     render() {
         return (
             <BasicModal
+                innerContainerStyles={styles.innerContainer}
                 isOpen={this.props.isOpen}
                 onRequestClose={() => { this.props.onRequestClose() }}
                 content={
                     <View style={styles.center}>
                         <Image
-                            style={styles.profile}  
+                            style={styles.profile}
                             source={{uri: get(this.props, 'profile.profilePic', '')}} 
                         />
+                        <View>
+                            {this.getFavoriteButton(this.props.friendStatus, true, get(this.props, 'profile.userId', ''))}
+                        </View>
+                        <Text style={{marginBottom: 10}}>
+                            {get(this.props, 'profile.displayName', '')}
+                        </Text>
                         <Text style={{marginBottom: 10}}>
                             {get(this.props, 'profile.username', '')}
                         </Text>
