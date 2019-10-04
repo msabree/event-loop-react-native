@@ -289,7 +289,7 @@ class Home extends React.Component {
         return (
             <Card transparent style={styles.center}>
                 <CardItem transparent header>
-                    <Text>No open invites. When your friends create some we will show them here.</Text>
+                    <Text>Nothing to show. Try adjusting your filter.</Text>
                 </CardItem>
             </Card> 
         )

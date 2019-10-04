@@ -50,7 +50,7 @@ class Comments extends React.Component {
                         options: ['Delete', 'Cancel'],
                         cancelButtonIndex: 2,
                         destructiveButtonIndex: 0,
-                        title: "Action Sheet"
+                        title: 'Comments'
                     },
                     buttonIndex => {
                         if (buttonIndex === 0) this.props.deleteComment(commentObject.commentId)
@@ -94,7 +94,7 @@ class Comments extends React.Component {
                         options: ['Delete', 'Cancel'],
                         cancelButtonIndex: 2,
                         destructiveButtonIndex: 0,
-                        title: "Action Sheet"
+                        title: 'Comments'
                     },
                     buttonIndex => {
                         if (buttonIndex === 0) this.props.deleteComment(commentObject.commentId)

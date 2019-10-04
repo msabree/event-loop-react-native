@@ -34,11 +34,11 @@ const styles = StyleSheet.create({
         borderRadius: 14,
     },
     starIcon: {
-        fontSize: 35,
+        fontSize: 30,
         color: 'orange',
     },
     starIconOutline: {
-        fontSize: 35,
+        fontSize: 30,
     },
 });
 

@@ -58,7 +58,7 @@ class Settings extends Component {
 
     render() {
         return (
-            <Content>
+            <Content contentContainerStyle={{marginTop: 20}}>
                 <List>
                     <ListItem itemDivider>
                         <Text>Profile</Text>
