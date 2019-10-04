@@ -40,7 +40,7 @@ class PhysicalLocationEvent extends React.Component {
                     <Item regular>
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
-                            placeholder={`What are you about to do?`}
+                            placeholder={`Enter a short title`}
                             value={get(this.props, 'event.title', '')}
                             onChangeText={(value) => this.props.inputChange('event.title', value)}
                         />

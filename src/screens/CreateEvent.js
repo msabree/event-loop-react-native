@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { Content, Card, CardItem, Item, Textarea, Button, Input, Text, Picker, Icon } from 'native-base';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import DatePicker from 'react-native-datepicker';
 import get from 'lodash/get';
 import moment from 'moment';
 
@@ -15,6 +13,8 @@ import { ActionCreators } from '../actions';
 
 // Event Types
 import PhysicalLocationEvent from '../components/Events/PhysicalLocation';
+import VideoChatEvent from '../components/Events/VideoChat';
+import PhoneCallEvent from '../components/Events/PhoneCall';
 
 const styles = StyleSheet.create({
     center: {
@@ -35,7 +35,7 @@ class CreateEvent extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            eventType: '',
+            eventType: 'location',
         }
     }
 
@@ -95,6 +95,13 @@ class CreateEvent extends React.Component {
         if(eventType === 'location'){
             return <PhysicalLocationEvent />
         }
+        else if(eventType === 'video'){
+            return <VideoChatEvent />
+        }
+        else if(eventType === 'phone'){
+            return <PhoneCallEvent />
+        }
+        return <PhysicalLocationEvent />
     }
 
     getDeleteButton(existingEvent){
