@@ -6,17 +6,44 @@ import authenticationSelector from '../selectors/authentication';
 import usersSelector from '../selectors/users';
 import api from '../utils/api';
 
-export const createEvent = () => (dispatch, getState) => {
+export const createEvent = (eventType = 'location') => (dispatch, getState) => {
     const sessionToken = get(authenticationSelector(getState()), 'sessionToken', '');
-    const {
-        location = null, 
-        details = '', 
-        title = '', 
-        startDatetime = new Date(),
-        endDatetime = new Date(),
-    } = get(formsSelector(getState()), 'event', {});
+    let title = '';
+    let details = '';
+    let startDatetime = new Date();
+    let endDatetime = new Date();
+    let location = null;
+    let phoneNumber = '';
+    let passCode = '';
+    let meetingLink = '';
 
-    if(location === null){
+    if(eventType === 'location'){
+        const physicalLocationEvent = get(formsSelector(getState()), 'physicalLocationEvent', {});
+        title = physicalLocationEvent.title;
+        details = physicalLocationEvent.details;
+        startDatetime = physicalLocationEvent.startDatetime;
+        endDatetime = physicalLocationEvent.endDatetime;
+        location = physicalLocationEvent.location;
+    }
+    else if(eventType === 'phone'){
+        const phoneCallEvent = get(formsSelector(getState()), 'phoneCallEvent', {});
+        title = phoneCallEvent.title;
+        details = phoneCallEvent.details;
+        startDatetime = phoneCallEvent.startDatetime;
+        endDatetime = phoneCallEvent.endDatetime;
+        phoneNumber = phoneCallEvent.phoneNumber;
+        passCode = phoneCallEvent.passCode;
+    }
+    else if(eventType === 'video'){
+        const videoChatEvent = get(formsSelector(getState()), 'videoChatEvent', {});
+        title = videoChatEvent.title;
+        details = videoChatEvent.details;
+        startDatetime = videoChatEvent.startDatetime;
+        endDatetime = videoChatEvent.endDatetime;
+        meetingLink = videoChatEvent.meetingLink;
+    }
+
+    if(eventType === 'location' && location === null){
         Toast.show({
             text: 'Use the autocomplete to select an address or specific location.',
             buttonText: 'Close',
@@ -48,6 +75,22 @@ export const createEvent = () => (dispatch, getState) => {
             duration: 5000,
         })
     }
+    else if(eventType === 'phone' && phoneNumber === ''){
+        Toast.show({
+            text: 'A dial-in number is required.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
+    }
+    else if(eventType === 'video' && meetingLink === ''){
+        Toast.show({
+            text: 'A meeting link is required.',
+            buttonText: 'Close',
+            type: 'warning',
+            duration: 5000,
+        })
+    }
     else{
         api.post(`/events`, {
             sessionToken,
@@ -56,6 +99,10 @@ export const createEvent = () => (dispatch, getState) => {
             details,
             startDatetime,
             endDatetime,
+            passCode,
+            phoneNumber,
+            meetingLink,
+            eventType,
         })
         .then((apiResponse) => {
             if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
@@ -313,9 +360,9 @@ export const leaveEvent = (event) => (dispatch, getState) => {
     })   
 }
 
-export const resetEventForm = () => (dispatch) => {
+export const resetEventForms = () => (dispatch) => {
     return dispatch({
-        type: actionTypes.RESET_EVENT_FORM,
+        type: actionTypes.RESET_EVENT_FORMS,
     })
 }
 
@@ -388,11 +435,27 @@ export const clearComments = () => (dispatch, getState) => {
 }
 
 export const deleteComment = (commentId) => (dispatch, getState) => {
-    return dispatch({
-        type: actionTypes.DELETE_COMMENT,
-        payload: {
-            commentId
+
+    const authenticationState = authenticationSelector(getState());
+    const sessionToken = get(authenticationState, 'sessionToken', '');
+
+    api.delete(`/events/comments/${commentId}/${sessionToken}`)
+    .then((apiResponse) => {
+        if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
+            return dispatch({
+                type: actionTypes.INVALID_SESSION,
+            })
         }
+
+        return dispatch({
+            type: actionTypes.DELETE_COMMENT,
+            payload: {
+                commentId
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err);
     })
 }
 

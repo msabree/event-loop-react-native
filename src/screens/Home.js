@@ -175,6 +175,9 @@ class Home extends React.Component {
 
     // Fallback to a static map image if no photo references available
     getPlaceImage(itemLocation) {
+        if(itemLocation === null){
+            return;
+        }
         const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const imageHeight = Math.round(imageWidth / 2);
         const photos = get(itemLocation, 'photos', []).sort((imageA, imageB) => {

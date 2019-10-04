@@ -35,8 +35,8 @@ class PhoneCallEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Enter a short title`}
-                            value={get(this.props, 'event.title', '')}
-                            onChangeText={(value) => this.props.inputChange('event.title', value)}
+                            value={get(this.props, 'phoneCallEvent.title', '')}
+                            onChangeText={(value) => this.props.inputChange('phoneCallEvent.title', value)}
                         />
                     </Item>
                 </CardItem>
@@ -45,8 +45,8 @@ class PhoneCallEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Dial-in Phone Number`}
-                            value={get(this.props, 'event.phoneNumber', '')}
-                            onChangeText={(value) => this.props.inputChange('event.phoneNumber', value)}
+                            value={get(this.props, 'phoneCallEvent.phoneNumber', '')}
+                            onChangeText={(value) => this.props.inputChange('phoneCallEvent.phoneNumber', value)}
                         />
                     </Item>
                 </CardItem>
@@ -55,8 +55,8 @@ class PhoneCallEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Dial-in Passcode`}
-                            value={get(this.props, 'event.title', '')}
-                            onChangeText={(value) => this.props.inputChange('event.passCode', value)}
+                            value={get(this.props, 'phoneCallEvent.passCode', '')}
+                            onChangeText={(value) => this.props.inputChange('phoneCallEvent.passCode', value)}
                         />
                     </Item>
                 </CardItem>
@@ -67,7 +67,7 @@ class PhoneCallEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.startDatetime', new Date())}
+                            date={get(this.props, 'phoneCallEvent.startDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
@@ -88,7 +88,7 @@ class PhoneCallEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('phoneCallEvent.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -100,11 +100,11 @@ class PhoneCallEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.endDatetime', new Date())}
+                            date={get(this.props, 'phoneCallEvent.endDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
-                            minDate={get(this.props, 'event.startDatetime', new Date())} // start time?
+                            minDate={get(this.props, 'phoneCallEvent.startDatetime', new Date())} // start time?
                             maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} // one year in the future
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -121,7 +121,7 @@ class PhoneCallEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('phoneCallEvent.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -129,10 +129,10 @@ class PhoneCallEvent extends React.Component {
                 <CardItem transparent>
                     <Textarea 
                         style={styles.textArea} 
-                        value={get(this.props, 'event.details', '')}
+                        value={get(this.props, 'phoneCallEvent.details', '')}
                         rowSpan={2} 
                         bordered
-                        onChangeText={(value) => { this.props.inputChange('event.details', value); }} 
+                        onChangeText={(value) => { this.props.inputChange('phoneCallEvent.details', value); }} 
                         placeholder='Any additional details for your friends... (optional)' />
                 </CardItem>
             </Content>
@@ -146,7 +146,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        event: formsSelector(state).event,
+        phoneCallEvent: formsSelector(state).phoneCallEvent,
         newEventCreated: eventSelector(state).newEventCreated,
     }    
 }

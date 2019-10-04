@@ -1,6 +1,8 @@
 const formsSelector = (state) => {
     return {
-        event: state.formsReducer.event,
+        physicalLocationEvent: state.formsReducer.physicalLocationEvent,
+        videoChatEvent: state.formsReducer.videoChatEvent,
+        phoneCallEvent: state.formsReducer.phoneCallEvent,
         appFeedback: state.formsReducer.appFeedback,
     }
 };

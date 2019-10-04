@@ -41,15 +41,15 @@ class PhysicalLocationEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Enter a short title`}
-                            value={get(this.props, 'event.title', '')}
-                            onChangeText={(value) => this.props.inputChange('event.title', value)}
+                            value={get(this.props, 'physicalLocationEvent.title', '')}
+                            onChangeText={(value) => this.props.inputChange('physicalLocationEvent.title', value)}
                         />
                     </Item>
                 </CardItem>
                 <CardItem transparent>
                     <Item regular>
                         <GooglePlacesAutocomplete
-                            placeholder={get(this.props, 'event.location.name') || 'Where will you be?'}
+                            placeholder={get(this.props, 'physicalLocationEvent.location.name') || 'Search for address'}
                             minLength={2}
                             autoFocus={false}
                             returnKeyType={'default'}
@@ -65,7 +65,7 @@ class PhysicalLocationEvent extends React.Component {
                                 this.setState({
                                     listViewDisplayed: false,
                                 }, () => {
-                                    this.props.inputChange('event.location', details);
+                                    this.props.inputChange('physicalLocationEvent.location', details);
                                 })
                             }}
                             styles={{
@@ -96,7 +96,7 @@ class PhysicalLocationEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.startDatetime', new Date())}
+                            date={get(this.props, 'physicalLocationEvent.startDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
@@ -117,7 +117,7 @@ class PhysicalLocationEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('physicalLocationEvent.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -129,11 +129,11 @@ class PhysicalLocationEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.endDatetime', new Date())}
+                            date={get(this.props, 'physicalLocationEvent.endDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
-                            minDate={get(this.props, 'event.startDatetime', new Date())} // start time?
+                            minDate={get(this.props, 'physicalLocationEvent.startDatetime', new Date())} // start time?
                             maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} // one year in the future
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -150,7 +150,7 @@ class PhysicalLocationEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('physicalLocationEvent.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -158,10 +158,10 @@ class PhysicalLocationEvent extends React.Component {
                 <CardItem transparent>
                     <Textarea 
                         style={styles.textArea} 
-                        value={get(this.props, 'event.details', '')}
+                        value={get(this.props, 'physicalLocationEvent.details', '')}
                         rowSpan={2} 
                         bordered
-                        onChangeText={(value) => { this.props.inputChange('event.details', value); }} 
+                        onChangeText={(value) => { this.props.inputChange('physicalLocationEvent.details', value); }} 
                         placeholder='Any additional details for your friends... (optional)' />
                 </CardItem>
             </Content>
@@ -175,7 +175,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        event: formsSelector(state).event,
+        physicalLocationEvent: formsSelector(state).physicalLocationEvent,
         newEventCreated: eventSelector(state).newEventCreated,
     }    
 }

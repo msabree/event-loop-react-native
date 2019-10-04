@@ -19,13 +19,32 @@ export const formsReducer = createReducer(applicationState.forms, {
             console.log('Path cannot be empty');
         }
     },
-    [actionTypes.RESET_EVENT_FORM](state){
+    [actionTypes.RESET_EVENT_FORMS](state){
+        
         const stateClone = cloneDeep(state);
-        set(stateClone, 'event.startDatetime', new Date());
-        set(stateClone, 'event.endDatetime', new Date());
-        set(stateClone, 'event.location', null);
-        set(stateClone, 'event.details', '');
-        set(stateClone, 'event.title', '');
+
+        // Physical Location Event
+        set(stateClone, 'physicalLocationEvent.startDatetime', new Date());
+        set(stateClone, 'physicalLocationEvent.endDatetime', new Date());
+        set(stateClone, 'physicalLocationEvent.location', null);
+        set(stateClone, 'physicalLocationEvent.details', '');
+        set(stateClone, 'physicalLocationEvent.title', '');
+
+        // Phone Call Event
+        set(stateClone, 'physicalLocationEvent.startDatetime', new Date());
+        set(stateClone, 'physicalLocationEvent.endDatetime', new Date());
+        set(stateClone, 'physicalLocationEvent.phoneNumber', '');
+        set(stateClone, 'physicalLocationEvent.passCode', '');
+        set(stateClone, 'physicalLocationEvent.details', '');
+        set(stateClone, 'physicalLocationEvent.title', '');
+
+        // Video Chat Event
+        set(stateClone, 'videoChatEvent.startDatetime', new Date());
+        set(stateClone, 'videoChatEvent.endDatetime', new Date());
+        set(stateClone, 'videoChatEvent.meetingLink', '');
+        set(stateClone, 'videoChatEvent.details', '');
+        set(stateClone, 'videoChatEvent.title', '');
+
         return stateClone;
     },
     [actionTypes.RESET_APPFEEDBACK_FORM](state){

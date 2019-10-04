@@ -50,15 +50,14 @@ class Comments extends React.Component {
             onLongPress={(commentObject.userId !== this.props.loggedInUserId) ? noop() : () =>
                 ActionSheet.show(
                     {
-                    options: ['Edit', 'Delete', 'Cancel'],
-                    cancelButtonIndex: 2,
-                    destructiveButtonIndex: 1,
-                    title: "Action Sheet"
+                        options: ['Delete', 'Cancel'],
+                        cancelButtonIndex: 2,
+                        destructiveButtonIndex: 0,
+                        title: "Action Sheet"
                     },
                     buttonIndex => {
-                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
-                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
-                    else ActionSheet.hide() 
+                        if (buttonIndex === 0) this.props.deleteComment(commentObject.commentId)
+                        else ActionSheet.hide() 
                     }
                 )}
             >
@@ -95,15 +94,14 @@ class Comments extends React.Component {
             onLongPress={(commentObject.userId !== this.props.loggedInUserId) ? noop() : () =>
                 ActionSheet.show(
                     {
-                    options: ['Edit', 'Delete', 'Cancel'],
-                    cancelButtonIndex: 2,
-                    destructiveButtonIndex: 1,
-                    title: "Action Sheet"
+                        options: ['Delete', 'Cancel'],
+                        cancelButtonIndex: 2,
+                        destructiveButtonIndex: 0,
+                        title: "Action Sheet"
                     },
                     buttonIndex => {
-                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
-                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
-                    else ActionSheet.hide() 
+                        if (buttonIndex === 0) this.props.deleteComment(commentObject.commentId)
+                        else ActionSheet.hide() 
                     }
                 )}
             >

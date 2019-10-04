@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, Card, CardItem, Item, Textarea, Button, Input, Text, Picker, Icon } from 'native-base';
+import { Content, Card, CardItem, Item, Button, Text, Picker, Icon } from 'native-base';
 import get from 'lodash/get';
-import moment from 'moment';
 
-import formsSelector from '../selectors/forms';
 import eventSelector from '../selectors/events';
 
 import { connect } from 'react-redux';
@@ -27,11 +25,6 @@ const styles = StyleSheet.create({
 });
 
 class CreateEvent extends React.Component {
-
-    static navigationOptions = {
-        title: 'Open Invite',
-    };
-
     constructor(props){
         super(props);
         this.state = {
@@ -59,7 +52,7 @@ class CreateEvent extends React.Component {
             this.props.inputChange('event.details', existingEventDetails)
         }
         else{
-            this.props.resetEventForm();
+            this.props.resetEventForms();
         }
     }
 
@@ -153,14 +146,14 @@ class CreateEvent extends React.Component {
                 </Card>
                 <Button block warning onPress={() => {
                     if(existingEvent === undefined){
-                        this.props.createEvent();
+                        this.props.createEvent(this.state.eventType);
                     }
                     else{
-                        this.props.updateEvent(existingEvent.eventId, existingEvent.guestList);
+                        this.props.updateEvent(existingEvent.eventId, existingEvent.guestList, this.state.eventType);
                     }
                 }}>
                     <Text>
-                        {(existingEvent === undefined) ? 'Create Open Invite' : 'Save Changes'}
+                        {(existingEvent === undefined) ? 'Create' : 'Save'}
                     </Text>
                 </Button>
             </Content>
@@ -174,7 +167,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        event: formsSelector(state).event,
         newEventCreated: eventSelector(state).newEventCreated,
     }    
 }

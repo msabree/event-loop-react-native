@@ -35,8 +35,8 @@ class VideoChatEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Enter a short title`}
-                            value={get(this.props, 'event.title', '')}
-                            onChangeText={(value) => this.props.inputChange('event.title', value)}
+                            value={get(this.props, 'videoChatEvent.title', '')}
+                            onChangeText={(value) => this.props.inputChange('videoChatEvent.title', value)}
                         />
                     </Item>
                 </CardItem>
@@ -45,8 +45,8 @@ class VideoChatEvent extends React.Component {
                         <Input
                             placeholderTextColor={'#5d5d5d80'} 
                             placeholder={`Meeting Link`}
-                            value={get(this.props, 'event.meetingLink', '')}
-                            onChangeText={(value) => this.props.inputChange('event.meetingLink', value)}
+                            value={get(this.props, 'videoChatEvent.meetingLink', '')}
+                            onChangeText={(value) => this.props.inputChange('videoChatEvent.meetingLink', value)}
                         />
                     </Item>
                 </CardItem>
@@ -57,7 +57,7 @@ class VideoChatEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.startDatetime', new Date())}
+                            date={get(this.props, 'videoChatEvent.startDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
@@ -78,7 +78,7 @@ class VideoChatEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('videoChatEvent.startDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -90,11 +90,11 @@ class VideoChatEvent extends React.Component {
                     <Item regular>
                         <DatePicker
                             style={{width: 200}}
-                            date={get(this.props, 'event.endDatetime', new Date())}
+                            date={get(this.props, 'videoChatEvent.endDatetime', new Date())}
                             mode="datetime"
                             placeholder="select date"
                             format="MMM Do YY h:mm a"
-                            minDate={get(this.props, 'event.startDatetime', new Date())} // start time?
+                            minDate={get(this.props, 'videoChatEvent.startDatetime', new Date())} // start time?
                             maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} // one year in the future
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -111,7 +111,7 @@ class VideoChatEvent extends React.Component {
                             // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => {
-                                this.props.inputChange('event.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
+                                this.props.inputChange('videoChatEvent.endDatetime', new Date(moment(date, 'MMM Do YY h:mm a').format()));
                             }}
                         />
                     </Item>
@@ -119,10 +119,10 @@ class VideoChatEvent extends React.Component {
                 <CardItem transparent>
                     <Textarea 
                         style={styles.textArea} 
-                        value={get(this.props, 'event.details', '')}
+                        value={get(this.props, 'videoChatEvent.details', '')}
                         rowSpan={2} 
                         bordered
-                        onChangeText={(value) => { this.props.inputChange('event.details', value); }} 
+                        onChangeText={(value) => { this.props.inputChange('videoChatEvent.details', value); }} 
                         placeholder='Enter any event details here.' />
                 </CardItem>
             </Content>
@@ -136,7 +136,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        event: formsSelector(state).event,
+        videoChatEvent: formsSelector(state).videoChatEvent,
         newEventCreated: eventSelector(state).newEventCreated,
     }    
 }

@@ -65,12 +65,27 @@ export default {
         connected: '',
     },
     forms: {
-        event: {
+        physicalLocationEvent: {
             startDatetime: new Date(),
             endDatetime: new Date(),
             location: null, 
             details: '',
             title: '',
+        },
+        videoChatEvent: {
+            startDatetime: new Date(),
+            endDatetime: new Date(),
+            details: '',
+            title: '',
+            meetingLink: '',
+        },
+        phoneCallEvent: {
+            startDatetime: new Date(),
+            endDatetime: new Date(),
+            details: '',
+            title: '',
+            passCode: '',
+            phoneNumber: '',
         },
         appFeedback: {
             feedback: ''
