@@ -44,105 +44,24 @@ class Comments extends React.Component {
 
     getChatListItem(commentObject){
         if(commentObject.isCreator === true){
-            if (commentObject.userId === this.props.loggedInUserId){
-                return (
-                    <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
-                        onLongPress={() =>
-                            ActionSheet.show(
-                                {
-                                options: ['Edit', 'Delete', 'Cancel'],
-                                cancelButtonIndex: 2,
-                                destructiveButtonIndex: 1,
-                                title: "Action Sheet"
-                                },
-                                buttonIndex => {
-                                if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
-                                else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
-                                else ActionSheet.hide() 
-                                }
-                            )
-                        } 
-                    > 
-                        <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
-                            <TouchableOpacity onPress={() => {
-                                if(commentObject.userId === this.props.loggedInUserId){
-                                    this.props.navigation.navigate('Profile');
-                                }
-                                else{
-                                    this.props.showProfilePreviewModal(commentObject);
-                                }
-                            }}>
-                                <Thumbnail small source={{ uri: commentObject.profilePic }} />
-                            </TouchableOpacity>
-                            <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
-                                <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
-                                    {commentObject.comment}
-                                </Text>
-                            </Hyperlink>
-                        </Content>
-                        <Content>
-                            <Text style={{color: 'grey', fontSize: 12}}>
-                                {(commentObject.displayName === '') ? commentObject.username : commentObject.displayName}
-                            </Text>
-                        </Content>
-                        <Content>
-                            <Text style={{color: 'grey', fontSize: 12}}>{moment(commentObject.datetimePosted).format("MMM Do h:mm a")}</Text>
-                        </Content>
-                    </ListItem>
-                )
-            }
-            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}> 
-                <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={() => {
-                        if(commentObject.userId === this.props.loggedInUserId){
-                            this.props.navigation.navigate('Profile');
-                        }
-                        else{
-                            this.props.showProfilePreviewModal(commentObject);
-                        }
-                    }}>
-                        <Thumbnail small source={{ uri: commentObject.profilePic }} />
-                    </TouchableOpacity>
-                    <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
-                        <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
-                            {commentObject.comment}
-                        </Text>
-                    </Hyperlink>
-                </Content>
-                <Content>
-                    <Text style={{color: 'grey', fontSize: 12}}>
-                        {(commentObject.displayName === '') ? commentObject.username : commentObject.displayName}
-                    </Text>
-                </Content>
-                <Content>
-                    <Text style={{color: 'grey', fontSize: 12}}>{moment(commentObject.datetimePosted).format("MMM Do h:mm a")}</Text>
-                </Content>
-            </ListItem>
-        }
-        if (commentObject.userId === this.props.loggedInUserId){
             return (
-                <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
-                onLongPress={() =>
-                    ActionSheet.show(
+            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
+            onLongPress={() =>
+                ActionSheet.show(
                     {
-                        options: ['Edit', 'Delete', 'Cancel'],
-                        cancelButtonIndex: 2,
-                        destructiveButtonIndex: 1,
-                        title: "Action Sheet"
+                    options: ['Edit', 'Delete', 'Cancel'],
+                    cancelButtonIndex: 2,
+                    destructiveButtonIndex: 1,
+                    title: "Action Sheet"
                     },
                     buttonIndex => {
-                        if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
-                        else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
-                        else ActionSheet.hide() 
+                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
+                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
+                    else ActionSheet.hide() 
                     }
-                    )}
-                >
-                    <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
-                        <Hyperlink linkStyle={ { color: '#86BAFD', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
-                            <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
-                                {commentObject.comment}
-                            </Text>
-                        </Hyperlink>
+                )}
+            >
+                    <Content contentContainerStyle={{justifyContent: 'flex-start', flexDirection: 'row'}}>
                         <TouchableOpacity onPress={() => {
                             if(commentObject.userId === this.props.loggedInUserId){
                                 this.props.navigation.navigate('Profile');
@@ -151,8 +70,13 @@ class Comments extends React.Component {
                                 this.props.showProfilePreviewModal(commentObject);
                             }
                         }}>
-                            <Thumbnail small source={{ uri: commentObject.profilePic}} />
+                            <Thumbnail small source={{ uri: commentObject.profilePic }} />
                         </TouchableOpacity>
+                        <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
+                            <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
+                                {commentObject.comment}
+                            </Text>
+                        </Hyperlink>
                     </Content>
                     <Content>
                         <Text style={{color: 'grey', fontSize: 12}}>
@@ -164,9 +88,24 @@ class Comments extends React.Component {
                     </Content>
                 </ListItem>
             )
-        }    
+        }
         return (
-            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}>
+            <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
+            onLongPress={() =>
+                ActionSheet.show(
+                  {
+                    options: ['Edit', 'Delete', 'Cancel'],
+                    cancelButtonIndex: 2,
+                    destructiveButtonIndex: 1,
+                    title: "Action Sheet"
+                  },
+                  buttonIndex => {
+                    if (buttonIndex == 0) this.props.editComment(commentObject.commentId)
+                    else if (buttonIndex == 1) this.props.deleteComment(commentObject.commentId)
+                    else ActionSheet.hide() 
+                  }
+                )}
+            >
                 <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
                     <Hyperlink linkStyle={ { color: '#86BAFD', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                         <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
@@ -193,7 +132,7 @@ class Comments extends React.Component {
                     <Text style={{color: 'grey', fontSize: 12}}>{moment(commentObject.datetimePosted).format("MMM Do h:mm a")}</Text>
                 </Content>
             </ListItem>
-        )    
+        )
     }
 
     render() {
