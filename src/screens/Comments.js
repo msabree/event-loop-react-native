@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { StyleSheet, Linking, TouchableOpacity, View } from 'react-native';
 import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container, ActionSheet } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
@@ -17,6 +17,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    // profile: {
+    //     width: 100,
+    //     height: 100,
+    //     borderRadius: 50,
+    // },
+    noProfile: {
+        width: 36,
+        height: 36,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'grey'
+    }
 });
 
 class Comments extends React.Component {
@@ -25,6 +38,7 @@ class Comments extends React.Component {
         super(props);
         this.state = {
             comment: '',
+            profilePicLoading: {},
         }
     }
 
@@ -40,7 +54,42 @@ class Comments extends React.Component {
         this.props.clearComments();
     }
 
-    getChatListItem(commentObject){
+    getProfilePic(commentObject) {
+        const { userId, profilePic } = commentObject;
+
+        return (
+            <Thumbnail 
+                small
+                key={profilePic}
+                onLoadEnd={() => {
+                    const picLoading = this.state.profilePicLoading;
+                    picLoading[userId] = false;
+                    this.setState({
+                        profilePicLoading: picLoading
+                    })
+                }}
+                source={{uri: profilePic, cache:"default"}} 
+            />
+        )
+    }
+
+    getProfilePicPlaceholder(userId) {
+        if(this.state.profilePicLoading[userId] !== false){
+            return (
+                <View style={styles.noProfile}>
+                    <Text style={{color: '#fff'}}>
+                        {'EL'}
+                    </Text>
+                </View>
+                // <Thumbnail 
+                //     small
+                //     source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'}} 
+                // />
+            )
+        }
+    }
+
+    getChatListItem(commentObject) {
         if(commentObject.isCreator === true){
             return (
             <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
@@ -67,7 +116,9 @@ class Comments extends React.Component {
                                 this.props.showProfilePreviewModal(commentObject);
                             }
                         }}>
-                            <Thumbnail small source={{ uri: commentObject.profilePic }} />
+                            {this.getProfilePic(commentObject)}
+                            {this.getProfilePicPlaceholder(commentObject.userId)}
+                            {/* <Thumbnail small source={{ uri: commentObject.profilePic }} /> */}
                         </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
@@ -116,7 +167,9 @@ class Comments extends React.Component {
                             this.props.showProfilePreviewModal(commentObject);
                         }
                     }}>
-                        <Thumbnail small source={{ uri: commentObject.profilePic}} />
+                        {this.getProfilePic(commentObject)}
+                        {this.getProfilePicPlaceholder(commentObject.userId)}
+                        {/* <Thumbnail small source={{ uri: commentObject.profilePic }} /> */}
                     </TouchableOpacity>
                 </Content>
                 <Content>
