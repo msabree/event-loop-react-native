@@ -15,9 +15,11 @@ export const authenticationReducer = createReducer(applicationState.authenticati
         set(stateClone, 'verificationCodeRequested', false);
         return stateClone;
     },
-    [actionTypes.HERO_MODE](state){
+    [actionTypes.APP_STORE_REVIEW_MODE](state){
         const stateClone = cloneDeep(state);
-        // DEBUG SESSION 
+        // PROD TEST LOGIN
+        // USED FOR APP STORE REVIEW BY APPLE
+        // WE CAN JUST DISABLE THE SESSION TOKEN AFTER IT PASSES APP STORE REVIEW
         let sessionToken = '';
         if(Platform.OS === 'ios'){
             sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
@@ -26,7 +28,7 @@ export const authenticationReducer = createReducer(applicationState.authenticati
             sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_01'
         }
 
-        set(stateClone, 'heroMode', true);
+        set(stateClone, 'appStoreReviewMode', true);
         set(stateClone, 'sessionToken', sessionToken);
         set(stateClone, 'verificationCodeRequested', false);
         return stateClone;
@@ -34,7 +36,7 @@ export const authenticationReducer = createReducer(applicationState.authenticati
     [actionTypes.CLEARED_INVALID_SESSION](state){
         const stateClone = cloneDeep(state);
         set(stateClone, 'invalidSession', false);
-        set(stateClone, 'heroMode', false);
+        set(stateClone, 'appStoreReviewMode', false);
         set(stateClone, 'sessionToken', null);
         return stateClone;
     },

@@ -50,9 +50,11 @@ class Friends extends Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: () => {
+                    text: 'Yes', 
+                    onPress: () => {
                         this.props.respondToRequest(userId, false)
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},
@@ -70,9 +72,11 @@ class Friends extends Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: () => {
+                    text: 'Yes', 
+                    onPress: () => {
                         this.props.respondToRequest(userId, false)
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},
@@ -90,9 +94,11 @@ class Friends extends Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: () => {
+                    text: 'Yes', 
+                    onPress: () => {
                         this.props.respondToRequest(userId, true)
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},

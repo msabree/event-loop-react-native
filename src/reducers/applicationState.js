@@ -29,7 +29,7 @@ export default {
         }
     },
     authentication: {
-        heroMode: false,
+        appStoreReviewMode: false,
         invalidSession: false,
         sessionToken: null, // '' -> loading, null -> no session '<SESSIONTOKEN>' -> a session token was found
         phoneNumber: '',

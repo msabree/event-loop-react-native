@@ -47,9 +47,11 @@ class Settings extends Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: () => {
+                    text: 'Yes', 
+                    onPress: () => {
                         this.props.removeSession()
-                    }
+                    },
+                    style: 'destructive',
                 },
             ],
             {cancelable: false},

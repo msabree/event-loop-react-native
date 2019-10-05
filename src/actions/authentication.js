@@ -33,8 +33,8 @@ export const removeSession = () => async (dispatch) => {
 export const getSessionTokenFromLocalStorage = () => async (dispatch, getState) => {
 
     const authenticationState = authenticationSelector(getState());
-    const heroMode = get(authenticationState, 'heroMode', false);
-    if(heroMode){
+    const appStoreReviewMode = get(authenticationState, 'appStoreReviewMode', false);
+    if(appStoreReviewMode){
         return;
     }
 
@@ -102,17 +102,16 @@ export const requestVerificationCode = () => async (dispatch, getState) => {
         })
 
         if(phoneNumber.toString().trim() === '0000000000'){
-            // SUPERHERO MODE!!!!
-            // it's okay... this just unlocks a preview mode in develop
-            // to do: enable a db flag to turn this off
-            // or just change the number each time we release
-            
+            // TYPE IN 10 zeroes on the live version gets you into a test account
+            // PROD TEST LOGIN
+            // USED FOR APP STORE REVIEW BY APPLE
+            // WE CAN JUST DISABLE THE SESSION TOKEN AFTER IT PASSES APP STORE REVIEW 
             dispatch({
                 type: actionTypes.HIDE_SPINNER,
             })
 
             return dispatch({
-                type: actionTypes.HERO_MODE,
+                type: actionTypes.APP_STORE_REVIEW_MODE,
             })
         }
         api.post(`/users/verification/${phoneNumberParsed.number}`)

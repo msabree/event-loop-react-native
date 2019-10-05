@@ -55,11 +55,13 @@ class ProfilePreviewModal extends React.Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: async () => {
+                    text: 'Yes', 
+                    onPress: async () => {
                         await this.props.removeFriend(friendUserId);
                         this.props.closeProfilePreviewModal();
                         this.props.getEvents();
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},
@@ -77,10 +79,12 @@ class ProfilePreviewModal extends React.Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: () => {
+                    text: 'Yes', 
+                    onPress: () => {
                         this.props.respondToRequest(userId, false)
                         this.props.closeProfilePreviewModal();
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},
@@ -98,11 +102,13 @@ class ProfilePreviewModal extends React.Component {
                     style: 'cancel',
                 },
                 {
-                    text: 'Yes', onPress: async () => {
+                    text: 'Yes', 
+                    onPress: async () => {
                         await this.props.respondToRequest(userId, true)
                         this.props.closeProfilePreviewModal();
                         this.props.getEvents();
-                    }
+                    },
+                    style: 'destructive'
                 },
             ],
             {cancelable: false},
