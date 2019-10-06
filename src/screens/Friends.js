@@ -133,7 +133,7 @@ class Friends extends Component {
                         <Body>
                             <Text>{currFriend._displayName || currFriend._username || ''}</Text>
                             <Text note>Confirmed: {moment(currFriend.dateAdded).format("MMM Do YYYY")}</Text>
-                            <Text note>{' '}</Text>
+                            <Text note>{(currFriend.starred === true) ? 'Subscribed to new event posts' : 'Not subscribed to new event posts'}</Text>
                         </Body>
                         <Right>
                             <Button dark transparent onPress={() => { this.props.showProfilePreviewModal({
