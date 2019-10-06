@@ -1,13 +1,16 @@
 import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
 import React from 'react';
 import { StyleSheet, View, Image, Alert } from 'react-native';
-import { Button, Text, Icon, Content } from 'native-base';
+import { Button, Text, Icon } from 'native-base';
 
 import BasicModal from './BasicModal';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+
+import friendsSelector from '../selectors/friends';
 
 const styles = StyleSheet.create({
     center: {
@@ -158,14 +161,21 @@ class ProfilePreviewModal extends React.Component {
         }
     }
 
-    getFavoriteButton(friendStatus, isFavorite = false, friendUserId) {
+    getFavoriteButton(friendStatus, friendUserId) {
+
+        let isStarred = false;
+        const friendIndex = findIndex((this.props.current), (currentFriend) => currentFriend.friendUserId === friendUserId);
+        if(friendIndex !== -1){
+            isStarred = get(this.props.current[friendIndex], 'starred', false);
+        }
+
         if(friendStatus === 'current'){
             return (
                 <Button transparent dark onPress={() => {
-                    this.props.updateFavorite(!isFavorite, friendUserId)
+                    this.props.updateStarred(!isStarred, friendUserId)
                 }}>
                     {
-                        (isFavorite) ? <Icon name='star' style={styles.starIcon}/> : <Icon name='star-outline' style={styles.starIconOutline}/>
+                        (isStarred) ? <Icon name='star' style={styles.starIcon}/> : <Icon name='star-outline' style={styles.starIconOutline}/>
                     }
                 </Button>
             )
@@ -185,7 +195,7 @@ class ProfilePreviewModal extends React.Component {
                             source={{uri: get(this.props, 'profile.profilePic', '')}} 
                         />
                         <View>
-                            {this.getFavoriteButton(this.props.friendStatus, true, get(this.props, 'profile.userId', ''))}
+                            {this.getFavoriteButton(this.props.friendStatus, get(this.props, 'profile.userId', ''))}
                         </View>
                         <Text style={{marginBottom: 10}}>
                             {get(this.props, 'profile.displayName', '')}
@@ -211,7 +221,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        current: friendsSelector(state).current,
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePreviewModal);

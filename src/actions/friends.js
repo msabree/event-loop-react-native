@@ -244,6 +244,23 @@ export const closeProfilePreviewModal = () => (dispatch, getState) => {
     })   
 }
 
-export const updateFavorite = (isFavorite, friendUserId) => (dispatch, getState) => {
-    console.log(isFavorite, friendUserId)
+export const updateStarred = (starred = true, friendUserId) => (dispatch, getState) => {
+    const authenticationState = authenticationSelector(getState());
+    const sessionToken = get(authenticationState, 'sessionToken', '');
+
+    api.put(`/friends/${sessionToken}`, {
+        starred,
+        friendUserId
+    })
+    .then((apiResponse) => {
+        if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
+            return dispatch({
+                type: actionTypes.INVALID_SESSION,
+            })
+        }
+        return dispatch(getFriendsList())
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 }
