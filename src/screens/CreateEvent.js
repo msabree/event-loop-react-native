@@ -10,9 +10,9 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
 // Event Types
-import PhysicalLocationEvent from '../components/Events/PhysicalLocation';
-import VideoChatEvent from '../components/Events/VideoChat';
-import PhoneCallEvent from '../components/Events/PhoneCall';
+import PhysicalLocationEvent from '../components/EventCreate/PhysicalLocation';
+import VideoChatEvent from '../components/EventCreate/VideoChat';
+import PhoneCallEvent from '../components/EventCreate/PhoneCall';
 
 const styles = StyleSheet.create({
     center: {
