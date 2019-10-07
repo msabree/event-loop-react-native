@@ -171,10 +171,7 @@ class Home extends React.Component {
         }
         const imageWidth = Math.round(Dimensions.get('window').width * .9);
         const imageHeight = Math.round(imageWidth / 2);
-        const photos = get(itemLocation, 'photos', []).sort((imageA, imageB) => {
-            return (((imageHeight/imageWidth) - (imageB.height/imageB.width)) - ((imageHeight/imageWidth) - (imageA.height/imageA.width)))
-        });
-        console.log(photos)
+        const photos = get(itemLocation, 'photos', [])
         if(photos.length === 0){
             return (
                 <Image source={{
@@ -184,8 +181,8 @@ class Home extends React.Component {
         }
         return (
             <Image source={{
-                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=${imageHeight}&maxwidth=${imageWidth}&key=${GOOGLE_API_KEY}`
-            }} style={{height: imageHeight, width: imageWidth, borderRadius: 5, flex: 1}}/>
+                uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photos[0].photo_reference}&maxheight=${photos[0].height}&maxwidth=${photos[0].width}&key=${GOOGLE_API_KEY}`
+            }} style={{height: imageHeight, width: imageWidth, borderRadius: 5, flex: 1, resizeMode: 'center'}}/>
         )
     }
 
