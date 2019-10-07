@@ -133,7 +133,7 @@ class PhoneCallEvent extends React.Component {
                         rowSpan={2} 
                         bordered
                         onChangeText={(value) => { this.props.inputChange('phoneCallEvent.details', value); }} 
-                        placeholder='Enter any event details here.' />
+                        placeholder='Enter event details' />
                 </CardItem>
             </Content>
         )

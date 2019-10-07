@@ -123,7 +123,7 @@ class VideoChatEvent extends React.Component {
                         rowSpan={2} 
                         bordered
                         onChangeText={(value) => { this.props.inputChange('videoChatEvent.details', value); }} 
-                        placeholder='Enter any event details here.' />
+                        placeholder='Enter event detail' />
                 </CardItem>
             </Content>
         )

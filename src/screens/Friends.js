@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, Icon } from 'native-base';
+import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, Icon, Fab } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import moment from 'moment';
 import debounce from 'lodash/debounce';
@@ -227,7 +227,10 @@ class Friends extends Component {
 
     render() {
         return (
-            <Content style={{marginTop: 20}}>                    
+            <Content>    
+                <Button transparent dark onPress={() => this.props.navigation.navigate('Groups')}>
+                    <Text>Manage Groups</Text>
+                </Button>                
                 <Autocomplete
                     autoCapitalize='none'
                     autoCorrect={false}

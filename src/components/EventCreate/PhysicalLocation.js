@@ -49,7 +49,7 @@ class PhysicalLocationEvent extends React.Component {
                 <CardItem transparent>
                     <Item regular>
                         <GooglePlacesAutocomplete
-                            placeholder={get(this.props, 'physicalLocationEvent.location.name') || 'Search for address'}
+                            placeholder={get(this.props, 'physicalLocationEvent.location.name') || 'Search for address or location'}
                             minLength={2}
                             autoFocus={false}
                             returnKeyType={'default'}
@@ -162,7 +162,7 @@ class PhysicalLocationEvent extends React.Component {
                         rowSpan={2} 
                         bordered
                         onChangeText={(value) => { this.props.inputChange('physicalLocationEvent.details', value); }} 
-                        placeholder='Enter any event details here.' />
+                        placeholder='Enter event details' />
                 </CardItem>
             </Content>
         )

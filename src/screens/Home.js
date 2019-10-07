@@ -56,13 +56,6 @@ const styles = StyleSheet.create({
 });
 
 class Home extends React.Component {
-
-    static navigationOptions = {
-        header: {
-            visible: false
-        }
-    };
-
     componentDidMount() {
         if(this.props.sessionToken !== '' && this.props.sessionToken !== null){
             this.props.getEvents();

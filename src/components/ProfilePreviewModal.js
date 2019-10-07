@@ -205,7 +205,7 @@ class ProfilePreviewModal extends React.Component {
                         </Text>
                         <View style={styles.buttonBar}>
                             <Button dark transparent onPress={() => { this.props.onRequestClose() }}>
-                                <Text>Cancel</Text>
+                                <Text>Close</Text>
                             </Button>
                             {this.getActionButton(this.props.friendStatus, get(this.props, 'profile.userId', ''))}
                         </View>
