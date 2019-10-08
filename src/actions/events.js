@@ -6,7 +6,7 @@ import authenticationSelector from '../selectors/authentication';
 import usersSelector from '../selectors/users';
 import api from '../utils/api';
 
-export const createEvent = (eventType = 'location') => (dispatch, getState) => {
+export const saveEvent = (eventType = 'location', eventId = '', guestList = [], isUpdate = false) => (dispatch, getState) => {
     const sessionToken = get(authenticationSelector(getState()), 'sessionToken', '');
     let title = '';
     let details = '';
@@ -92,19 +92,34 @@ export const createEvent = (eventType = 'location') => (dispatch, getState) => {
         })
     }
     else{
-        api.post(`/events`, {
-            sessionToken,
-            location,
-            title,
-            details,
-            startDatetime,
-            endDatetime,
-            passCode,
-            phoneNumber,
-            meetingLink,
-            eventType,
-        })
-        .then((apiResponse) => {
+        let apiCall = null;
+        if(isUpdate === true){
+            apiCall = api.put(`/events/${eventId}`, {
+                sessionToken,
+                location,
+                title,
+                details,
+                startDatetime,
+                endDatetime,
+                guestList,
+            })
+        }
+        else{
+            apiCall = api.post(`/events`, {
+                sessionToken,
+                location,
+                title,
+                details,
+                startDatetime,
+                endDatetime,
+                passCode,
+                phoneNumber,
+                meetingLink,
+                eventType,
+            })
+        }
+
+        apiCall.then((apiResponse) => {
             if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
                 return dispatch({
                     type: actionTypes.INVALID_SESSION,
@@ -113,7 +128,7 @@ export const createEvent = (eventType = 'location') => (dispatch, getState) => {
 
             if(apiResponse.success === true){
                 Toast.show({
-                    text: 'Event was created successfully!',
+                    text: (isUpdate === true) ? 'Event was updated successfully!' : 'Event was created successfully!',
                     buttonText: 'Close',
                     type: 'success',
                     duration: 3000,
@@ -125,7 +140,7 @@ export const createEvent = (eventType = 'location') => (dispatch, getState) => {
             }
             else{
                 Toast.show({
-                    text: 'Unable to create event. Please try again later.',
+                    text: (isUpdate === true) ? 'Unable to update event. Please try again later.' : 'Unable to create event. Please try again later.',
                     buttonText: 'Close',
                     type: 'warning',
                     duration: 5000,
@@ -135,97 +150,7 @@ export const createEvent = (eventType = 'location') => (dispatch, getState) => {
         .catch((err) => {
             console.log(err);
             Toast.show({
-                text: 'Unhandled error. Unable to create event. Please try again later.',
-                buttonText: 'Close',
-                type: 'warning',
-                duration: 5000,
-            })
-        })
-    }
-}
-
-export const updateEvent = (eventId, guestList = []) => (dispatch, getState) => {
-    const sessionToken = get(authenticationSelector(getState()), 'sessionToken', '');
-    const {
-        location = null, 
-        details = '', 
-        title = '', 
-        startDatetime = new Date(),
-        endDatetime = new Date(),
-    } = get(formsSelector(getState()), 'event', {});
-
-    if(location === null){
-        Toast.show({
-            text: 'Use the autocomplete to select an address or specific location.',
-            buttonText: 'Close',
-            type: 'warning',
-            duration: 5000,
-        })
-    }
-    else if(title === ''){
-        Toast.show({
-            text: 'Enter a title for this event.',
-            buttonText: 'Close',
-            type: 'warning',
-            duration: 5000,
-        })
-    }
-    else if(new Date(startDatetime) >= new Date(endDatetime)){
-        Toast.show({
-            text: 'The end date time must be after the start date time.',
-            buttonText: 'Close',
-            type: 'warning',
-            duration: 5000,
-        })
-    }
-    else if(new Date() > new Date(startDatetime)){
-        Toast.show({
-            text: 'The start time must be in the future.',
-            buttonText: 'Close',
-            type: 'warning',
-            duration: 5000,
-        })
-    }
-    else{
-        api.put(`/events/${eventId}`, {
-            sessionToken,
-            location,
-            title,
-            details,
-            startDatetime,
-            endDatetime,
-            guestList,
-        })
-        .then((apiResponse) => {
-            if(get(apiResponse, 'message', '').toLowerCase() === 'invalid session.'){
-                return dispatch({
-                    type: actionTypes.INVALID_SESSION,
-                })
-            }
-
-            if(apiResponse.success === true){
-                Toast.show({
-                    text: 'Event was updated successfully!',
-                    buttonText: 'Close',
-                    type: 'success',
-                    duration: 3000,
-                })
-            }
-            else{
-                Toast.show({
-                    text: 'Unable to update event. Please try again later.',
-                    buttonText: 'Close',
-                    type: 'warning',
-                    duration: 5000,
-                })
-            }
-    
-            dispatch(getEvents())
-        })
-        .catch((err) => {
-            console.log(err);
-            Toast.show({
-                text: 'Unhandled error. Unable to update event. Please try again later.',
+                text: (isUpdate === true) ? 'Unhandled error. Unable to update event. Please try again later.' : 'Unhandled error. Unable to create event. Please try again later.',
                 buttonText: 'Close',
                 type: 'warning',
                 duration: 5000,

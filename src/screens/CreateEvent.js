@@ -45,11 +45,11 @@ class CreateEvent extends React.Component {
             const existingEventDetails = get(existingEvent, 'details', '');
 
             // Fire updates
-            this.props.inputChange('event.title', existingEventTitle)
-            this.props.inputChange('event.location', existingEventLocation);
-            this.props.inputChange('event.startDatetime', new Date(existingEventStartDatetime));
-            this.props.inputChange('event.endDatetime', new Date(existingEventEndDatetime));
-            this.props.inputChange('event.details', existingEventDetails)
+            this.props.inputChange('physicalLocationEvent.title', existingEventTitle)
+            this.props.inputChange('physicalLocationEvent.location', existingEventLocation);
+            this.props.inputChange('physicalLocationEvent.startDatetime', new Date(existingEventStartDatetime));
+            this.props.inputChange('physicalLocationEvent.endDatetime', new Date(existingEventEndDatetime));
+            this.props.inputChange('physicalLocationEvent.details', existingEventDetails)
         }
         else{
             this.props.resetEventForms();
@@ -120,7 +120,7 @@ class CreateEvent extends React.Component {
                     this.getDeleteButton(existingEvent)
                 }
                 <Card transparent>
-                    <CardItem transparent>
+                    {/* <CardItem transparent>
                         <Item picker>
                             <Picker
                                 mode="dropdown"
@@ -141,15 +141,15 @@ class CreateEvent extends React.Component {
                                 <Picker.Item label='Video Chat' value='video' />
                             </Picker>
                         </Item>
-                    </CardItem>
+                    </CardItem> */}
                     {this.getEventContent()}
                 </Card>
                 <Button block warning onPress={() => {
                     if(existingEvent === undefined){
-                        this.props.createEvent(this.state.eventType);
+                        this.props.saveEvent(this.state.eventType);
                     }
                     else{
-                        this.props.updateEvent(existingEvent.eventId, existingEvent.guestList, this.state.eventType);
+                        this.props.saveEvent(this.state.eventType, existingEvent.eventId, existingEvent.guestList, true);
                     }
                 }}>
                     <Text>
