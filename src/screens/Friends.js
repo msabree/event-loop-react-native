@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Segment, Button, Icon, Fab } from 'native-base';
+import { Content, List, ListItem, Left, Body, Right, Text, Segment, Button, Icon } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import moment from 'moment';
 import debounce from 'lodash/debounce';
+
+import UserProfilePicture from '../components/UserProfilePicture';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,6 +24,10 @@ const styles = StyleSheet.create({
     autocompleteContainer: {
         marginLeft: 10,
         marginRight: 10,
+    },
+    thumbnail: {
+        width: 60,
+        height: 60,
     },
     inputContainerStyle: {}
 });
@@ -128,7 +134,7 @@ class Friends extends Component {
                         userId: currFriend.friendUserId,
                     }, true) }}>
                         <Left>
-                            <Thumbnail source={{ uri: currFriend._profilePic }} />
+                            <UserProfilePicture profile={{userId: currFriend.friendUserId, profilePic: currFriend._profilePic}} style={styles.thumbnail}/>
                         </Left>
                         <Body>
                             <Text>{currFriend._displayName || currFriend._username || ''}</Text>
@@ -157,7 +163,7 @@ class Friends extends Component {
                 return (
                     <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
                         <Left>
-                            <Thumbnail source={{ uri: currRequest._profilePic }} />
+                            <UserProfilePicture profile={{userId: currRequest.requestorUserId, profilePic: currRequest._profilePic}} style={styles.thumbnail}/>
                         </Left>
                         <Body>
                             <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
@@ -183,7 +189,7 @@ class Friends extends Component {
                 return (
                     <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
                         <Left>
-                            <Thumbnail source={{ uri: currRequest._profilePic }} />
+                            <UserProfilePicture profile={{userId: currRequest.userId, profilePic: currRequest._profilePic}} style={styles.thumbnail}/>
                         </Left>
                         <Body>
                             <Text>{currRequest._displayName || currRequest._username || 'Jane Doe'}</Text>
@@ -253,10 +259,10 @@ class Friends extends Component {
                             hideAutoComplete: false,
                         })
                     }}
-                    renderItem={({ item, i }) => (
+                    renderItem={({ item, index }) => (
                         <ListItem avatar>
                             <Left>
-                                <Thumbnail source={{uri: item.pic}} />
+                                <UserProfilePicture profile={{userId: `${new Date().getTime()} - ${index}`, profilePic: item.pic}} style={styles.thumbnail}/>
                             </Left>
                             <Body>
                                 <Text>{item.username}</Text>

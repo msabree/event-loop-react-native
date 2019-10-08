@@ -42,11 +42,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     headerProfilePic: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        borderWidth: 0,
-        borderColor: 'grey',
+        width: 60,
+        height: 60,
     },
 });
 
@@ -86,7 +83,7 @@ class Home extends React.Component {
                         <TouchableOpacity onPress={() => {
                             this.props.showProfilePreviewModal(item.associatedUserProfile, true);
                         }}>
-                            <UserProfilePicture profile={item.associatedUserProfile} style={this.props.headerProfilePic}/>
+                            <UserProfilePicture profile={item.associatedUserProfile} style={styles.headerProfilePic}/>
                         </TouchableOpacity>
                         <Body>
                             <Text note>Host: {item.associatedUserProfile.displayName || item.associatedUserProfile.username}</Text>

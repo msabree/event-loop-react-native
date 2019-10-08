@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
         width: 160,
         height: 160,
         borderRadius: 80,
-        borderWidth: 1,
-        borderColor: 'grey',
         marginTop: 30,
     },
     buttonBar: {
