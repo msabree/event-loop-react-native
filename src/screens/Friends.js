@@ -234,9 +234,9 @@ class Friends extends Component {
     render() {
         return (
             <Content>    
-                <Button transparent dark onPress={() => this.props.navigation.navigate('Groups')}>
+                {/* <Button transparent dark onPress={() => this.props.navigation.navigate('Groups')}>
                     <Text>Manage Groups</Text>
-                </Button>                
+                </Button>                 */}
                 <Autocomplete
                     autoCapitalize='none'
                     autoCorrect={false}
