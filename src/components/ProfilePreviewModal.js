@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
 });
 
-class ProfilePreviewModal extends React.Component {
+class ProfilePreviewModal extends React.PureComponent {
     
     confirmRemoveFriend(friendUserId) {
         Alert.alert(

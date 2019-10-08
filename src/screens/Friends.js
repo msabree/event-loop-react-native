@@ -125,9 +125,9 @@ class Friends extends Component {
 
     getCurrent() {
         return (
-            this.props.current.map((currFriend, index) => {
+            this.props.current.map((currFriend) => {
                 return (
-                    <ListItem avatar key={`${new Date().getTime()} - ${index}`} onPress={() => { this.props.showProfilePreviewModal({
+                    <ListItem avatar key={currFriend.friendUserId} onPress={() => { this.props.showProfilePreviewModal({
                         profilePic: currFriend._profilePic,
                         username: currFriend._username,
                         displayName: currFriend._displayName,
@@ -161,7 +161,7 @@ class Friends extends Component {
         return (
             this.props.requests.map((currRequest, index) => {
                 return (
-                    <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
+                    <ListItem avatar key={currRequest.requestorUserId}>
                         <Left>
                             <UserProfilePicture profile={{userId: currRequest.requestorUserId, profilePic: currRequest._profilePic}} style={styles.thumbnail}/>
                         </Left>
@@ -185,9 +185,9 @@ class Friends extends Component {
 
     getSentRequests() {
         return (
-            this.props.sentRequests.map((currRequest, index) => {
+            this.props.sentRequests.map((currRequest) => {
                 return (
-                    <ListItem avatar key={`${new Date().getTime()} - ${index}`}>
+                    <ListItem avatar key={currRequest.userId}>
                         <Left>
                             <UserProfilePicture profile={{userId: currRequest.userId, profilePic: currRequest._profilePic}} style={styles.thumbnail}/>
                         </Left>
@@ -233,7 +233,7 @@ class Friends extends Component {
 
     render() {
         return (
-            <Content>    
+            <Content style={{marginTop: 20}}>    
                 {/* <Button transparent dark onPress={() => this.props.navigation.navigate('Groups')}>
                     <Text>Manage Groups</Text>
                 </Button>                 */}
