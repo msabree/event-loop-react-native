@@ -102,6 +102,10 @@ export const saveEvent = (eventType = 'location', eventId = '', guestList = [], 
                 startDatetime,
                 endDatetime,
                 guestList,
+                passCode,
+                phoneNumber,
+                meetingLink,
+                eventType,
             })
         }
         else{
