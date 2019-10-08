@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Linking, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container, ActionSheet } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
@@ -56,11 +56,13 @@ class Comments extends React.Component {
 
     getProfilePic(commentObject) {
         const { userId, profilePic } = commentObject;
-
+        const profilePicObj = {uri: profilePic, cache:"default"};
+        const defaultPic = require('../images/default_profile_pic.png')
+        const picSource = this.state.profilePicLoading[userId] !== false ? defaultPic : profilePicObj
+        
         return (
             <Thumbnail 
                 small
-                key={profilePic}
                 onLoadEnd={() => {
                     const picLoading = this.state.profilePicLoading;
                     picLoading[userId] = false;
@@ -68,25 +70,9 @@ class Comments extends React.Component {
                         profilePicLoading: picLoading
                     })
                 }}
-                source={{uri: profilePic, cache:"default"}} 
+                source={picSource} 
             />
         )
-    }
-
-    getProfilePicPlaceholder(userId) {
-        if(this.state.profilePicLoading[userId] !== false){
-            return (
-                <View style={styles.noProfile}>
-                    <Text style={{color: '#fff'}}>
-                        {'EL'}
-                    </Text>
-                </View>
-                // <Thumbnail 
-                //     small
-                //     source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'}} 
-                // />
-            )
-        }
     }
 
     getChatListItem(commentObject) {
@@ -117,8 +103,6 @@ class Comments extends React.Component {
                             }
                         }}>
                             {this.getProfilePic(commentObject)}
-                            {this.getProfilePicPlaceholder(commentObject.userId)}
-                            {/* <Thumbnail small source={{ uri: commentObject.profilePic }} /> */}
                         </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
@@ -168,8 +152,6 @@ class Comments extends React.Component {
                         }
                     }}>
                         {this.getProfilePic(commentObject)}
-                        {this.getProfilePicPlaceholder(commentObject.userId)}
-                        {/* <Thumbnail small source={{ uri: commentObject.profilePic }} /> */}
                     </TouchableOpacity>
                 </Content>
                 <Content>
