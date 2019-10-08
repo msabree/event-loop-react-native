@@ -1,10 +1,11 @@
 import get from 'lodash/get';
 import findIndex from 'lodash/findIndex';
 import React from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { Button, Text, Icon } from 'native-base';
 
 import BasicModal from './BasicModal';
+import UserProfilePicture from './UserProfilePicture';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -190,10 +191,7 @@ class ProfilePreviewModal extends React.Component {
                 onRequestClose={() => { this.props.onRequestClose() }}
                 content={
                     <View style={styles.center}>
-                        <Image
-                            style={styles.profile}
-                            source={{uri: get(this.props, 'profile.profilePic', '')}} 
-                        />
+                        <UserProfilePicture profile={this.props.profile} style={styles.profile} />
                         <View>
                             {this.getFavoriteButton(this.props.friendStatus, get(this.props, 'profile.userId', ''))}
                         </View>
