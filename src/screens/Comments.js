@@ -76,7 +76,7 @@ class Comments extends React.Component {
                             <UserProfilePicture profile={commentObject} style={styles.thumbnail}/>
                         </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
-                            <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
+                            <Text style={{minWidth: 250, maxWidth: 290, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
                                 {commentObject.comment}
                             </Text>
                         </Hyperlink>
@@ -110,7 +110,7 @@ class Comments extends React.Component {
             >
                 <Content contentContainerStyle={{justifyContent: 'flex-end', flexDirection: 'row'}}>
                     <Hyperlink linkStyle={ { color: '#86BAFD', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
-                        <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
+                        <Text style={{minWidth: 250, maxWidth: 290, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'grey', color: '#fff', borderRadius: 10, }}>
                             {commentObject.comment}
                         </Text>
                     </Hyperlink>

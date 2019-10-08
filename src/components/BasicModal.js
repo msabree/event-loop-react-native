@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 export default class BasicModal extends React.Component {
     render() {
         return (
-            <Modal animationType="slide" transparent={true} visible={this.props.isOpen} onRequestClose={() => {
+            <Modal animationType="none" transparent={true} visible={this.props.isOpen} onRequestClose={() => {
                 this.props.onRequestClose();
             }}>
                 <View style={styles.outerContainer}>
