@@ -17,6 +17,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    // profile: {
+    //     width: 100,
+    //     height: 100,
+    //     borderRadius: 50,
+    // },
+    noProfile: {
+        width: 36,
+        height: 36,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'grey'
+    }
 });
 
 class Comments extends React.Component {
@@ -25,6 +38,7 @@ class Comments extends React.Component {
         super(props);
         this.state = {
             comment: '',
+            profilePicLoading: {},
         }
     }
 
@@ -40,7 +54,28 @@ class Comments extends React.Component {
         this.props.clearComments();
     }
 
-    getChatListItem(commentObject){
+    getProfilePic(commentObject) {
+        const { userId, profilePic } = commentObject;
+        const profilePicObj = {uri: profilePic, cache:"default"};
+        const defaultPic = require('../images/default_profile_pic.png')
+        const picSource = this.state.profilePicLoading[userId] !== false ? defaultPic : profilePicObj
+        
+        return (
+            <Thumbnail 
+                small
+                onLoadEnd={() => {
+                    const picLoading = this.state.profilePicLoading;
+                    picLoading[userId] = false;
+                    this.setState({
+                        profilePicLoading: picLoading
+                    })
+                }}
+                source={picSource} 
+            />
+        )
+    }
+
+    getChatListItem(commentObject) {
         if(commentObject.isCreator === true){
             return (
             <ListItem style={{flexDirection: 'column'}} key={commentObject.commentId}
@@ -67,7 +102,7 @@ class Comments extends React.Component {
                                 this.props.showProfilePreviewModal(commentObject);
                             }
                         }}>
-                            <Thumbnail small source={{ uri: commentObject.profilePic }} />
+                            {this.getProfilePic(commentObject)}
                         </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
@@ -116,7 +151,7 @@ class Comments extends React.Component {
                             this.props.showProfilePreviewModal(commentObject);
                         }
                     }}>
-                        <Thumbnail small source={{ uri: commentObject.profilePic}} />
+                        {this.getProfilePic(commentObject)}
                     </TouchableOpacity>
                 </Content>
                 <Content>
