@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import { Content, List, ListItem, Input, Thumbnail, Text, Item, Button, Container, ActionSheet } from 'native-base';
+import { Content, List, ListItem, Input, Text, Item, Button, Container, ActionSheet } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
-import noop from 'lodash/noop'
+import noop from 'lodash/noop';
+
+import UserProfilePicture from '../components/UserProfilePicture';
 
 import eventsSelector from '../selectors/events';
 import usersSelector from '../selectors/users';
@@ -17,19 +19,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // profile: {
-    //     width: 100,
-    //     height: 100,
-    //     borderRadius: 50,
-    // },
-    noProfile: {
-        width: 36,
-        height: 36,
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'grey'
-    }
+    thumbnail: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 0,
+        borderColor: 'grey',
+    },
 });
 
 class Comments extends React.Component {
@@ -38,7 +34,6 @@ class Comments extends React.Component {
         super(props);
         this.state = {
             comment: '',
-            profilePicLoading: {},
         }
     }
 
@@ -52,27 +47,6 @@ class Comments extends React.Component {
 
     componentWillUnmount() {
         this.props.clearComments();
-    }
-
-    getProfilePic(commentObject) {
-        const { userId, profilePic } = commentObject;
-        const profilePicObj = {uri: profilePic, cache:"default"};
-        const defaultPic = require('../images/default_profile_pic.png')
-        const picSource = this.state.profilePicLoading[userId] !== false ? defaultPic : profilePicObj
-        
-        return (
-            <Thumbnail 
-                small
-                onLoadEnd={() => {
-                    const picLoading = this.state.profilePicLoading;
-                    picLoading[userId] = false;
-                    this.setState({
-                        profilePicLoading: picLoading
-                    })
-                }}
-                source={picSource} 
-            />
-        )
     }
 
     getChatListItem(commentObject) {
@@ -102,7 +76,7 @@ class Comments extends React.Component {
                                 this.props.showProfilePreviewModal(commentObject);
                             }
                         }}>
-                            {this.getProfilePic(commentObject)}
+                            <UserProfilePicture profile={commentObject} style={styles.thumbnail}/>
                         </TouchableOpacity>
                         <Hyperlink linkStyle={ { color: '#21579E', textDecorationLine: 'underline' } } onPress={ (url) => Linking.openURL(url) }>
                             <Text style={{minWidth: 250, maxWidth: 310, marginLeft: 10, marginRight: 10, padding: 10, backgroundColor: 'orange', color: '#fff', borderRadius: 10, }}>
@@ -151,7 +125,7 @@ class Comments extends React.Component {
                             this.props.showProfilePreviewModal(commentObject);
                         }
                     }}>
-                        {this.getProfilePic(commentObject)}
+                        <UserProfilePicture profile={commentObject} style={styles.thumbnail}/>
                     </TouchableOpacity>
                 </Content>
                 <Content>

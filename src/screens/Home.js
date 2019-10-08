@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, Image, Platform, Linking, Alert, FlatList, Dimensions, TouchableOpacity } from 'react-native';
-import { Text, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
+import { Text, Card, CardItem, Button, Icon, Left, Body, Fab, Container, H3, Badge, Picker } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
 import firebase from 'react-native-firebase';
+
+import UserProfilePicture from '../components/UserProfilePicture';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -38,13 +40,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-    },
-    profilePic: {
-        width: 140,
-        height: 140,
-        borderRadius: 70,
-        borderWidth: 0,
-        borderColor: 'grey',
     },
     headerProfilePic: {
         width: 50,
@@ -91,7 +86,7 @@ class Home extends React.Component {
                         <TouchableOpacity onPress={() => {
                             this.props.showProfilePreviewModal(item.associatedUserProfile, true);
                         }}>
-                            <Thumbnail source={{uri: item.associatedUserProfile.profilePic}} />
+                            <UserProfilePicture profile={item.associatedUserProfile} style={this.props.headerProfilePic}/>
                         </TouchableOpacity>
                         <Body>
                             <Text note>Host: {item.associatedUserProfile.displayName || item.associatedUserProfile.username}</Text>

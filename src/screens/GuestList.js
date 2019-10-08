@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Button } from 'native-base';
+import { Content, List, ListItem, Left, Body, Right, Text, Button } from 'native-base';
 import get from 'lodash/get';
 import moment from 'moment';
+
+import UserProfilePicture from '../components/UserProfilePicture';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,6 +17,13 @@ const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    thumbnail: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        borderWidth: 0,
+        borderColor: 'grey',
     },
 });
 
@@ -86,7 +95,7 @@ class GuestList extends React.Component {
                                                 this.props.showProfilePreviewModal(guest.profile);
                                             }
                                         }}>
-                                            <Thumbnail source={{ uri: get(guest, 'profile.profilePic', '') }} />
+                                            <UserProfilePicture profile={guest.profile} style={styles.thumbnail}/>
                                         </TouchableOpacity>
                                     </Left>
                                     <Body>
