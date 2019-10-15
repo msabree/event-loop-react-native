@@ -136,7 +136,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 15
         versionName "1.5"
-        multiDexEnabled true
+        multiDexEnabled false
     }
     signingConfigs {
         release {

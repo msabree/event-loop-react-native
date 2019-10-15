@@ -4,7 +4,6 @@ import { Text, Card, CardItem, Button, Icon, Left, Body, Fab, Container, H3, Bad
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
-import firebase from 'react-native-firebase';
 
 import UserProfilePicture from '../components/UserProfilePicture';
 
@@ -20,16 +19,6 @@ import notificationsSelector from '../selectors/notifications';
 import authenticationSelector from '../selectors/authentication';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
-
-const Banner = firebase.admob.Banner;
-const AdRequest = firebase.admob.AdRequest;
-const request = new AdRequest();
-
-request.addKeyword('events');
-request.addKeyword('social');
-request.addKeyword('party');
-request.addKeyword('nightlife');
-request.addKeyword('dining');
 
 const styles = StyleSheet.create({
     center: {
@@ -260,11 +249,6 @@ class Home extends React.Component {
                         }}
                         keyExtractor={item => item.eventId}
                     />
-                    {/* <Banner
-                        unitId={this.getBannerUnitId()}
-                        size={'FULL_BANNER'}
-                        request={request.build()}
-                    /> */}
                 </Container>
             )
         }
