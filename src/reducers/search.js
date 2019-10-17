@@ -7,10 +7,10 @@ import * as actionTypes from '../constants/actionTypes';
 import applicationState from './applicationState';
 
 export const searchReducer = createReducer(applicationState.search, {
-    [actionTypes.UPDATED_SEARCH_SUGGESTIONS](state, action){
-        const stateClone = cloneDeep(state);
-        const suggestions = get(action.payload, 'suggestions', []);
-        set(stateClone, 'suggestions', suggestions.slice(0, 5));
-        return stateClone;
-    },
+  [actionTypes.UPDATED_SEARCH_SUGGESTIONS](state, action) {
+    const stateClone = cloneDeep(state);
+    const suggestions = get(action.payload, 'suggestions', []);
+    set(stateClone, 'suggestions', suggestions.slice(0, 5));
+    return stateClone;
+  },
 });

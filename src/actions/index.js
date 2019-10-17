@@ -9,15 +9,16 @@ import * as AlexaActions from './alexa';
 import * as NotificationsActions from './notifications';
 import * as SearchActions from './search';
 
-export const ActionCreators = Object.assign({}, 
-    TabActions,
-    FormActions,
-    SpinnerActions,
-    AuthenticationActions,
-    EventActions,
-    FriendsActions,
-    UsersActions,
-    AlexaActions,
-    NotificationsActions,
-    SearchActions,
+export const ActionCreators = Object.assign(
+  {},
+  TabActions,
+  FormActions,
+  SpinnerActions,
+  AuthenticationActions,
+  EventActions,
+  FriendsActions,
+  UsersActions,
+  AlexaActions,
+  NotificationsActions,
+  SearchActions,
 );
