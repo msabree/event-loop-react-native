@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Container } from 'native-base';
-import { StackActions, NavigationActions } from 'react-navigation';
+import React, {Component} from 'react';
+import {Container} from 'native-base';
+import {StackActions, NavigationActions} from 'react-navigation';
 
 import EnterPhoneNumber from '../screens/EnterPhoneNumber';
 import EnterVerificationCode from '../screens/EnterVerificationCode';
@@ -8,117 +8,125 @@ import EnterVerificationCode from '../screens/EnterVerificationCode';
 import Loading from '../components/Loading';
 import SpinnerModal from '../components/SpinnerModal';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {ActionCreators} from '../actions';
 
 import authenticationSelector from '../selectors/authentication';
 import spinnerSelector from '../selectors/spinner';
 
 class AuthenticationContainer extends Component {
-    
-    static navigationOptions = {
-        header: null,
-    };
+  static navigationOptions = {
+    header: null,
+  };
 
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
+  }
+
+  async componentDidMount() {
+    if (this.props.invalidSession === true) {
+      this.props.removeSession();
+    } else {
+      await this.props.getSessionTokenFromLocalStorage();
+      this.props.getLoggedInUserInfo();
     }
+  }
 
-    async componentDidMount() {
-        if(this.props.invalidSession === true){
-            this.props.removeSession();
+  componentDidUpdate() {
+    if (this.props.sessionToken !== '' && this.props.sessionToken !== null) {
+      // remove authentication screen from stack history
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({routeName: 'Tabs'})],
+      });
+      this.props.navigation.dispatch(resetAction);
+    }
+  }
+
+  getContent() {
+    if (this.props.sessionToken === '') {
+      return <Loading />;
+    } else if (this.props.verificationCodeRequested === false) {
+      return (
+        <EnterPhoneNumber
+          phoneNumber={this.props.phoneNumber}
+          changedPhoneNumberText={phoneNumber =>
+            this.changedPhoneNumberText(phoneNumber)
+          }
+          requestVerificationCode={() => this.requestVerificationCode()}
+        />
+      );
+    } else if (this.props.verificationCodeRequested === true) {
+      return (
+        <EnterVerificationCode
+          verificationCode={this.props.verificationCode}
+          changedVerificationCodeText={verificationCode =>
+            this.changedVerificationCodeText(verificationCode)
+          }
+          verifyPhoneNumber={() => this.verifyPhoneNumber()}
+        />
+      );
+    }
+    return (
+      <EnterPhoneNumber
+        phoneNumber={this.props.phoneNumber}
+        changedPhoneNumberText={phoneNumber =>
+          this.changedPhoneNumberText(phoneNumber)
         }
-        else{
-            await this.props.getSessionTokenFromLocalStorage();
-            this.props.getLoggedInUserInfo();
-        }
-    }
+        requestVerificationCode={() => this.requestVerificationCode()}
+      />
+    );
+  }
 
-    componentDidUpdate() {
-        if(this.props.sessionToken !== '' && this.props.sessionToken !== null){
-            // remove authentication screen from stack history
-            const resetAction = StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
-            });
-            this.props.navigation.dispatch(resetAction);
-        }
-    }
+  changedPhoneNumberText(phoneNumber) {
+    this.props.changedPhoneNumberText(phoneNumber);
+  }
 
-    getContent() {
-        if(this.props.sessionToken === ''){
-            return (
-                <Loading/>
-            )
-        }
-        else if(this.props.verificationCodeRequested === false){
-            return (
-                <EnterPhoneNumber 
-                    phoneNumber={this.props.phoneNumber} 
-                    changedPhoneNumberText={(phoneNumber) => this.changedPhoneNumberText(phoneNumber)}
-                    requestVerificationCode={() => this.requestVerificationCode()}
-                />
-            )
-        }
-        else if(this.props.verificationCodeRequested === true){
-            return (
-                <EnterVerificationCode 
-                    verificationCode={this.props.verificationCode} 
-                    changedVerificationCodeText={(verificationCode) => this.changedVerificationCodeText(verificationCode)}
-                    verifyPhoneNumber={() => this.verifyPhoneNumber()}
-                />
-            )
-        }
-        return (
-            <EnterPhoneNumber 
-                phoneNumber={this.props.phoneNumber} 
-                changedPhoneNumberText={(phoneNumber) => this.changedPhoneNumberText(phoneNumber)}
-                requestVerificationCode={() => this.requestVerificationCode()}
-            />
-        )
-    }
+  changedVerificationCodeText(verificationCode) {
+    this.props.changedVerificationCodeText(verificationCode);
+  }
 
-    changedPhoneNumberText(phoneNumber) {
-        this.props.changedPhoneNumberText(phoneNumber);
-    }
+  requestVerificationCode() {
+    this.props.requestVerificationCode();
+  }
 
-    changedVerificationCodeText(verificationCode) {
-        this.props.changedVerificationCodeText(verificationCode);
-    }
+  verifyPhoneNumber() {
+    this.props.verifyPhoneNumber();
+  }
 
-    requestVerificationCode() {
-        this.props.requestVerificationCode();
-    }
-
-    verifyPhoneNumber() {
-        this.props.verifyPhoneNumber();
-    }
-
-    render() {
-        return (
-            <Container style={{backgroundColor: '#f58b07d6'}}>
-                {this.getContent()}
-                <SpinnerModal hideSpinner={this.props.hideSpinner} visible={this.props.spinnerVisible} message={this.props.spinnerMessage} />
-            </Container>
-        );
-    }
+  render() {
+    return (
+      <Container style={{backgroundColor: '#f58b07d6'}}>
+        {this.getContent()}
+        <SpinnerModal
+          hideSpinner={this.props.hideSpinner}
+          visible={this.props.spinnerVisible}
+          message={this.props.spinnerMessage}
+        />
+      </Container>
+    );
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(ActionCreators, dispatch);
+  return bindActionCreators(ActionCreators, dispatch);
 }
 
 function mapStateToProps(state) {
-    return {
-        invalidSession: authenticationSelector(state).invalidSession,
-        sessionToken: authenticationSelector(state).sessionToken,
-        phoneNumber: authenticationSelector(state).phoneNumber,
-        verificationCode: authenticationSelector(state).verificationCode,
-        verificationCodeRequested: authenticationSelector(state).verificationCodeRequested,
-        spinnerVisible: spinnerSelector(state).visible,
-        spinnerMessage: spinnerSelector(state).message,
-    }    
+  return {
+    invalidSession: authenticationSelector(state).invalidSession,
+    sessionToken: authenticationSelector(state).sessionToken,
+    phoneNumber: authenticationSelector(state).phoneNumber,
+    verificationCode: authenticationSelector(state).verificationCode,
+    verificationCodeRequested: authenticationSelector(state)
+      .verificationCodeRequested,
+    spinnerVisible: spinnerSelector(state).visible,
+    spinnerMessage: spinnerSelector(state).message,
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AuthenticationContainer);

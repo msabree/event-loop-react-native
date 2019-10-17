@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import * as authenticationReducer from './authentication';
 import * as tabsReducer from './tabs';
 import * as forms from './forms';
@@ -10,7 +10,8 @@ import * as alexa from './alexa';
 import * as notifications from './notifications';
 import * as search from './search';
 
-export default combineReducers(Object.assign(
+export default combineReducers(
+  Object.assign(
     authenticationReducer,
     tabsReducer,
     events,
@@ -21,4 +22,5 @@ export default combineReducers(Object.assign(
     alexa,
     notifications,
     search,
-))
+  ),
+);
