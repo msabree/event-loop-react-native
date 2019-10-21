@@ -15,6 +15,7 @@ import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 
 import Home from '../screens/Home';
+import LocalEvents from '../screens/LocalEvents';
 import Friends from '../screens/Friends';
 import Settings from '../screens/Settings';
 
@@ -109,8 +110,10 @@ class TabsContainer extends Component {
       case 0:
         return <Home navigation={this.props.navigation} />;
       case 1:
-        return <Friends navigation={this.props.navigation} />;
+        return <LocalEvents navigation={this.props.navigation} />;
       case 2:
+        return <Friends navigation={this.props.navigation} />;
+      case 3:
         return <Settings navigation={this.props.navigation} />;
       default:
         return <Home />;
@@ -151,14 +154,24 @@ class TabsContainer extends Component {
                 onPress={() => {
                   this.props.setActiveTab(1);
                 }}>
-                <Icon active={this.props.activeTabIndex === 1} name="people" />
+                <Icon
+                  active={this.props.activeTabIndex === 1}
+                  name="pricetag"
+                />
               </Button>
               <Button
                 active={this.props.activeTabIndex === 2}
                 onPress={() => {
-                  this.props.setActiveTab(2);
+                  this.props.setActiveTab(1);
                 }}>
-                <Icon active={this.props.activeTabIndex === 2} name="options" />
+                <Icon active={this.props.activeTabIndex === 2} name="people" />
+              </Button>
+              <Button
+                active={this.props.activeTabIndex === 3}
+                onPress={() => {
+                  this.props.setActiveTab(3);
+                }}>
+                <Icon active={this.props.activeTabIndex === 3} name="options" />
               </Button>
             </FooterTab>
           </Footer>
