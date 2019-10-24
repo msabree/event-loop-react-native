@@ -45,9 +45,7 @@ const styles = StyleSheet.create({
 class LocalEvents extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      testData: TEST_DATA,
-    };
+    this.state = TEST_DATA;
   }
 
   render() {
@@ -57,7 +55,7 @@ class LocalEvents extends React.Component {
       <React.Fragment>
         <Container style={{marginTop: 30}}>
           <FlatList
-            data={this.state.testData.deals}
+            data={this.state.deals}
             onRefresh={() => {
               console.log('refresh now');
             }}
