@@ -50,7 +50,6 @@ class TabsContainer extends Component {
       this.props.navigation.dispatch(resetAction);
     } else {
       this.props.getEvents();
-      this.props.getNotifications();
       this.props.getFriendsList();
 
       // Setup push notifications

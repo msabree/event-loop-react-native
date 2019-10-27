@@ -1,6 +1,7 @@
 import React from 'react';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
+import MultiSelect from 'react-native-multiple-select';
 import {
   Container,
   Content,
@@ -15,6 +16,8 @@ import {
   Right,
   Button,
 } from 'native-base';
+
+import friendsSelector from '../selectors/friends';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -39,14 +42,19 @@ class Groups extends React.Component {
     this.state = {
       activeSlideIndex: 0,
       groups: [],
+      selectedItems: [],
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      groups: [{}, {}, {}],
-    });
+  createNewGroup() {
+    const groups = this.state.groups;
+    groups.push({});
+    this.setState({groups});
   }
+
+  onSelectedItemsChange = selectedItems => {
+    this.setState({selectedItems});
+  };
 
   _renderItem({item, index}) {
     return (
@@ -55,8 +63,41 @@ class Groups extends React.Component {
           <Text>{'Delete Group'}</Text>
         </Button>
         <Item regular>
-          <Input placeholder="Enter a group name" />
+          <Input placeholder="Enter a group name" onChangeText={() => {}} />
         </Item>
+        <View style={{flex: 1}}>
+          <MultiSelect
+            hideTags
+            items={this.props.currentFriends.map(friend => {
+              return {
+                name: friend._displayName || friend._username,
+                id: friend.friendUserId,
+              };
+            })}
+            uniqueKey="id"
+            ref={component => {
+              this.multiSelect = component;
+            }}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            selectText="Pick Friends"
+            searchInputPlaceholderText="Search Friends..."
+            onChangeInput={text => console.log(text)}
+            tagRemoveIconColor="#CCC"
+            tagBorderColor="#CCC"
+            tagTextColor="#CCC"
+            selectedItemTextColor="#CCC"
+            selectedItemIconColor="#CCC"
+            itemTextColor="#000"
+            displayKey="name"
+            searchInputStyle={{color: '#CCC'}}
+            submitButtonColor="#CCC"
+            submitButtonText="Submit"
+          />
+          <View>
+            {this.multiselect ? this.multiselect.getSelectedItemsExt() : null}
+          </View>
+        </View>
         <List>
           <ListItem>
             <Body>
@@ -140,7 +181,7 @@ class Groups extends React.Component {
               }}
               data={this.state.groups}
               onSnapToItem={index => this.setState({activeSlideIndex: index})}
-              renderItem={this._renderItem}
+              renderItem={this._renderItem.bind(this)}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
             />
@@ -152,7 +193,9 @@ class Groups extends React.Component {
             containerStyle={{}}
             style={{backgroundColor: 'orange'}}
             position="bottomRight"
-            onPress={() => {}}>
+            onPress={() => {
+              this.createNewGroup();
+            }}>
             <Icon name="add" />
           </Fab>
         </Container>
@@ -166,7 +209,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    currentFriends: friendsSelector(state).current,
+  };
 }
 
 export default connect(
