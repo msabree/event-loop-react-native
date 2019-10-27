@@ -26,6 +26,7 @@ import {
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
+import {firebase} from '@react-native-firebase/analytics';
 
 import UserProfilePicture from '../components/UserProfilePicture';
 
@@ -61,13 +62,20 @@ class Home extends React.Component {
   componentDidMount() {
     if (this.props.sessionToken !== '' && this.props.sessionToken !== null) {
       this.props.getEvents();
+
+      // Google Analytics
+      // Shows when a user hits the home page
+      Promise.all([
+        firebase.analytics().setUserId(this.props.loggedInUserId),
+        firebase.analytics().logEvent('home_page_view', {}),
+      ]);
     }
   }
 
   confirmDeleteEvent(event) {
     Alert.alert(
       'Delete Event',
-      `This event has ended. Would you like to delete it?`,
+      'This event has ended. Would you like to delete it?',
       [
         {
           text: 'No',
@@ -123,7 +131,9 @@ class Home extends React.Component {
           style={{
             marginBottom: 5,
             color: '#e05319',
-          }}>{`This event has ended.`}</Text>
+          }}>
+          {'This event has ended.'}
+        </Text>
       );
     }
   }

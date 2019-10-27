@@ -55,9 +55,9 @@ export const getSessionTokenFromLocalStorage = () => async (
 
   if (__DEV__) {
     if (Platform.OS === 'ios') {
-      sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
-    } else {
       sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_01';
+    } else {
+      sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
     }
     return dispatch({
       type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,

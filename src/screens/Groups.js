@@ -1,7 +1,5 @@
 import React from 'react';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import MultiSelect from 'react-native-multiple-select';
+import {StyleSheet} from 'react-native';
 import {
   Container,
   Content,
@@ -10,8 +8,8 @@ import {
   Text,
   Fab,
   Icon,
-  Item,
-  Input,
+  Left,
+  Thumbnail,
   Body,
   Right,
   Button,
@@ -30,162 +28,43 @@ const styles = StyleSheet.create({
   },
 });
 
-const horizontalMargin = 20;
-const slideWidth = 280;
-
-const sliderWidth = Dimensions.get('window').width;
-const itemWidth = slideWidth + horizontalMargin * 2;
-
 class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlideIndex: 0,
       groups: [],
-      selectedItems: [],
     };
-  }
-
-  createNewGroup() {
-    const groups = this.state.groups;
-    groups.push({});
-    this.setState({groups});
   }
 
   onSelectedItemsChange = selectedItems => {
     this.setState({selectedItems});
   };
 
-  _renderItem({item, index}) {
-    return (
-      <Content key={index}>
-        <Button style={styles.center} danger transparent>
-          <Text>{'Delete Group'}</Text>
-        </Button>
-        <Item regular>
-          <Input placeholder="Enter a group name" onChangeText={() => {}} />
-        </Item>
-        <View style={{flex: 1}}>
-          <MultiSelect
-            hideTags
-            items={this.props.currentFriends.map(friend => {
-              return {
-                name: friend._displayName || friend._username,
-                id: friend.friendUserId,
-              };
-            })}
-            uniqueKey="id"
-            ref={component => {
-              this.multiSelect = component;
-            }}
-            onSelectedItemsChange={this.onSelectedItemsChange}
-            selectedItems={this.state.selectedItems}
-            selectText="Pick Friends"
-            searchInputPlaceholderText="Search Friends..."
-            onChangeInput={text => console.log(text)}
-            tagRemoveIconColor="#CCC"
-            tagBorderColor="#CCC"
-            tagTextColor="#CCC"
-            selectedItemTextColor="#CCC"
-            selectedItemIconColor="#CCC"
-            itemTextColor="#000"
-            displayKey="name"
-            searchInputStyle={{color: '#CCC'}}
-            submitButtonColor="#CCC"
-            submitButtonText="Submit"
-          />
-          <View>
-            {this.multiselect ? this.multiselect.getSelectedItemsExt() : null}
-          </View>
-        </View>
-        <List>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-        </List>
-        <Button style={styles.center} success transparent>
-          <Text>{'Save'}</Text>
-        </Button>
-      </Content>
-    );
-  }
-
-  get pagination() {
-    return (
-      <Pagination
-        dotsLength={this.state.groups.length}
-        activeDotIndex={this.state.activeSlideIndex}
-        containerStyle={{backgroundColor: 'transparent'}}
-        dotStyle={{
-          width: 6,
-          height: 6,
-          borderRadius: 3,
-          backgroundColor: '#8c9199',
-        }}
-        inactiveDotStyle={
-          {
-            // Define styles for inactive dots here
-          }
-        }
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-      />
-    );
-  }
-
   render() {
     return (
       <React.Fragment>
         <Container>
           <Container>
-            <Carousel
-              ref={c => {
-                this._carousel = c;
-              }}
-              data={this.state.groups}
-              onSnapToItem={index => this.setState({activeSlideIndex: index})}
-              renderItem={this._renderItem.bind(this)}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-            />
-            {this.pagination}
+            <Content>
+              <List>
+                <ListItem thumbnail>
+                  <Left>
+                    <Thumbnail square source={{uri: 'Image URL'}} />
+                  </Left>
+                  <Body>
+                    <Text>Sankhadeep</Text>
+                    <Text note numberOfLines={1}>
+                      Its time to build a difference . .
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Button transparent>
+                      <Text>View</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              </List>
+            </Content>
           </Container>
           <Fab
             active={false}
@@ -194,7 +73,7 @@ class Groups extends React.Component {
             style={{backgroundColor: 'orange'}}
             position="bottomRight"
             onPress={() => {
-              this.createNewGroup();
+              this.props.navigation.navigate('CreateGroup');
             }}>
             <Icon name="add" />
           </Fab>

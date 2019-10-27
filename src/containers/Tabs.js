@@ -9,6 +9,7 @@ import {
   Icon,
   StyleProvider,
 } from 'native-base';
+import analytics from '@react-native-firebase/analytics';
 import {StackActions, NavigationActions} from 'react-navigation';
 import PushNotification from 'react-native-push-notification';
 import getTheme from '../../native-base-theme/components';
@@ -49,6 +50,10 @@ class TabsContainer extends Component {
       });
       this.props.navigation.dispatch(resetAction);
     } else {
+      // Google Analytics
+      // Shows when a user starts up the app
+      const x = await analytics().logAppOpen();
+      console.log(x);
       this.props.getEvents();
       this.props.getFriendsList();
 

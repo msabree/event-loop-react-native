@@ -13,6 +13,7 @@ import AlexaSync from './src/screens/AlexaSync';
 import Notifications from './src/screens/Notifications';
 import Comments from './src/screens/Comments';
 import Groups from './src/screens/Groups';
+import CreateGroup from './src/screens/CreateGroup';
 
 const AppNavigator = createStackNavigator(
   {
@@ -52,6 +53,9 @@ const AppNavigator = createStackNavigator(
     Groups: {
       screen: Groups,
     },
+    CreateGroup: {
+      screen: CreateGroup,
+    },
   },
   {
     initialRouteName: 'Tabs',
@@ -60,4 +64,3 @@ const AppNavigator = createStackNavigator(
 );
 
 export default createAppContainer(AppNavigator);
-
