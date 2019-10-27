@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
+    "@react-native-firebase/app": "^6.0.3",
     "libphonenumber-js": "^1.7.23",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
