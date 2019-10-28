@@ -162,7 +162,7 @@ class TabsContainer extends Component {
               <Button
                 active={this.props.activeTabIndex === 2}
                 onPress={() => {
-                  this.props.setActiveTab(1);
+                  this.props.setActiveTab(2);
                 }}>
                 <Icon active={this.props.activeTabIndex === 2} name="people" />
               </Button>
