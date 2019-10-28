@@ -58,7 +58,7 @@ class Friends extends Component {
   confirmDeleteFriendRequest(userId) {
     Alert.alert(
       'Delete Friend Request',
-      `Are you sure you want to delete this friend request?`,
+      'Are you sure you want to delete this friend request?',
       [
         {
           text: 'No',
@@ -80,7 +80,7 @@ class Friends extends Component {
   confirmCancelSentFriendRequest(userId) {
     Alert.alert(
       'Cancel Friend Request',
-      `Are you sure you want to cancel this sent friend request?`,
+      'Are you sure you want to cancel this sent friend request?',
       [
         {
           text: 'No',
@@ -102,7 +102,7 @@ class Friends extends Component {
   confirmFriend(userId) {
     Alert.alert(
       'Confirm Friend Request',
-      `Are you sure you want to add this user as friend?`,
+      'Are you sure you want to add this user as friend?',
       [
         {
           text: 'No',
@@ -302,9 +302,6 @@ class Friends extends Component {
   render() {
     return (
       <Content style={{marginTop: 20}}>
-        {/* <Button transparent dark onPress={() => this.props.navigation.navigate('Groups')}>
-                    <Text>Manage Groups</Text>
-                </Button>                 */}
         <Autocomplete
           autoCapitalize="none"
           autoCorrect={false}
@@ -341,7 +338,7 @@ class Friends extends Component {
               <Body>
                 <Text>{item.username}</Text>
                 <Text note>{item.displayName}</Text>
-                <Text note> </Text>
+                <Text note />
               </Body>
               <Right>
                 {this.getSearchResultButton(item.type, item.userId)}
@@ -349,6 +346,12 @@ class Friends extends Component {
             </ListItem>
           )}
         />
+        <Button
+          transparent
+          dark
+          onPress={() => this.props.navigation.navigate('Groups')}>
+          <Text>Manage Groups</Text>
+        </Button>
         <Segment>
           <Button
             transparent

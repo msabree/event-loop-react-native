@@ -1,6 +1,5 @@
 import React from 'react';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   Container,
   Content,
@@ -9,12 +8,14 @@ import {
   Text,
   Fab,
   Icon,
-  Item,
-  Input,
+  Left,
+  Thumbnail,
   Body,
   Right,
   Button,
 } from 'native-base';
+
+import friendsSelector from '../selectors/friends';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -27,124 +28,43 @@ const styles = StyleSheet.create({
   },
 });
 
-const horizontalMargin = 20;
-const slideWidth = 280;
-
-const sliderWidth = Dimensions.get('window').width;
-const itemWidth = slideWidth + horizontalMargin * 2;
-
 class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlideIndex: 0,
       groups: [],
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      groups: [{}, {}, {}],
-    });
-  }
-
-  _renderItem({item, index}) {
-    return (
-      <Content key={index}>
-        <Button style={styles.center} danger transparent>
-          <Text>{'Delete Group'}</Text>
-        </Button>
-        <Item regular>
-          <Input placeholder="Enter a group name" />
-        </Item>
-        <List>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Body>
-              <Text>{'Jane Doe'}</Text>
-            </Body>
-            <Right>
-              <Button dark transparent>
-                <Icon name="remove-circle-outline" />
-              </Button>
-            </Right>
-          </ListItem>
-        </List>
-        <Button style={styles.center} success transparent>
-          <Text>{'Save'}</Text>
-        </Button>
-      </Content>
-    );
-  }
-
-  get pagination() {
-    return (
-      <Pagination
-        dotsLength={this.state.groups.length}
-        activeDotIndex={this.state.activeSlideIndex}
-        containerStyle={{backgroundColor: 'transparent'}}
-        dotStyle={{
-          width: 6,
-          height: 6,
-          borderRadius: 3,
-          backgroundColor: '#8c9199',
-        }}
-        inactiveDotStyle={
-          {
-            // Define styles for inactive dots here
-          }
-        }
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
-      />
-    );
-  }
+  onSelectedItemsChange = selectedItems => {
+    this.setState({selectedItems});
+  };
 
   render() {
     return (
       <React.Fragment>
         <Container>
           <Container>
-            <Carousel
-              ref={c => {
-                this._carousel = c;
-              }}
-              data={this.state.groups}
-              onSnapToItem={index => this.setState({activeSlideIndex: index})}
-              renderItem={this._renderItem}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-            />
-            {this.pagination}
+            <Content>
+              <List>
+                <ListItem thumbnail>
+                  <Left>
+                    <Thumbnail square source={{uri: 'Image URL'}} />
+                  </Left>
+                  <Body>
+                    <Text>Sankhadeep</Text>
+                    <Text note numberOfLines={1}>
+                      Its time to build a difference . .
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Button transparent>
+                      <Text>View</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              </List>
+            </Content>
           </Container>
           <Fab
             active={false}
@@ -152,7 +72,9 @@ class Groups extends React.Component {
             containerStyle={{}}
             style={{backgroundColor: 'orange'}}
             position="bottomRight"
-            onPress={() => {}}>
+            onPress={() => {
+              this.props.navigation.navigate('CreateGroup');
+            }}>
             <Icon name="add" />
           </Fab>
         </Container>
@@ -166,7 +88,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    currentFriends: friendsSelector(state).current,
+  };
 }
 
 export default connect(

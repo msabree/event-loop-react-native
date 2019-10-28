@@ -136,7 +136,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 15
         versionName "1.5"
-        multiDexEnabled false
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -228,3 +228,5 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 
 // Icons
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+apply plugin: 'com.google.gms.google-services'

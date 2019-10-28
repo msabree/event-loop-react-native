@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Alert} from 'react-native';
 import {
+  Badge,
   Content,
   List,
   ListItem,
@@ -19,6 +20,7 @@ import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
 import userSelector from '../selectors/users';
+import notificationsSelector from '../selectors/notifications';
 
 class Settings extends Component {
   constructor(props) {
@@ -51,7 +53,7 @@ class Settings extends Component {
   confirmLogout() {
     Alert.alert(
       'Confirm Logout',
-      `Are you sure you want to logout?`,
+      'Are you sure you want to logout?',
       [
         {
           text: 'No',
@@ -88,8 +90,8 @@ class Settings extends Component {
             <Body>
               <Text>{this.props.loggedInDisplayName}</Text>
               <Text note>{this.props.loggedInUsername}</Text>
-              <Text note> </Text>
-              <Text note> </Text>
+              <Text note />
+              <Text note />
             </Body>
             <Right>
               <Button
@@ -99,6 +101,35 @@ class Settings extends Component {
                   this.props.navigation.navigate('Profile');
                 }}>
                 <Icon name="create" style={{color: '#CBCE74'}} />
+              </Button>
+            </Right>
+          </ListItem>
+          <ListItem itemDivider>
+            <Text>Notifications</Text>
+          </ListItem>
+          <ListItem
+            icon
+            onPress={() => {
+              this.props.navigation.navigate('Notifications');
+            }}>
+            <Body>
+              <Text note>{'View notifications'}</Text>
+            </Body>
+            <Right>
+              <Button
+                transparent
+                dark
+                onPress={() => {
+                  this.props.navigation.navigate('Notifications');
+                }}>
+                <Badge
+                  style={
+                    this.props.badgeCount === 0
+                      ? {marginRight: 10, backgroundColor: 'grey'}
+                      : {marginRight: 10}
+                  }>
+                  <Text>{this.props.badgeCount}</Text>
+                </Badge>
               </Button>
             </Right>
           </ListItem>
@@ -257,6 +288,7 @@ function mapStateToProps(state) {
     notifyFriendRequests: userSelector(state).notifyFriendRequests,
     notifyHostEventChanges: userSelector(state).notifyHostEventChanges,
     notifyJoinedEventChanges: userSelector(state).notifyJoinedEventChanges,
+    badgeCount: notificationsSelector(state).badgeCount,
   };
 }
 

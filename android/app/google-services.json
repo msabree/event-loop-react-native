@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "119662908325",
+    "firebase_url": "https://flaker-8a057.firebaseio.com",
+    "project_id": "flaker-8a057",
+    "storage_bucket": "flaker-8a057.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119662908325:android:e66d113b5f3b2a0e4f0e4c",
+        "android_client_info": {
+          "package_name": "com.flaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119662908325-nomridtgn77j9n4ebcgbf2ir84070ig6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOvgOj0XLc0QS-cypIGnsWpa4nnzLeohY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119662908325-nomridtgn77j9n4ebcgbf2ir84070ig6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

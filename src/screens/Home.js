@@ -21,12 +21,12 @@ import {
   Fab,
   Container,
   H3,
-  Badge,
   Picker,
 } from 'native-base';
 import Hyperlink from 'react-native-hyperlink';
 import moment from 'moment';
 import get from 'lodash/get';
+import {firebase} from '@react-native-firebase/analytics';
 
 import UserProfilePicture from '../components/UserProfilePicture';
 
@@ -38,7 +38,6 @@ import Loading from '../components/Loading';
 
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
-import notificationsSelector from '../selectors/notifications';
 import authenticationSelector from '../selectors/authentication';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   mainHeader: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 25,
   },
   headerProfilePic: {
     width: 60,
@@ -63,14 +62,20 @@ class Home extends React.Component {
   componentDidMount() {
     if (this.props.sessionToken !== '' && this.props.sessionToken !== null) {
       this.props.getEvents();
-      this.props.getNotifications();
+
+      // Google Analytics
+      // Shows when a user hits the home page
+      Promise.all([
+        firebase.analytics().setUserId(this.props.loggedInUserId),
+        firebase.analytics().logEvent('home_page_view', {}),
+      ]);
     }
   }
 
   confirmDeleteEvent(event) {
     Alert.alert(
       'Delete Event',
-      `This event has ended. Would you like to delete it?`,
+      'This event has ended. Would you like to delete it?',
       [
         {
           text: 'No',
@@ -126,7 +131,9 @@ class Home extends React.Component {
           style={{
             marginBottom: 5,
             color: '#e05319',
-          }}>{`This event has ended.`}</Text>
+          }}>
+          {'This event has ended.'}
+        </Text>
       );
     }
   }
@@ -187,24 +194,6 @@ class Home extends React.Component {
         </Button>
       );
     }
-  }
-
-  getNotificationsBadge() {
-    if (this.props.badgeCount > 0) {
-      return (
-        <React.Fragment>
-          <Badge style={{position: 'absolute'}}>
-            <Text>{this.props.badgeCount}</Text>
-          </Badge>
-          <Icon style={{fontSize: 30}} name="notifications" />
-        </React.Fragment>
-      );
-    }
-    return (
-      <React.Fragment>
-        <Icon style={{fontSize: 30}} name="notifications" />
-      </React.Fragment>
-    );
   }
 
   // Fallback to a static map image if no photo references available
@@ -371,21 +360,10 @@ class Home extends React.Component {
           <Container>
             <Card transparent style={styles.mainHeader}>
               <CardItem transparent>
-                <Left>
-                  <Button
-                    transparent
-                    dark
-                    style={{fontSize: 10}}
-                    onPress={() => {
-                      this.props.navigation.navigate('Notifications');
-                    }}>
-                    {this.getNotificationsBadge()}
-                  </Button>
-                </Left>
                 <Picker
                   mode="dropdown"
                   iosHeader="Filter"
-                  iosIcon={<Icon name="funnel" dark />}
+                  iosIcon={<Icon name="md-funnel" dark />}
                   style={{width: undefined}}
                   selectedValue={this.props.eventsFilter || 'upcoming'}
                   onValueChange={filter => {
@@ -431,7 +409,6 @@ function mapStateToProps(state) {
     loggedInUserId: userSelector(state).loggedInUserId,
     loggedInDisplayName: userSelector(state).loggedInDisplayName,
     loggedInProfilePic: userSelector(state).loggedInProfilePic,
-    badgeCount: notificationsSelector(state).badgeCount,
   };
 }
 
