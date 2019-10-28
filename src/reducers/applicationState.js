@@ -14,6 +14,9 @@ export default {
     visible: false,
     message: '',
   },
+  deals: {
+    counter: {},
+  },
   tabs: {
     activeIndex: 0,
   },
