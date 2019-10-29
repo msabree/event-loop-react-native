@@ -61,6 +61,7 @@ class LocalEvents extends React.Component {
             }}
             refreshing={false}
             renderItem={({item}) => {
+              const {dealUrl} = item;
               return (
                 <Card style={styles.center} key={item.uuid}>
                   <CardItem>
@@ -130,7 +131,9 @@ class LocalEvents extends React.Component {
                       small
                       iconLeft
                       onPress={() => {
-                        this.props.navigation.navigate('CreateEvent');
+                        this.props.navigation.navigate('CreateEvent', {
+                          dealLink: dealUrl,
+                        });
                       }}>
                       <Icon name="link" />
                       <Text>{'Create Event'}</Text>
