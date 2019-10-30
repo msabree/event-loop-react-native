@@ -38,12 +38,12 @@ class CreateEvent extends React.Component {
     super(props);
     this.state = {
       eventType: 'location',
+      dealUrl: props.navigation.getParam('dealLink', ''),
     };
   }
 
   componentDidMount() {
     const {existingEvent} = get(this.props, 'navigation.state.params', {});
-
     if (existingEvent) {
       const existingEventTitle = get(existingEvent, 'title');
       const existingEventLocation = get(existingEvent, 'location');
@@ -108,7 +108,7 @@ class CreateEvent extends React.Component {
   getEventContent() {
     const eventType = this.state.eventType;
     if (eventType === 'location') {
-      return <PhysicalLocationEvent />;
+      return <PhysicalLocationEvent url={this.state.dealUrl} />;
     } else if (eventType === 'video') {
       return <VideoChatEvent />;
     } else if (eventType === 'phone') {
