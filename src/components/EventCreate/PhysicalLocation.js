@@ -15,6 +15,7 @@ import {
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import DatePicker from 'react-native-datepicker';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import moment from 'moment';
 
 import formsSelector from '../../selectors/forms';
@@ -45,6 +46,7 @@ class PhysicalLocationEvent extends React.Component {
   }
 
   render() {
+    set(this.props, 'physicalLocationEvent.details', this.props.url)
     return (
       <Content>
         <CardItem transparent>
