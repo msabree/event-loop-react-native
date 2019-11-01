@@ -5,6 +5,7 @@ import * as forms from './forms';
 import * as events from './events';
 import * as usersReducer from './users';
 import * as friends from './friends';
+import * as groups from './groups';
 import * as spinner from './spinner';
 import * as alexa from './alexa';
 import * as notifications from './notifications';
@@ -19,6 +20,7 @@ export default combineReducers(
     forms,
     usersReducer,
     friends,
+    groups,
     spinner,
     alexa,
     notifications,

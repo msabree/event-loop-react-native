@@ -4,6 +4,7 @@ import * as SpinnerActions from './spinner';
 import * as AuthenticationActions from './authentication';
 import * as EventActions from './events';
 import * as FriendsActions from './friends';
+import * as GroupsActions from './groups';
 import * as UsersActions from './users';
 import * as AlexaActions from './alexa';
 import * as NotificationsActions from './notifications';
@@ -18,6 +19,7 @@ export const ActionCreators = Object.assign(
   AuthenticationActions,
   EventActions,
   FriendsActions,
+  GroupsActions,
   UsersActions,
   AlexaActions,
   NotificationsActions,

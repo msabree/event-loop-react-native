@@ -17,10 +17,14 @@ import {
 } from 'native-base';
 
 import friendsSelector from '../selectors/friends';
+import groupsSelector from '../selectors/groups';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
+
+import pullAll from 'lodash/pullAll';
+
 
 const styles = StyleSheet.create({
   center: {
@@ -33,22 +37,42 @@ class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: [],
+      title: '',
       selectedItems: [],
+      create: true,
     };
   }
-
-  createNewGroup() {}
 
   onSelectedItemsChange = selectedItems => {
     this.setState({selectedItems});
   };
 
   render() {
-    return (
+    const items = [...this.props.currentFriends];
+    if (
+      this.props.navigation.state.params &&
+      this.props.navigation.state.params.friends
+    ) {
+      pullAll(items, this.props.navigation.state.params.friends);
+    }
+    const create =
+      this.props.navigation.state.params &&
+      this.props.navigation.state.params.group
+        ? false
+        : true;
+    return create ? (
       <React.Fragment>
         <Container>
           <Container>
+            <Item>
+              <Input
+                onChangeText={text => {
+                  this.setState({title: text});
+                }}
+                value={this.state.title}
+                placeholder="Enter group name"
+              />
+            </Item>
             <View style={{flex: 1}}>
               <MultiSelect
                 hideTags
@@ -85,17 +109,89 @@ class Groups extends React.Component {
               </View>
             </View>
           </Container>
-          <Fab
+          <Button
             active={false}
-            direction="left"
+            //direction="left"
             containerStyle={{}}
-            style={{backgroundColor: 'orange'}}
-            position="bottomRight"
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{backgroundColor: 'orange', textAlign: 'center'}}
+            position="bottom"
             onPress={() => {
-              this.createNewGroup();
+              this.props.createGroup(
+                this.state.title,
+                this.state.selectedItems,
+              );
+              this.props.navigation.navigate('Groups');
             }}>
-            <Icon name="add" />
-          </Fab>
+            <Text>Create</Text>
+          </Button>
+        </Container>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <Container>
+          <Container>
+            {/* <Item>
+              <Input
+                onChangeText={text => {
+                  this.setState({title: text});
+                }}
+                value={this.state.title}
+                placeholder="Enter group name"
+              />
+            </Item> */}
+            <View style={{flex: 1}}>
+              <MultiSelect
+                hideTags
+                items={items.map(friend => {
+                  return {
+                    name: friend._displayName || friend._username,
+                    id: friend.friendUserId,
+                  };
+                })}
+                uniqueKey="id"
+                ref={component => {
+                  this.multiSelect = component;
+                }}
+                onSelectedItemsChange={this.onSelectedItemsChange}
+                selectedItems={this.state.selectedItems}
+                selectText="Pick Friends"
+                searchInputPlaceholderText="Search Friends..."
+                onChangeInput={text => console.log(text)}
+                tagRemoveIconColor="#CCC"
+                tagBorderColor="#CCC"
+                tagTextColor="#CCC"
+                selectedItemTextColor="#CCC"
+                selectedItemIconColor="#CCC"
+                itemTextColor="#000"
+                displayKey="name"
+                searchInputStyle={{color: '#CCC'}}
+                submitButtonColor="#CCC"
+                submitButtonText="Submit"
+              />
+              <View>
+                {this.multiselect
+                  ? this.multiselect.getSelectedItemsExt()
+                  : null}
+              </View>
+            </View>
+          </Container>
+          <Button
+            active={false}
+            //direction="left"
+            containerStyle={{}}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{backgroundColor: 'orange', textAlign: 'center'}}
+            position="bottom"
+            onPress={() => {
+              this.props.editGroup(
+                this.state.selectedItems,
+                this.props.navigation.state.params.groupId,
+              );
+              this.props.navigation.navigate('Groups');
+            }}>
+            <Text>Save</Text>
+          </Button>
         </Container>
       </React.Fragment>
     );
@@ -109,6 +205,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     currentFriends: friendsSelector(state).current,
+    groups: groupsSelector(state),
   };
 }
 

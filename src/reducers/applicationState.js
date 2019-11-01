@@ -31,6 +31,16 @@ export default {
       profile: null,
     },
   },
+  groups: [
+    {
+      title: 'favorites',
+      members: [
+        '26863361-b8a3-11e9-873e-eb2226ce8f3f',
+        'ec690111-b944-11e9-a138-5350a0cdfd9f_02',
+      ],
+      id: '1572611851030',
+    },
+  ],
   authentication: {
     appStoreReviewMode: false,
     invalidSession: false,
