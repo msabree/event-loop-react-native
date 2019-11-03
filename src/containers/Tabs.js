@@ -15,6 +15,7 @@ import PushNotification from 'react-native-push-notification';
 import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 
+//import Home from '../screens/Home/Explorer'; // uncomment to see map view
 import Home from '../screens/Home';
 import LocalEvents from '../screens/LocalEvents';
 import Friends from '../screens/Friends';
