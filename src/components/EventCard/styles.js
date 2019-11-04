@@ -1,5 +1,4 @@
-import {StyleSheet} from 'react-native';
-import {Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const imageWidth = Math.round(Dimensions.get('window').width * 0.9);
 const imageHeight = Math.round(imageWidth / 2);

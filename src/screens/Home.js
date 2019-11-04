@@ -172,7 +172,6 @@ class Home extends React.Component {
           </Container>
           <Fab
             active={false}
-            direction="left"
             containerStyle={{}}
             style={{backgroundColor: 'orange'}}
             position="bottomRight"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Modal, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   Container,
   Content,
@@ -8,12 +8,11 @@ import {
   Text,
   Fab,
   Icon,
-  Left,
-  Thumbnail,
   Body,
   Right,
   Button,
 } from 'native-base';
+import startCase from 'lodash/startCase';
 
 import friendsSelector from '../selectors/friends';
 import groupsSelector from '../selectors/groups';
@@ -22,14 +21,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
-import UserProfilePicture from '../components/UserProfilePicture';
+import ViewGroupModal from '../components/ViewGroup/ViewGroup';
 
-const styles = StyleSheet.create({
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const styles = StyleSheet.create({});
 
 class Groups extends React.Component {
   constructor(props) {
@@ -52,102 +46,56 @@ class Groups extends React.Component {
     const friends = group.members.map(memberId => {
       return this.props.currentFriends.find(x => x.friendUserId === memberId);
     });
-    this.setState({title: group.title});
-    this.setState({modalVisible: true});
-    this.setState({friends: friends});
-    this.setState({selectedGroup: group});
-    this.setState({groupId: group.id});
+    this.setState({
+      title: group.title,
+      modalVisible: true,
+      friends: friends,
+      selectedGroup: group,
+      groupId: group.id,
+    });
   };
 
   render() {
     return (
-      <React.Fragment>
+      <Container>
         <Container>
-          <Container>
-            <Content>
-              <List>
-                {this.props.groups.groups.map((group, i) => (
-                  <ListItem thumbnail key={i}>
-                    <Left>
-                      <Thumbnail square source={{uri: 'Image URL'}} />
-                    </Left>
-                    <Body>
-                      <Text>{group.title}</Text>
-                    </Body>
-                    <Right>
-                      <Button
-                        onPress={() => {
-                          this.groupDetails(group);
-                        }}
-                        transparent>
-                        <Text>View</Text>
-                      </Button>
-                    </Right>
-                  </ListItem>
-                ))}
-              </List>
-            </Content>
-          </Container>
-          <Fab
-            active={false}
-            direction="left"
-            containerStyle={{}}
-            style={{backgroundColor: 'orange'}}
-            position="bottomRight"
-            onPress={() => {
-              this.props.navigation.navigate('CreateGroup');
-            }}>
-            <Icon name="add" />
-          </Fab>
-
-          <View style={{marginTop: 22}}>
-            <Modal
-              animationType="slide"
-              transparent={false}
-              visible={this.state.modalVisible}>
-              <View style={{marginTop: 22}}>
-                <View>
-                  <Text>{this.state.title}</Text>
-                  {this.state.friends.map((friend, i) => (
-                    <ListItem thumbnail key={i}>
-                      <Left>
-                        <UserProfilePicture
-                          profile={{
-                            userId: friend.friendUserId,
-                            profilePic: friend._profilePic,
-                          }}
-                          style={styles.thumbnail}
-                        />
-                      </Left>
-                      <Body>
-                        <Text>{friend._displayName}</Text>
-                      </Body>
-                    </ListItem>
-                  ))}
-                  <Button
-                    onPress={() => {
-                      console.log(this.props.groups.groups);
-                      this.setState({modalVisible: false});
-                      this.props.navigation.navigate('CreateGroup', {
-                        group: this.state.selectedGroup,
-                        groupId: this.state.groupId,
-                        friends: this.state.friends,
-                      });
-                    }}>
-                    <Text>Add Friends</Text>
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      this.setState({modalVisible: false});
-                    }}>
-                    <Text>Close</Text>
-                  </Button>
-                </View>
-              </View>
-            </Modal>
-          </View>
+          <Content>
+            <List>
+              {this.props.groups.groups.map((group, i) => (
+                <ListItem key={i}>
+                  <Body>
+                    <Text>{startCase(group.title)}</Text>
+                  </Body>
+                  <Right>
+                    <Button
+                      onPress={() => {
+                        this.groupDetails(group);
+                      }}
+                      transparent>
+                      <Text>Manage</Text>
+                    </Button>
+                  </Right>
+                </ListItem>
+              ))}
+            </List>
+          </Content>
         </Container>
-      </React.Fragment>
+        <Fab
+          active={false}
+          containerStyle={{}}
+          style={{backgroundColor: 'orange'}}
+          position="bottomRight"
+          onPress={() => {
+            this.props.navigation.navigate('CreateGroup');
+          }}>
+          <Icon name="add" />
+        </Fab>
+        <ViewGroupModal
+          componentState={this.state}
+          hideModal={() => this.setState({modalVisible: false})}
+          navigation={this.props.navigation}
+        />
+      </Container>
     );
   }
 }

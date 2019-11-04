@@ -1,20 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
-import {
-  Container,
-  Content,
-  List,
-  ListItem,
-  Text,
-  Fab,
-  Icon,
-  Item,
-  Input,
-  Body,
-  Right,
-  Button,
-} from 'native-base';
+import {Container, Text, Item, Input, Button} from 'native-base';
 
 import friendsSelector from '../selectors/friends';
 import groupsSelector from '../selectors/groups';
@@ -24,7 +11,6 @@ import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
 import pullAll from 'lodash/pullAll';
-
 
 const styles = StyleSheet.create({
   center: {
@@ -111,9 +97,7 @@ class Groups extends React.Component {
           </Container>
           <Button
             active={false}
-            //direction="left"
             containerStyle={{}}
-            // eslint-disable-next-line react-native/no-inline-styles
             style={{backgroundColor: 'orange', textAlign: 'center'}}
             position="bottom"
             onPress={() => {
@@ -131,15 +115,6 @@ class Groups extends React.Component {
       <React.Fragment>
         <Container>
           <Container>
-            {/* <Item>
-              <Input
-                onChangeText={text => {
-                  this.setState({title: text});
-                }}
-                value={this.state.title}
-                placeholder="Enter group name"
-              />
-            </Item> */}
             <View style={{flex: 1}}>
               <MultiSelect
                 hideTags
@@ -178,7 +153,6 @@ class Groups extends React.Component {
           </Container>
           <Button
             active={false}
-            //direction="left"
             containerStyle={{}}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{backgroundColor: 'orange', textAlign: 'center'}}
