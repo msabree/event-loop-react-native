@@ -16,7 +16,7 @@ import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 
 import Home from '../screens/Home';
-import LocalEvents from '../screens/LocalEvents';
+//import LocalEvents from '../screens/LocalEvents';
 import Friends from '../screens/Friends';
 import Settings from '../screens/Settings';
 
@@ -52,8 +52,7 @@ class TabsContainer extends Component {
     } else {
       // Google Analytics
       // Shows when a user starts up the app
-      const x = await analytics().logAppOpen();
-      console.log(x);
+      analytics().logAppOpen();
       this.props.getEvents();
       this.props.getFriendsList();
 
@@ -113,11 +112,11 @@ class TabsContainer extends Component {
     switch (this.props.activeTabIndex) {
       case 0:
         return <Home navigation={this.props.navigation} />;
+      //   case 1:
+      //     return <LocalEvents navigation={this.props.navigation} />;
       case 1:
-        return <LocalEvents navigation={this.props.navigation} />;
-      case 2:
         return <Friends navigation={this.props.navigation} />;
-      case 3:
+      case 2:
         return <Settings navigation={this.props.navigation} />;
       default:
         return <Home />;
@@ -153,7 +152,7 @@ class TabsContainer extends Component {
                   name="calendar"
                 />
               </Button>
-              <Button
+              {/* <Button
                 active={this.props.activeTabIndex === 1}
                 onPress={() => {
                   this.props.setActiveTab(1);
@@ -162,20 +161,20 @@ class TabsContainer extends Component {
                   active={this.props.activeTabIndex === 1}
                   name="pricetag"
                 />
+              </Button> */}
+              <Button
+                active={this.props.activeTabIndex === 1}
+                onPress={() => {
+                  this.props.setActiveTab(1);
+                }}>
+                <Icon active={this.props.activeTabIndex === 1} name="people" />
               </Button>
               <Button
                 active={this.props.activeTabIndex === 2}
                 onPress={() => {
                   this.props.setActiveTab(2);
                 }}>
-                <Icon active={this.props.activeTabIndex === 2} name="people" />
-              </Button>
-              <Button
-                active={this.props.activeTabIndex === 3}
-                onPress={() => {
-                  this.props.setActiveTab(3);
-                }}>
-                <Icon active={this.props.activeTabIndex === 3} name="options" />
+                <Icon active={this.props.activeTabIndex === 2} name="options" />
               </Button>
             </FooterTab>
           </Footer>

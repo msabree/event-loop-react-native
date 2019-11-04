@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Image, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {
   Content,
   Card,
@@ -21,6 +21,7 @@ import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
 import BasicModal from '../components/BasicModal';
+import UserProfilePicture from '../components/UserProfilePicture';
 
 import usersSelector from '../selectors/users';
 import formsSelector from '../selectors/forms';
@@ -39,8 +40,6 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    borderWidth: 1,
-    borderColor: 'grey',
   },
   availabilityIcon: {
     color: 'grey',
@@ -145,9 +144,12 @@ class Profile extends React.Component {
               onPress={() => {
                 this.handleUploadPicture();
               }}>
-              <Image
+              <UserProfilePicture
+                profile={{
+                  userId: this.props.loggedInUsername,
+                  profilePic: this.props.loggedInProfilePic,
+                }}
                 style={styles.profile}
-                source={{uri: this.props.loggedInProfilePic}}
               />
             </TouchableOpacity>
           </CardItem>
