@@ -93,6 +93,8 @@ class Home extends React.Component {
                   isCreator={isCreator}
                   item={item}
                   deleteEvent={this.props.deleteEvent}
+                  navigation={this.props.navigation}
+                  showProfilePreviewModal={this.props.showProfilePreviewModal}
                 />
               );
             }}
@@ -111,7 +113,11 @@ class Home extends React.Component {
   }
 
   getMapView() {
-    return <MapView />;
+    return (
+      <MapView
+        events={this.props.eventList === null ? [] : this.props.eventList}
+      />
+    );
   }
 
   render() {

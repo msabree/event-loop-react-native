@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {StyleSheet, View} from 'react-native';
 import {Container} from 'native-base';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import get from 'lodash/get';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +19,23 @@ const styles = StyleSheet.create({
   },
 });
 
-class Explorer extends React.Component {
+class Map extends React.Component {
+  constructor(props) {
+    super(props);
+    if (this.props.events.length > 0) {
+      this.state = {
+        region: {
+          latitude: this.props.events[this.props.events.length - 1].location
+            .geometry.location.lat,
+          longitude: this.props.events[this.props.events.length - 1].location
+            .geometry.location.lng,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },
+      };
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -25,13 +44,21 @@ class Explorer extends React.Component {
             <MapView
               provider={PROVIDER_GOOGLE} // remove if not using Google Maps
               style={styles.map}
-              region={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
-            />
+              region={this.state ? this.state.region : {}}>
+              {this.props.events.map(event => (
+                <Marker
+                  key={event.id}
+                  coordinate={{
+                    latitude: get(event, 'location.geometry.location.lat', ''),
+                    longitude: get(event, 'location.geometry.location.lng', ''),
+                  }}
+                  title={event.title}
+                  description={`${event.details} - Starts: ${moment(
+                    event.startDatetime,
+                  ).fromNow()}`}
+                />
+              ))}
+            </MapView>
           </View>
         </Container>
       </React.Fragment>
@@ -39,8 +66,12 @@ class Explorer extends React.Component {
   }
 }
 
-Explorer.propTypes = {};
+Map.propTypes = {
+  events: PropTypes.shape(),
+};
 
-Explorer.defaultProps = {};
+Map.defaultProps = {
+  events: {},
+};
 
-export default Explorer;
+export default Map;

@@ -19,7 +19,13 @@ import styles from './styles';
 
 const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
-const EventCard = ({isCreator, item, deleteEvent}) => {
+const EventCard = ({
+  isCreator,
+  item,
+  deleteEvent,
+  navigation,
+  showProfilePreviewModal,
+}) => {
   const getHeader = () => {
     if (isCreator === false) {
       return (
@@ -27,10 +33,7 @@ const EventCard = ({isCreator, item, deleteEvent}) => {
           <Left>
             <TouchableOpacity
               onPress={() => {
-                this.props.showProfilePreviewModal(
-                  item.associatedUserProfile,
-                  true,
-                );
+                showProfilePreviewModal(item.associatedUserProfile, true);
               }}>
               <UserProfilePicture
                 profile={item.associatedUserProfile}
@@ -146,7 +149,7 @@ const EventCard = ({isCreator, item, deleteEvent}) => {
           dark
           iconLeft
           onPress={() => {
-            this.props.navigation.navigate('CreateEvent', {
+            navigation.navigate('CreateEvent', {
               existingEvent: item,
             });
           }}>
@@ -210,7 +213,7 @@ const EventCard = ({isCreator, item, deleteEvent}) => {
           small
           iconLeft
           onPress={() => {
-            this.props.navigation.navigate('Comments', {
+            navigation.navigate('Comments', {
               event: item,
               isCreator,
             });
@@ -224,7 +227,7 @@ const EventCard = ({isCreator, item, deleteEvent}) => {
           small
           iconLeft
           onPress={() => {
-            this.props.navigation.navigate('GuestList', {
+            navigation.navigate('GuestList', {
               event: item,
               isCreator,
             });
@@ -243,12 +246,16 @@ EventCard.propTypes = {
   isCreator: PropTypes.bool.isRequired,
   item: PropTypes.shape().isRequired,
   deleteEvent: PropTypes.func.isRequired,
+  showProfilePreviewModal: PropTypes.func.isRequired,
+  navigation: PropTypes.shape().isRequired,
 };
 
 EventCard.defaultProps = {
   isCreator: false,
   item: {},
   deleteEvent: noop,
+  showProfilePreviewModal: noop,
+  navigation: {},
 };
 
 export default EventCard;
