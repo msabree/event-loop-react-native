@@ -1,46 +1,28 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  StyleSheet,
-  Image,
-  Platform,
-  Linking,
-  Alert,
-  FlatList,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Platform, FlatList} from 'react-native';
 import {
   Text,
   Card,
   CardItem,
-  Button,
   Icon,
-  Left,
-  Body,
   Fab,
   Container,
-  H3,
   Picker,
+  Left,
+  Right,
+  Button,
 } from 'native-base';
-import Hyperlink from 'react-native-hyperlink';
-import moment from 'moment';
-import get from 'lodash/get';
 import {firebase} from '@react-native-firebase/analytics';
-
-import UserProfilePicture from '../components/UserProfilePicture';
-
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
-
+import EventCard from '../components/EventCard/EventCard';
 import Loading from '../components/Loading';
-
+import MapView from '../components/Map';
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import authenticationSelector from '../selectors/authentication';
-
-const GOOGLE_API_KEY = 'AIzaSyDDDudjqF3i_dxvXGTHn7ZOK_P6334ezM4';
 
 const styles = StyleSheet.create({
   center: {
@@ -59,6 +41,13 @@ const styles = StyleSheet.create({
 });
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: 'list',
+    };
+  }
+
   componentDidMount() {
     if (this.props.sessionToken !== '' && this.props.sessionToken !== null) {
       this.props.getEvents();
@@ -72,185 +61,6 @@ class Home extends React.Component {
     }
   }
 
-  confirmDeleteEvent(event) {
-    Alert.alert(
-      'Delete Event',
-      'This event has ended. Would you like to delete it?',
-      [
-        {
-          text: 'No',
-          onPress: () => {},
-          style: 'cancel',
-        },
-        {
-          text: 'Yes',
-          onPress: () => {
-            this.props.deleteEvent(event);
-          },
-        },
-      ],
-      {cancelable: false},
-    );
-  }
-
-  getHeader(isCreator = false, item) {
-    if (isCreator === false) {
-      return (
-        <CardItem>
-          <Left>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.showProfilePreviewModal(
-                  item.associatedUserProfile,
-                  true,
-                );
-              }}>
-              <UserProfilePicture
-                profile={item.associatedUserProfile}
-                style={styles.headerProfilePic}
-              />
-            </TouchableOpacity>
-            <Body>
-              <Text note>
-                Host:{' '}
-                {item.associatedUserProfile.displayName ||
-                  item.associatedUserProfile.username}
-              </Text>
-            </Body>
-          </Left>
-        </CardItem>
-      );
-    }
-  }
-
-  getEventEndedMessage(endDatetime) {
-    if (new Date() > new Date(endDatetime)) {
-      return (
-        <Text
-          note
-          style={{
-            marginBottom: 5,
-            color: '#e05319',
-          }}>
-          {'This event has ended.'}
-        </Text>
-      );
-    }
-  }
-
-  getFooter(isCreator = false, item) {
-    if (isCreator === true && new Date() <= new Date(item.endDatetime)) {
-      return (
-        <Button
-          transparent
-          small
-          dark
-          iconLeft
-          onPress={() => {
-            this.props.navigation.navigate('CreateEvent', {
-              existingEvent: item,
-            });
-          }}>
-          <Icon name="create" />
-          <Text>Edit</Text>
-        </Button>
-      );
-    } else if (isCreator === true && new Date() > new Date(item.endDatetime)) {
-      return (
-        <Button
-          transparent
-          small
-          danger
-          iconLeft
-          onPress={() => {
-            this.confirmDeleteEvent(item);
-          }}>
-          <Icon name="trash" />
-          <Text>Delete</Text>
-        </Button>
-      );
-    }
-  }
-
-  getNavigationButton(isCreator, item) {
-    if (isCreator === false) {
-      return (
-        <Button
-          transparent
-          dark
-          small
-          iconLeft
-          onPress={() => {
-            this.openMaps(
-              item.location.name,
-              item.location.geometry.location.lat,
-              item.location.geometry.location.lng,
-            );
-          }}>
-          <Icon name="navigate" />
-          <Text style={{maxWidth: 200, flexWrap: 'wrap'}}>
-            {item.location.name}
-          </Text>
-        </Button>
-      );
-    }
-  }
-
-  // Fallback to a static map image if no photo references available
-  getPlaceImage(itemLocation) {
-    if (itemLocation === null) {
-      return;
-    }
-    const imageWidth = Math.round(Dimensions.get('window').width * 0.9);
-    const imageHeight = Math.round(imageWidth / 2);
-    const photos = get(itemLocation, 'photos', []);
-    if (photos.length === 0) {
-      return (
-        <Image
-          source={{
-            uri: `https://maps.googleapis.com/maps/api/staticmap?center=${
-              itemLocation.formatted_address
-            }&zoom=18&size=${imageWidth}x${imageHeight}&maptype=roadmap&key=${GOOGLE_API_KEY}`,
-          }}
-          style={{
-            height: imageHeight,
-            width: imageWidth,
-            borderRadius: 5,
-            flex: 1,
-          }}
-        />
-      );
-    }
-    return (
-      <Image
-        source={{
-          uri: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${
-            photos[0].photo_reference
-          }&maxheight=${photos[0].height}&maxwidth=${
-            photos[0].width
-          }&key=${GOOGLE_API_KEY}`,
-        }}
-        style={{
-          height: imageHeight,
-          width: imageWidth,
-          borderRadius: 5,
-          flex: 1,
-          resizeMode: 'center',
-        }}
-      />
-    );
-  }
-
-  openMaps(label, lat, lng) {
-    const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
-    const latLng = `${lat},${lng}`;
-    const url = Platform.select({
-      ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`,
-    });
-    Linking.openURL(url);
-  }
-
   getBannerUnitId() {
     if (__DEV__) {
       return 'ca-app-pub-3940256099942544/6300978111';
@@ -260,7 +70,7 @@ class Home extends React.Component {
     return 'ca-app-pub-9804482407199604/4029760684';
   }
 
-  getContent() {
+  getListView() {
     if (this.props.eventList === null) {
       return <Loading message="Loading latest updates... Please wait." />;
     } else if (this.props.eventList.length > 0) {
@@ -279,64 +89,11 @@ class Home extends React.Component {
             renderItem={({item}) => {
               const isCreator = item.userId === this.props.loggedInUserId;
               return (
-                <Card style={styles.center} key={item.eventId}>
-                  {this.getHeader(isCreator, item)}
-                  <CardItem>
-                    <Body>{this.getPlaceImage(item.location)}</Body>
-                  </CardItem>
-                  <CardItem>
-                    <Body>
-                      <H3 style={{color: '#58534d', marginBottom: 5}}>
-                        {item.title}
-                      </H3>
-                      <Hyperlink
-                        linkStyle={{color: '#606aa1'}}
-                        onPress={url => Linking.openURL(url)}>
-                        <Text note style={{marginBottom: 10}}>
-                          {item.details || ''}
-                        </Text>
-                      </Hyperlink>
-                      <Text note style={{marginBottom: 5}}>{`${moment(
-                        item.startDatetime,
-                      ).format('MMM Do h:mm a')} - ${moment(
-                        item.endDatetime,
-                      ).format('MMM Do h:mm a')}`}</Text>
-                      {this.getEventEndedMessage(item.endDatetime)}
-                    </Body>
-                  </CardItem>
-                  <CardItem style={{fontSize: 8}}>
-                    <Button
-                      transparent
-                      dark
-                      small
-                      iconLeft
-                      onPress={() => {
-                        this.props.navigation.navigate('Comments', {
-                          event: item,
-                          isCreator,
-                        });
-                      }}>
-                      <Icon name="chatboxes" />
-                      <Text>{get(item, 'commentCount', 0)}</Text>
-                    </Button>
-                    <Button
-                      transparent
-                      dark
-                      small
-                      iconLeft
-                      onPress={() => {
-                        this.props.navigation.navigate('GuestList', {
-                          event: item,
-                          isCreator,
-                        });
-                      }}>
-                      <Icon name="people" />
-                      <Text>{get(item, 'guestListCount', 0)}</Text>
-                    </Button>
-                    {this.getNavigationButton(isCreator, item)}
-                    {this.getFooter(isCreator, item)}
-                  </CardItem>
-                </Card>
+                <EventCard
+                  isCreator={isCreator}
+                  item={item}
+                  deleteEvent={this.props.deleteEvent}
+                />
               );
             }}
             keyExtractor={item => item.eventId}
@@ -353,6 +110,10 @@ class Home extends React.Component {
     );
   }
 
+  getMapView() {
+    return <MapView />;
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -360,23 +121,48 @@ class Home extends React.Component {
           <Container>
             <Card transparent style={styles.mainHeader}>
               <CardItem transparent>
-                <Picker
-                  mode="dropdown"
-                  iosHeader="Filter"
-                  iosIcon={<Icon name="md-funnel" dark />}
-                  style={{width: undefined}}
-                  selectedValue={this.props.eventsFilter || 'upcoming'}
-                  onValueChange={filter => {
-                    this.props.changeEventsFilter(filter);
-                  }}>
-                  <Picker.Item label="Upcoming" value="upcoming" />
-                  <Picker.Item label="Past" value="past" />
-                  <Picker.Item label="Created By Me" value="created" />
-                  <Picker.Item label="Joined By Me" value="joined" />
-                </Picker>
+                <Left>
+                  <Button
+                    transparent
+                    dark
+                    onPress={() => {
+                      const view = this.state.view;
+                      if (view === 'list') {
+                        this.setState({
+                          view: 'map',
+                        });
+                      } else {
+                        this.setState({
+                          view: 'list',
+                        });
+                      }
+                    }}>
+                    <Text style={{fontSize: 18}}>
+                      {this.state.view === 'list' ? 'Map' : 'List'}
+                    </Text>
+                  </Button>
+                </Left>
+                <Right>
+                  <Picker
+                    mode="dropdown"
+                    iosHeader="Filter"
+                    iosIcon={<Icon name="md-funnel" dark />}
+                    style={{width: undefined}}
+                    selectedValue={this.props.eventsFilter || 'upcoming'}
+                    onValueChange={filter => {
+                      this.props.changeEventsFilter(filter);
+                    }}>
+                    <Picker.Item label="Upcoming" value="upcoming" />
+                    <Picker.Item label="Past" value="past" />
+                    <Picker.Item label="Created By Me" value="created" />
+                    <Picker.Item label="Joined By Me" value="joined" />
+                  </Picker>
+                </Right>
               </CardItem>
             </Card>
-            {this.getContent()}
+            {this.state.view === 'list'
+              ? this.getListView()
+              : this.getMapView()}
           </Container>
           <Fab
             active={false}
