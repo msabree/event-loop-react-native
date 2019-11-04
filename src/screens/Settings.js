@@ -11,7 +11,6 @@ import {
   Button,
   Icon,
   Left,
-  Thumbnail,
 } from 'native-base';
 import {getVersion} from 'react-native-device-info';
 
@@ -21,6 +20,7 @@ import {ActionCreators} from '../actions';
 
 import userSelector from '../selectors/users';
 import notificationsSelector from '../selectors/notifications';
+import UserProfilePicture from '../components/UserProfilePicture';
 
 class Settings extends Component {
   constructor(props) {
@@ -85,7 +85,12 @@ class Settings extends Component {
               this.props.navigation.navigate('Profile');
             }}>
             <Left>
-              <Thumbnail source={{uri: this.props.loggedInProfilePic}} />
+              <UserProfilePicture
+                profile={{
+                  userId: this.props.loggedInUsername,
+                  profilePic: this.props.loggedInProfilePic,
+                }}
+              />
             </Left>
             <Body>
               <Text>{this.props.loggedInDisplayName}</Text>
