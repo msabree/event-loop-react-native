@@ -21,7 +21,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
-import ViewGroupModal from '../components/ViewGroup/ViewGroup';
+import ManageGroupModal from '../components/ManageGroup/ManageGroup';
 
 const styles = StyleSheet.create({});
 
@@ -33,7 +33,6 @@ class Groups extends React.Component {
       modalVisible: false,
       title: '',
       friends: [],
-      selectedGroup: {},
       groupId: '',
     };
   }
@@ -50,7 +49,6 @@ class Groups extends React.Component {
       title: group.title,
       modalVisible: true,
       friends: friends,
-      selectedGroup: group,
       groupId: group.id,
     });
   };
@@ -86,14 +84,19 @@ class Groups extends React.Component {
           style={{backgroundColor: 'orange'}}
           position="bottomRight"
           onPress={() => {
-            this.props.navigation.navigate('CreateGroup');
+            this.groupDetails({
+              members: [],
+              title: '',
+              id: 0,
+            });
           }}>
           <Icon name="add" />
         </Fab>
-        <ViewGroupModal
+        <ManageGroupModal
           componentState={this.state}
           hideModal={() => this.setState({modalVisible: false})}
           navigation={this.props.navigation}
+          editGroup={this.props.editGroup.bind(this)}
         />
       </Container>
     );

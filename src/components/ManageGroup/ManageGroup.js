@@ -1,15 +1,33 @@
 import React from 'react';
 import {Modal, View} from 'react-native';
-import {List, ListItem, Text, Left, Body, Button} from 'native-base';
+import {
+  List,
+  ListItem,
+  Text,
+  Left,
+  Body,
+  Button,
+  Input,
+  Item,
+} from 'native-base';
 import startCase from 'lodash/startCase';
 import UserProfilePicture from '../UserProfilePicture';
+import SelectFriends from '../SelectFriends/SelectFriends';
 
 import styles from './styles';
 
 export default class ViewGroup extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+      selectedItems: [],
+    };
   }
+
+  onSelectedItemsChange = selectedItems => {
+    this.setState({selectedItems});
+  };
 
   render() {
     return (
@@ -18,9 +36,15 @@ export default class ViewGroup extends React.Component {
         transparent={false}
         visible={this.props.componentState.modalVisible}>
         <View style={styles.wrapper}>
-          <Text style={styles.headerText}>
-            {startCase(this.props.componentState.title)}
-          </Text>
+          <Item regular>
+            <Input
+              placeholder={
+                this.props.componentState.title === ''
+                  ? 'Enter a group name'
+                  : startCase(this.props.componentState.title)
+              }
+            />
+          </Item>
           <List>
             {this.props.componentState.friends.map((friend, i) => (
               <ListItem thumbnail key={i} style={styles.listItem}>
@@ -38,19 +62,28 @@ export default class ViewGroup extends React.Component {
               </ListItem>
             ))}
           </List>
+          <SelectFriends
+            friends={this.props.componentState.friends.map(friend => {
+              return {
+                name: friend._displayName || friend._username,
+                id: friend.friendUserId,
+              };
+            })}
+            selectedItems={this.state.selectedItems}
+            onSelectedItemsChange={this.onSelectedItemsChange.bind(this)}
+          />
           <View style={styles.buttonBar}>
             <Button
               dark
               bordered
               onPress={() => {
+                this.props.editGroup(
+                  this.state.selectedItems,
+                  this.props.componentState.groupId,
+                );
                 this.props.hideModal();
-                this.props.navigation.navigate('CreateGroup', {
-                  group: this.props.componentState.selectedGroup,
-                  groupId: this.props.componentState.groupId,
-                  friends: this.props.componentState.friends,
-                });
               }}>
-              <Text>Add Friends</Text>
+              <Text>Save</Text>
             </Button>
             <Button
               dark
@@ -58,7 +91,7 @@ export default class ViewGroup extends React.Component {
               onPress={() => {
                 this.props.hideModal();
               }}>
-              <Text>Close</Text>
+              <Text>Cancel</Text>
             </Button>
           </View>
         </View>
