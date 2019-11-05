@@ -1,6 +1,7 @@
 const groupsSelector = state => {
   return {
-    groups: state.groupsReducer,
+    groups: state.groupsReducer.current,
+    modalVisible: state.groupsReducer.modalVisible,
   };
 };
 

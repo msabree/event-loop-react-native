@@ -13,8 +13,6 @@ import {
   Button,
 } from 'native-base';
 import startCase from 'lodash/startCase';
-
-import friendsSelector from '../selectors/friends';
 import groupsSelector from '../selectors/groups';
 
 import {connect} from 'react-redux';
@@ -26,40 +24,13 @@ import ManageGroupModal from '../components/ManageGroup/ManageGroup';
 const styles = StyleSheet.create({});
 
 class Groups extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      groups: [],
-      modalVisible: false,
-      title: '',
-      friends: [],
-      groupId: '',
-    };
-  }
-
-  onSelectedItemsChange = selectedItems => {
-    this.setState({selectedItems});
-  };
-
-  groupDetails = group => {
-    const friends = group.members.map(memberId => {
-      return this.props.currentFriends.find(x => x.friendUserId === memberId);
-    });
-    this.setState({
-      title: group.title,
-      modalVisible: true,
-      friends: friends,
-      groupId: group.id,
-    });
-  };
-
   render() {
     return (
       <Container>
         <Container>
           <Content>
             <List>
-              {this.props.groups.groups.map((group, i) => (
+              {this.props.groups.map((group, i) => (
                 <ListItem key={i}>
                   <Body>
                     <Text>{startCase(group.title)}</Text>
@@ -67,7 +38,7 @@ class Groups extends React.Component {
                   <Right>
                     <Button
                       onPress={() => {
-                        this.groupDetails(group);
+                        this.props.setManageGroupModalVisible(group.id, true);
                       }}
                       transparent>
                       <Text>Manage</Text>
@@ -84,19 +55,15 @@ class Groups extends React.Component {
           style={{backgroundColor: 'orange'}}
           position="bottomRight"
           onPress={() => {
-            this.groupDetails({
-              members: [],
-              title: '',
-              id: 0,
-            });
+            this.props.setManageGroupModalVisible('', true);
           }}>
           <Icon name="add" />
         </Fab>
         <ManageGroupModal
-          componentState={this.state}
           hideModal={() => this.setState({modalVisible: false})}
           navigation={this.props.navigation}
           editGroup={this.props.editGroup.bind(this)}
+          modalVisible={this.props.modalVisible}
         />
       </Container>
     );
@@ -109,8 +76,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    currentFriends: friendsSelector(state).current,
-    groups: groupsSelector(state),
+    groups: groupsSelector(state).groups,
+    modalVisible: groupsSelector(state).modalVisible,
   };
 }
 

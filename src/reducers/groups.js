@@ -30,4 +30,9 @@ export const groupsReducer = createReducer(applicationState.groups, {
     console.log(stateClone);
     return stateClone;
   },
+  [actionTypes.SET_MANAGE_GROUP_MODAL_VISIBLE](state, action) {
+    const stateClone = cloneDeep(state);
+    set(stateClone, 'modalVisible', get(action, 'payload.isVisible', false));
+    return stateClone;
+  },
 });
