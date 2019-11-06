@@ -21,6 +21,10 @@ import {ActionCreators} from '../actions';
 import ManageGroupModal from '../components/ManageGroup/container';
 
 class Groups extends React.Component {
+  componentDidMount() {
+    this.props.getGroups();
+  }
+
   render() {
     return (
       <Container>

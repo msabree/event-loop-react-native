@@ -1,6 +1,26 @@
+import get from 'lodash/get';
+import api from '../utils/api';
 import * as actionTypes from '../constants/actionTypes';
 import groupSelector from '../selectors/groups';
 import formSelector from '../selectors/forms';
+import {INVALID_SESSION} from '../constants/errors';
+
+export const getGroups = () => dispatch => {
+  api
+    .get('/groups')
+    .then(apiResponse => {
+      if (get(apiResponse, 'message', '').toLowerCase() === INVALID_SESSION) {
+        return dispatch({
+          type: actionTypes.INVALID_SESSION,
+        });
+      } else {
+        console.log(apiResponse);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 export const saveGroup = () => (dispatch, getState) => {
   const selectedFriendIds = groupSelector(getState()).selectedFriendIds;
@@ -8,13 +28,30 @@ export const saveGroup = () => (dispatch, getState) => {
   const edittedGroupTitle = formSelector(getState()).groupTitle;
 
   if (groupIdSelected === '') {
-    return dispatch({
-      type: actionTypes.CREATE_GROUP,
-      payload: {
-        title: edittedGroupTitle,
+    api
+      .post('/groups', {
         members: selectedFriendIds,
-      },
-    });
+        title: edittedGroupTitle,
+      })
+      .then(apiResponse => {
+        if (get(apiResponse, 'message', '').toLowerCase() === INVALID_SESSION) {
+          return dispatch({
+            type: actionTypes.INVALID_SESSION,
+          });
+        } else {
+          // get groups? or save a call?
+          return dispatch({
+            type: actionTypes.CREATE_GROUP,
+            payload: {
+              title: edittedGroupTitle,
+              members: selectedFriendIds,
+            },
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   return dispatch({
     type: actionTypes.SAVE_GROUP,

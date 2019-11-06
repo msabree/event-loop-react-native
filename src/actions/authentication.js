@@ -19,11 +19,11 @@ export const removeSession = () => async dispatch => {
 
     try {
       await AsyncStorage.setItem(storageKeys.SESSION_TOKEN, null);
-    } catch (e) {
+    } catch (err) {
       console.log(
         'Fatal error... Unable to delete bad session. User may have to reinstall.',
       );
-      console.log(e);
+      console.log(err);
     }
   }
 

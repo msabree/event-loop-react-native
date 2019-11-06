@@ -15,7 +15,6 @@ const getContacts = query => {
       let matchedContacts = [];
 
       if (err) {
-        console.log(err);
         resolve({
           suggestions: [],
           contactsPhoneNumbers: [],

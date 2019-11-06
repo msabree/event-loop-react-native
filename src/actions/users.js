@@ -51,7 +51,7 @@ export const updateUserInfo = (updateObject, verifyUsername = false) => (
               });
           } else {
             alert(
-              `Invalid username. Please use letters, numbers, underscores, and/or periods.`,
+              'Invalid username. Please use letters, numbers, underscores, and/or periods.',
             );
             reject('Username not available');
           }
@@ -153,7 +153,7 @@ export const sendAppFeedback = () => (dispatch, getState) => {
   );
   if (feedback.trim() !== '') {
     api
-      .post(`/users/app-feedback`, {
+      .post('/users/app-feedback', {
         sessionToken,
         feedback,
       }) // not really a users route but meh...

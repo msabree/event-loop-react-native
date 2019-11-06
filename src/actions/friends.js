@@ -73,7 +73,7 @@ export const sendFriendRequest = friendUserId => (dispatch, getState) => {
   const sessionToken = get(authenticationState, 'sessionToken', '');
 
   api
-    .post(`/friends/request`, {
+    .post('/friends/request', {
       sessionToken,
       friendUserId,
     })
@@ -146,14 +146,13 @@ export const respondToRequest = (userId, isConfirmed = false) => (
 
   const authenticationState = authenticationSelector(getState());
   const sessionToken = get(authenticationState, 'sessionToken', '');
+  const requestId =
+    sentRequests.length > 0 ? sentRequests[0].requestId : requests[0].requestId;
 
   api
-    .post(`/friends/request-response`, {
+    .post('/friends/request-response', {
       sessionToken,
-      requestId:
-        sentRequests.length > 0
-          ? sentRequests[0].requestId
-          : requests[0].requestId,
+      requestId,
       isConfirmed,
     })
     .then(apiResponse => {

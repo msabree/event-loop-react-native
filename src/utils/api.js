@@ -1,13 +1,27 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import {Toast} from 'native-base';
+import {Platform} from 'react-native';
+import get from 'lodash/get';
 import {getVersion} from 'react-native-device-info';
+import * as storageKeys from '../constants/storageKeys';
+import {
+  INVALID_SESSION,
+  API_TECHNICAL_ISSUES,
+  EXPIRED_SESSION,
+} from '../constants/errors';
+import {
+  IOS_TEST_USER_SESSION_TOKEN,
+  ANDROID_TEST_USER_SESSION_TOKEN,
+} from '../constants/testUsers';
 
 class Api {
-  static headers(version) {
+  static headers(version, sessionToken) {
     return {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       dataType: 'json',
       'APP-INSTALLED-VERSION': version,
+      'USER-SESSION-TOKEN': sessionToken,
     };
   }
 
@@ -37,13 +51,26 @@ class Api {
       host = 'https://dev-api-flaker.herokuapp.com'; // dev
       console.log(route);
     }
+    let sessionToken = '0'; // <- invalid session token
+    try {
+      sessionToken = await AsyncStorage.getItem(storageKeys.SESSION_TOKEN);
+    } catch (e) {}
+
+    if (__DEV__) {
+      if (Platform.OS === 'ios') {
+        sessionToken = IOS_TEST_USER_SESSION_TOKEN;
+      } else {
+        sessionToken = ANDROID_TEST_USER_SESSION_TOKEN;
+      }
+    }
+
     const url = `${host}${route}`;
     let options = Object.assign(
       {method: verb},
       params ? {body: JSON.stringify(params)} : null,
     );
     const version = await getVersion();
-    options.headers = Api.headers(version);
+    options.headers = Api.headers(version, sessionToken);
     return fetch(url, options)
       .then(resp => {
         let json = resp.json();
@@ -55,9 +82,9 @@ class Api {
         });
       })
       .then(json => {
-        if (json.message === 'Invalid session.') {
+        if (get(json, 'message', '').toLowerCase() === INVALID_SESSION) {
           Toast.show({
-            text: 'Session has expired. Please login again.',
+            text: EXPIRED_SESSION,
             buttonText: 'Close',
             type: 'warning',
             duration: 5000,
@@ -75,8 +102,7 @@ class Api {
           });
         } else {
           Toast.show({
-            text:
-              'We are experiencing issues with our APIs. Please try again later. Or contact us if the issue persists.',
+            text: API_TECHNICAL_ISSUES,
             buttonText: 'Close',
             type: 'warning',
             duration: 5000,

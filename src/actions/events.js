@@ -113,7 +113,7 @@ export const saveEvent = (
         eventType,
       });
     } else {
-      apiCall = api.post(`/events`, {
+      apiCall = api.post('/events', {
         sessionToken,
         location,
         title,
@@ -274,7 +274,7 @@ export const joinEvent = event => (dispatch, getState) => {
   const sessionToken = get(authenticationState, 'sessionToken', '');
 
   api
-    .post(`/events/guest-list`, {
+    .post('/events/guest-list', {
       event,
       sessionToken,
     })
@@ -300,7 +300,7 @@ export const leaveEvent = event => (dispatch, getState) => {
   const sessionToken = get(authenticationState, 'sessionToken', '');
 
   api
-    .delete(`/events/guest-list`, {
+    .delete('/events/guest-list', {
       event,
       sessionToken,
     })
