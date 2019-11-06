@@ -4,6 +4,7 @@ const formsSelector = state => {
     videoChatEvent: state.formsReducer.videoChatEvent,
     phoneCallEvent: state.formsReducer.phoneCallEvent,
     appFeedback: state.formsReducer.appFeedback,
+    groupTitle: state.formsReducer.manageGroups.title,
   };
 };
 

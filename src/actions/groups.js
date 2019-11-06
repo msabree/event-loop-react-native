@@ -1,22 +1,27 @@
-// import {Toast} from 'native-base';
 import * as actionTypes from '../constants/actionTypes';
+import groupSelector from '../selectors/groups';
+import formSelector from '../selectors/forms';
 
-export const createGroup = (title, members) => (dispatch, getState) => {
-  return dispatch({
-    type: actionTypes.CREATE_GROUP,
-    payload: {
-      title,
-      members,
-    },
-  });
-};
+export const saveGroup = () => (dispatch, getState) => {
+  const selectedFriendIds = groupSelector(getState()).selectedFriendIds;
+  const groupIdSelected = groupSelector(getState()).groupIdSelected;
+  const edittedGroupTitle = formSelector(getState()).groupTitle;
 
-export const editGroup = (members, id) => (dispatch, getState) => {
+  if (groupIdSelected === '') {
+    return dispatch({
+      type: actionTypes.CREATE_GROUP,
+      payload: {
+        title: edittedGroupTitle,
+        members: selectedFriendIds,
+      },
+    });
+  }
   return dispatch({
-    type: actionTypes.EDIT_GROUP,
+    type: actionTypes.SAVE_GROUP,
     payload: {
-      members,
-      id,
+      members: selectedFriendIds,
+      id: groupIdSelected,
+      title: edittedGroupTitle,
     },
   });
 };
@@ -30,6 +35,15 @@ export const setManageGroupModalVisible = (
     payload: {
       id,
       isVisible,
+    },
+  });
+};
+
+export const setSelectedFriendIds = (selectedFriendIds = []) => dispatch => {
+  return dispatch({
+    type: actionTypes.SET_SELECTED_FRIEND_IDS,
+    payload: {
+      selectedFriendIds,
     },
   });
 };

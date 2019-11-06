@@ -42,8 +42,12 @@ export default {
         id: '1572611851030',
       },
     ],
-    modalVisible: false,
-    groupIdOpen: '',
+    editting: {
+      modalVisible: false,
+      groupId: '',
+      groupTitle: '',
+      selectedFriendIds: [],
+    },
   },
   authentication: {
     appStoreReviewMode: false,
@@ -107,6 +111,9 @@ export default {
     },
     appFeedback: {
       feedback: '',
+    },
+    manageGroups: {
+      title: '',
     },
   },
 };

@@ -50,4 +50,9 @@ export const formsReducer = createReducer(applicationState.forms, {
     set(stateClone, 'appFeedback.feedback', '');
     return stateClone;
   },
+  [actionTypes.RESET_GROUP_MANAGEMENT_FORM](state) {
+    const stateClone = cloneDeep(state);
+    set(stateClone, 'manageGroups.title', '');
+    return stateClone;
+  },
 });

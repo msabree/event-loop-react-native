@@ -9,7 +9,7 @@ import applicationState from './applicationState';
 export const groupsReducer = createReducer(applicationState.groups, {
   [actionTypes.CREATE_GROUP](state, action) {
     const stateClone = cloneDeep(state);
-    stateClone.push({
+    stateClone.current.push({
       title: action.payload.title,
       members: action.payload.members,
       //id probably needs to be changed from date.now
@@ -17,22 +17,33 @@ export const groupsReducer = createReducer(applicationState.groups, {
     });
     return stateClone;
   },
-  [actionTypes.EDIT_GROUP](state, action) {
+  [actionTypes.SAVE_GROUP](state, action) {
     const stateClone = cloneDeep(state);
-    const objIndex = stateClone.findIndex(obj => obj.id === action.payload.id);
-    // stateClone[objIndex].members = action.payload.members;
-    console.log(stateClone[objIndex].members);
-    console.log(action.payload.members);
+    const objIndex = stateClone.current.findIndex(
+      obj => obj.id === action.payload.id,
+    );
     action.payload.members.map(item => {
-      console.log(item);
-      stateClone[objIndex].members.push(item);
+      stateClone.current[objIndex].members.push(item);
     });
-    console.log(stateClone);
     return stateClone;
   },
   [actionTypes.SET_MANAGE_GROUP_MODAL_VISIBLE](state, action) {
     const stateClone = cloneDeep(state);
-    set(stateClone, 'modalVisible', get(action, 'payload.isVisible', false));
+    set(
+      stateClone,
+      'editting.modalVisible',
+      get(action, 'payload.isVisible', false),
+    );
+    set(stateClone, 'editting.groupId', get(action, 'payload.id', ''));
+    return stateClone;
+  },
+  [actionTypes.SET_SELECTED_FRIEND_IDS](state, action) {
+    const stateClone = cloneDeep(state);
+    set(
+      stateClone,
+      'editting.selectedFriendIds',
+      get(action, 'payload.selectedFriendIds', []),
+    );
     return stateClone;
   },
 });

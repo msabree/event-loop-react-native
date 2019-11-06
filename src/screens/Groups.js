@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {
   Container,
   Content,
@@ -19,9 +18,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 
-import ManageGroupModal from '../components/ManageGroup/ManageGroup';
-
-const styles = StyleSheet.create({});
+import ManageGroupModal from '../components/ManageGroup/container';
 
 class Groups extends React.Component {
   render() {
@@ -59,12 +56,7 @@ class Groups extends React.Component {
           }}>
           <Icon name="add" />
         </Fab>
-        <ManageGroupModal
-          hideModal={() => this.setState({modalVisible: false})}
-          navigation={this.props.navigation}
-          editGroup={this.props.editGroup.bind(this)}
-          modalVisible={this.props.modalVisible}
-        />
+        <ManageGroupModal />
       </Container>
     );
   }
@@ -77,7 +69,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     groups: groupsSelector(state).groups,
-    modalVisible: groupsSelector(state).modalVisible,
   };
 }
 
