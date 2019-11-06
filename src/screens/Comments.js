@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, Linking, TouchableOpacity} from 'react-native';
 import {
@@ -34,6 +33,49 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  listItem: {
+    flexDirection: 'column',
+  },
+  contentContainer: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+  },
+  contentContainer2: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  comment: {
+    minWidth: 250,
+    maxWidth: 290,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    backgroundColor: 'orange',
+    color: '#fff',
+    borderRadius: 10,
+  },
+  comment2: {
+    minWidth: 250,
+    maxWidth: 290,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    backgroundColor: 'grey',
+    color: '#fff',
+    borderRadius: 10,
+  },
+  text: {
+    color: 'grey',
+    fontSize: 12,
+  },
+  link: {
+    color: '#21579E',
+    textDecorationLine: 'underline',
+  },
+  linkStyle2: {
+    color: '#86BAFD',
+    textDecorationLine: 'underline',
+  },
 });
 
 class Comments extends React.Component {
@@ -58,7 +100,7 @@ class Comments extends React.Component {
     if (commentObject.isCreator === true) {
       return (
         <ListItem
-          style={{flexDirection: 'column'}}
+          style={styles.listItem}
           key={commentObject.commentId}
           onLongPress={
             commentObject.userId !== this.props.loggedInUserId
@@ -72,17 +114,15 @@ class Comments extends React.Component {
                       title: 'Comments',
                     },
                     buttonIndex => {
-                      if (buttonIndex === 0)
+                      if (buttonIndex === 0) {
                         this.props.deleteComment(commentObject.commentId);
-                      else ActionSheet.hide();
+                      } else {
+                        ActionSheet.hide();
+                      }
                     },
                   )
           }>
-          <Content
-            contentContainerStyle={{
-              justifyContent: 'flex-start',
-              flexDirection: 'row',
-            }}>
+          <Content contentContainerStyle={styles.contentContainer}>
             <TouchableOpacity
               onPress={() => {
                 if (commentObject.userId === this.props.loggedInUserId) {
@@ -97,32 +137,20 @@ class Comments extends React.Component {
               />
             </TouchableOpacity>
             <Hyperlink
-              linkStyle={{color: '#21579E', textDecorationLine: 'underline'}}
+              linkStyle={styles.link}
               onPress={url => Linking.openURL(url)}>
-              <Text
-                style={{
-                  minWidth: 250,
-                  maxWidth: 290,
-                  marginLeft: 10,
-                  marginRight: 10,
-                  padding: 10,
-                  backgroundColor: 'orange',
-                  color: '#fff',
-                  borderRadius: 10,
-                }}>
-                {commentObject.comment}
-              </Text>
+              <Text style={styles.comment}>{commentObject.comment}</Text>
             </Hyperlink>
           </Content>
           <Content>
-            <Text style={{color: 'grey', fontSize: 12}}>
+            <Text style={styles.text}>
               {commentObject.displayName === ''
                 ? commentObject.username
                 : commentObject.displayName}
             </Text>
           </Content>
           <Content>
-            <Text style={{color: 'grey', fontSize: 12}}>
+            <Text style={styles.text}>
               {moment(commentObject.datetimePosted).format('MMM Do h:mm a')}
             </Text>
           </Content>
@@ -131,7 +159,7 @@ class Comments extends React.Component {
     }
     return (
       <ListItem
-        style={{flexDirection: 'column'}}
+        style={styles.listItem}
         key={commentObject.commentId}
         onLongPress={
           commentObject.userId !== this.props.loggedInUserId
@@ -145,33 +173,19 @@ class Comments extends React.Component {
                     title: 'Comments',
                   },
                   buttonIndex => {
-                    if (buttonIndex === 0)
+                    if (buttonIndex === 0) {
                       this.props.deleteComment(commentObject.commentId);
-                    else ActionSheet.hide();
+                    } else {
+                      ActionSheet.hide();
+                    }
                   },
                 )
         }>
-        <Content
-          contentContainerStyle={{
-            justifyContent: 'flex-end',
-            flexDirection: 'row',
-          }}>
+        <Content contentContainerStyle={styles.contentContainer2}>
           <Hyperlink
-            linkStyle={{color: '#86BAFD', textDecorationLine: 'underline'}}
+            linkStyle={styles.linkStyle2}
             onPress={url => Linking.openURL(url)}>
-            <Text
-              style={{
-                minWidth: 250,
-                maxWidth: 290,
-                marginLeft: 10,
-                marginRight: 10,
-                padding: 10,
-                backgroundColor: 'grey',
-                color: '#fff',
-                borderRadius: 10,
-              }}>
-              {commentObject.comment}
-            </Text>
+            <Text style={styles.comment2}>{commentObject.comment}</Text>
           </Hyperlink>
           <TouchableOpacity
             onPress={() => {
@@ -188,14 +202,14 @@ class Comments extends React.Component {
           </TouchableOpacity>
         </Content>
         <Content>
-          <Text style={{color: 'grey', fontSize: 12}}>
+          <Text style={styles.text}>
             {commentObject.displayName === ''
               ? commentObject.username
               : commentObject.displayName}
           </Text>
         </Content>
         <Content>
-          <Text style={{color: 'grey', fontSize: 12}}>
+          <Text style={styles.text}>
             {moment(commentObject.datetimePosted).format('MMM Do h:mm a')}
           </Text>
         </Content>

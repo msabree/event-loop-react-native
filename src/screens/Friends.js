@@ -26,6 +26,9 @@ import friendsSelector from '../selectors/friends';
 import searchSelector from '../selectors/search';
 
 const styles = StyleSheet.create({
+  wrapper: {
+    marginTop: 20,
+  },
   searchBoxContainer: {
     flex: 1,
     paddingTop: 20,
@@ -41,6 +44,9 @@ const styles = StyleSheet.create({
     height: 60,
   },
   inputContainerStyle: {},
+  text: {
+    fontSize: 12,
+  },
 });
 
 class Friends extends Component {
@@ -218,7 +224,7 @@ class Friends extends Component {
               onPress={() => {
                 this.confirmDeleteFriendRequest(currRequest.requestorUserId);
               }}>
-              <Text style={{fontSize: 12}}>Delete friend request.</Text>
+              <Text style={styles.text}>Delete friend request.</Text>
             </Button>
           </Body>
           <Right>
@@ -262,7 +268,7 @@ class Friends extends Component {
               onPress={() => {
                 this.confirmCancelSentFriendRequest(currRequest.userId);
               }}>
-              <Text style={{fontSize: 12}}>Cancel sent friend request.</Text>
+              <Text style={styles.text}>Cancel sent friend request.</Text>
             </Button>
           </Body>
           <Right />
@@ -301,7 +307,7 @@ class Friends extends Component {
 
   render() {
     return (
-      <Content style={{marginTop: 20}}>
+      <Content style={styles.wrapper}>
         <Autocomplete
           autoCapitalize="none"
           autoCorrect={false}
