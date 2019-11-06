@@ -46,6 +46,7 @@ function mapStateToProps(state) {
   });
 
   return {
+    createMode: groupIdSelected.trim() === '',
     modalVisible,
     groupTitle:
       edittedGroupTitle === ''

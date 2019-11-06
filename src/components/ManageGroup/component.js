@@ -7,6 +7,8 @@ import {
   ListItem,
   Text,
   Left,
+  Right,
+  Icon,
   Body,
   Button,
   Input,
@@ -27,6 +29,7 @@ const ManageGroup = ({
   groupTitle,
   saveGroup,
   cancel,
+  createMode,
 }) => (
   <Modal animationType="slide" transparent={false} visible={modalVisible}>
     <View style={styles.wrapper}>
@@ -62,23 +65,42 @@ const ManageGroup = ({
             </Left>
             <Body>
               <Text>{friend._displayName}</Text>
+              <Text note>{''}</Text>
             </Body>
+            <Right>
+              <Button
+                dark
+                transparent
+                onPress={() => {
+                  console.log('hello');
+                }}>
+                <Icon name="close" />
+              </Button>
+            </Right>
           </ListItem>
         ))}
       </List>
-      <View style={styles.buttonBar}>
-        <Button dark bordered onPress={() => saveGroup()}>
-          <Text>Save</Text>
+      <Button
+        style={styles.button}
+        success
+        bordered
+        onPress={() => saveGroup()}>
+        <Text>{createMode === true ? 'Save' : 'Update'}</Text>
+      </Button>
+      {createMode === false && (
+        <Button style={styles.button} danger bordered onPress={() => {}}>
+          <Text>Delete</Text>
         </Button>
-        <Button dark bordered onPress={() => cancel()}>
-          <Text>Cancel</Text>
-        </Button>
-      </View>
+      )}
+      <Button style={styles.button} dark bordered onPress={() => cancel()}>
+        <Text>Cancel</Text>
+      </Button>
     </View>
   </Modal>
 );
 
 ManageGroup.propTypes = {
+  createMode: PropTypes.bool,
   modalVisible: PropTypes.bool,
   groupTitle: PropTypes.string,
   friendsInGroup: PropTypes.arrayOf(PropTypes.shape),
@@ -91,6 +113,7 @@ ManageGroup.propTypes = {
 };
 
 ManageGroup.defaultProps = {
+  createMode: false,
   modalVisible: false,
   groupTitle: '',
   friendsInGroup: [],

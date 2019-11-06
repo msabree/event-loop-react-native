@@ -14,9 +14,7 @@ export default StyleSheet.create({
   listItem: {
     marginBottom: 20,
   },
-  buttonBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+  button: {
+    margin: 10,
   },
 });
