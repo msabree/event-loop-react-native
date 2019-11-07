@@ -34,7 +34,7 @@ function mapStateToProps(state) {
   const existingGroups = groupsSelector(state).groups;
   const currentGroup = find(
     existingGroups,
-    group => group.id === groupIdSelected,
+    group => group.groupId === groupIdSelected,
   );
   const currentGroupFriendIds = get(currentGroup, 'members', []);
   const currentFriends = friendsSelector(state).current;

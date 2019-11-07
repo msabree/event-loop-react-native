@@ -14,7 +14,12 @@ export const getGroups = () => dispatch => {
           type: actionTypes.INVALID_SESSION,
         });
       } else {
-        console.log(apiResponse);
+        return dispatch({
+          type: actionTypes.GET_GROUPS,
+          payload: {
+            groups: apiResponse.groups,
+          },
+        });
       }
     })
     .catch(err => {
@@ -39,14 +44,7 @@ export const saveGroup = () => (dispatch, getState) => {
             type: actionTypes.INVALID_SESSION,
           });
         } else {
-          // get groups? or save a call?
-          return dispatch({
-            type: actionTypes.CREATE_GROUP,
-            payload: {
-              title: edittedGroupTitle,
-              members: selectedFriendIds,
-            },
-          });
+          return dispatch(getGroups());
         }
       })
       .catch(err => {
@@ -54,7 +52,7 @@ export const saveGroup = () => (dispatch, getState) => {
       });
   }
   return dispatch({
-    type: actionTypes.SAVE_GROUP,
+    type: actionTypes.UPDATE_GROUP,
     payload: {
       members: selectedFriendIds,
       id: groupIdSelected,
@@ -64,13 +62,13 @@ export const saveGroup = () => (dispatch, getState) => {
 };
 
 export const setManageGroupModalVisible = (
-  id = '',
+  groupId = '',
   isVisible = false,
 ) => dispatch => {
   return dispatch({
     type: actionTypes.SET_MANAGE_GROUP_MODAL_VISIBLE,
     payload: {
-      id,
+      groupId,
       isVisible,
     },
   });

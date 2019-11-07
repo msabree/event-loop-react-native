@@ -7,17 +7,12 @@ import * as actionTypes from '../constants/actionTypes';
 import applicationState from './applicationState';
 
 export const groupsReducer = createReducer(applicationState.groups, {
-  [actionTypes.CREATE_GROUP](state, action) {
+  [actionTypes.GET_GROUPS](state, action) {
     const stateClone = cloneDeep(state);
-    stateClone.current.push({
-      title: action.payload.title,
-      members: action.payload.members,
-      //id probably needs to be changed from date.now
-      id: Date.now(),
-    });
+    set(stateClone, 'current', get(action, 'payload.groups', []));
     return stateClone;
   },
-  [actionTypes.SAVE_GROUP](state, action) {
+  [actionTypes.UPDATE_GROUP](state, action) {
     const stateClone = cloneDeep(state);
     const objIndex = stateClone.current.findIndex(
       obj => obj.id === action.payload.id,
@@ -34,7 +29,7 @@ export const groupsReducer = createReducer(applicationState.groups, {
       'editting.modalVisible',
       get(action, 'payload.isVisible', false),
     );
-    set(stateClone, 'editting.groupId', get(action, 'payload.id', ''));
+    set(stateClone, 'editting.groupId', get(action, 'payload.groupId', ''));
     return stateClone;
   },
   [actionTypes.SET_SELECTED_FRIEND_IDS](state, action) {

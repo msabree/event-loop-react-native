@@ -29,8 +29,8 @@ class Map extends React.Component {
             .geometry.location.lat,
           longitude: this.props.events[this.props.events.length - 1].location
             .geometry.location.lng,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
+          latitudeDelta: 0.115,
+          longitudeDelta: 0.1121,
         },
       };
     }
@@ -47,7 +47,7 @@ class Map extends React.Component {
               region={this.state ? this.state.region : {}}>
               {this.props.events.map(event => (
                 <Marker
-                  key={event.id}
+                  key={event.eventId}
                   coordinate={{
                     latitude: get(event, 'location.geometry.location.lat', ''),
                     longitude: get(event, 'location.geometry.location.lng', ''),
