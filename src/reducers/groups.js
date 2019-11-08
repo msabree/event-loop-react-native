@@ -15,11 +15,13 @@ export const groupsReducer = createReducer(applicationState.groups, {
   [actionTypes.UPDATE_GROUP](state, action) {
     const stateClone = cloneDeep(state);
     const objIndex = stateClone.current.findIndex(
-      obj => obj.id === action.payload.id,
+      obj => obj.groupId === action.payload.groupId,
     );
-    action.payload.members.map(item => {
-      stateClone.current[objIndex].members.push(item);
-    });
+    if (objIndex !== -1) {
+      action.payload.members.map(item => {
+        stateClone.current[objIndex].members.push(item);
+      });
+    }
     return stateClone;
   },
   [actionTypes.SET_MANAGE_GROUP_MODAL_VISIBLE](state, action) {

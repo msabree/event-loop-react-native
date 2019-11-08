@@ -39,7 +39,10 @@ class Groups extends React.Component {
                   <Right>
                     <Button
                       onPress={() => {
-                        this.props.setManageGroupModalVisible(group.id, true);
+                        this.props.setManageGroupModalVisible(
+                          group.groupId,
+                          true,
+                        );
                       }}
                       transparent>
                       <Text>Manage</Text>
