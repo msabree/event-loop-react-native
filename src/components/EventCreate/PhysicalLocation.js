@@ -1,17 +1,6 @@
 import React from 'react';
-import {StyleSheet, Alert} from 'react-native';
-import {
-  Content,
-  Card,
-  CardItem,
-  Item,
-  Textarea,
-  Button,
-  Input,
-  Text,
-  Picker,
-  Icon,
-} from 'native-base';
+import {StyleSheet} from 'react-native';
+import {Content, CardItem, Item, Textarea, Input, Text} from 'native-base';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import DatePicker from 'react-native-datepicker';
 import get from 'lodash/get';
@@ -46,10 +35,13 @@ class PhysicalLocationEvent extends React.Component {
   }
 
   render() {
-    set(this.props, 'physicalLocationEvent.details', this.props.url)
+    const minDateTime = new Date();
+    minDateTime.setHours(minDateTime.getHours() + 1); // 1 hour from now
+    const maxDateTime = new Date();
+    maxDateTime.setHours(minDateTime.getHours() + 6); // 6 hours from now
     return (
       <Content>
-        <CardItem transparent>
+        <CardItem transparent style={{marginBottom: 20}}>
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
@@ -61,7 +53,7 @@ class PhysicalLocationEvent extends React.Component {
             />
           </Item>
         </CardItem>
-        <CardItem transparent>
+        <CardItem transparent style={{marginBottom: 20}}>
           <Item regular>
             <GooglePlacesAutocomplete
               placeholder={
@@ -114,95 +106,7 @@ class PhysicalLocationEvent extends React.Component {
             />
           </Item>
         </CardItem>
-        <CardItem transparent>
-          <Text>From</Text>
-        </CardItem>
-        <CardItem transparent>
-          <Item regular>
-            <DatePicker
-              style={{width: 200}}
-              date={get(
-                this.props,
-                'physicalLocationEvent.startDatetime',
-                new Date(),
-              )}
-              mode="datetime"
-              placeholder="select date"
-              format="MMM Do YY h:mm a"
-              minDate={new Date()} // no past events
-              maxDate={
-                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-              } // one year in the future
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-                // ... You can check the source to find the other keys.
-              }}
-              onDateChange={date => {
-                this.props.inputChange(
-                  'physicalLocationEvent.startDatetime',
-                  new Date(moment(date, 'MMM Do YY h:mm a').format()),
-                );
-              }}
-            />
-          </Item>
-        </CardItem>
-        <CardItem transparent>
-          <Text>Until</Text>
-        </CardItem>
-        <CardItem transparent>
-          <Item regular>
-            <DatePicker
-              style={{width: 200}}
-              date={get(
-                this.props,
-                'physicalLocationEvent.endDatetime',
-                new Date(),
-              )}
-              mode="datetime"
-              placeholder="select date"
-              format="MMM Do YY h:mm a"
-              minDate={get(
-                this.props,
-                'physicalLocationEvent.startDatetime',
-                new Date(),
-              )} // start time?
-              maxDate={
-                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-              } // one year in the future
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  marginLeft: 36,
-                },
-                // ... You can check the source to find the other keys.
-              }}
-              onDateChange={date => {
-                this.props.inputChange(
-                  'physicalLocationEvent.endDatetime',
-                  new Date(moment(date, 'MMM Do YY h:mm a').format()),
-                );
-              }}
-            />
-          </Item>
-        </CardItem>
-        <CardItem transparent>
+        <CardItem transparent style={{marginBottom: 20}}>
           <Textarea
             style={styles.textArea}
             value={get(this.props, 'physicalLocationEvent.details', '')}
@@ -211,8 +115,92 @@ class PhysicalLocationEvent extends React.Component {
             onChangeText={value => {
               this.props.inputChange('physicalLocationEvent.details', value);
             }}
-            placeholder="Enter event details"
+            placeholder="Let your friends know the specifics about what's going on."
           />
+        </CardItem>
+        <CardItem transparent>
+          <Text>Happening Now</Text>
+        </CardItem>
+        <CardItem transparent style={{marginBottom: 20}}>
+          <Item regular>
+            <DatePicker
+              disabled={true}
+              style={{width: 200}}
+              date={new Date()}
+              placeholder={'Start time'}
+              mode="time"
+              format="h:mm a"
+              minDate={new Date()} // now!
+              maxDate={new Date()} // now!
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginLeft: 36,
+                },
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={time => {
+                this.props.inputChange(
+                  'physicalLocationEvent.startDateTime',
+                  new Date(),
+                );
+              }}
+            />
+          </Item>
+        </CardItem>
+        <CardItem transparent>
+          <Text>End time</Text>
+        </CardItem>
+        <CardItem transparent style={{marginBottom: 20}}>
+          <Item regular>
+            <DatePicker
+              style={{width: 200}}
+              date={get(
+                this.props,
+                'physicalLocationEvent.endDatetime',
+                new Date(minDateTime),
+              )}
+              placeholder={'End time'}
+              mode="time"
+              format="h:mm a"
+              minDate={get(
+                this.props,
+                'physicalLocationEvent.startDatetime',
+                new Date(minDateTime),
+              )}
+              maxDate={new Date(maxDateTime)}
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginLeft: 36,
+                },
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={time => {
+                this.props.inputChange(
+                  'physicalLocationEvent.endDatetime',
+                  new Date(moment(time, 'h:mm a').format()),
+                );
+              }}
+            />
+          </Item>
+        </CardItem>
+        <CardItem transparent>
+          <Text note>Posts are viewable for up to six hours.</Text>
         </CardItem>
       </Content>
     );

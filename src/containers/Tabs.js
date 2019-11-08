@@ -16,7 +16,6 @@ import getTheme from '../../native-base-theme/components';
 import platform from '../../native-base-theme/variables/platform';
 
 import Home from '../screens/Home';
-//import LocalEvents from '../screens/LocalEvents';
 import Friends from '../screens/Friends';
 import Settings from '../screens/Settings';
 
@@ -112,8 +111,6 @@ class TabsContainer extends Component {
     switch (this.props.activeTabIndex) {
       case 0:
         return <Home navigation={this.props.navigation} />;
-      //   case 1:
-      //     return <LocalEvents navigation={this.props.navigation} />;
       case 1:
         return <Friends navigation={this.props.navigation} />;
       case 2:
@@ -149,19 +146,9 @@ class TabsContainer extends Component {
                 }}>
                 <Icon
                   active={this.props.activeTabIndex === 0}
-                  name="calendar"
+                  name="hourglass"
                 />
               </Button>
-              {/* <Button
-                active={this.props.activeTabIndex === 1}
-                onPress={() => {
-                  this.props.setActiveTab(1);
-                }}>
-                <Icon
-                  active={this.props.activeTabIndex === 1}
-                  name="pricetag"
-                />
-              </Button> */}
               <Button
                 active={this.props.activeTabIndex === 1}
                 onPress={() => {

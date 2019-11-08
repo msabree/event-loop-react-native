@@ -59,6 +59,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-# testData
-/src/constants/testData.js

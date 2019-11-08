@@ -6,6 +6,9 @@ import createReducer from '../utils/createReducer';
 import * as actionTypes from '../constants/actionTypes';
 import applicationState from './applicationState';
 
+const minDateTime = new Date();
+minDateTime.setHours(minDateTime.getHours() + 1); // 1 hour from now
+
 export const formsReducer = createReducer(applicationState.forms, {
   [actionTypes.INPUT_CHANGE](state, action) {
     const stateClone = cloneDeep(state);
@@ -23,18 +26,18 @@ export const formsReducer = createReducer(applicationState.forms, {
 
     // Physical Location Event
     set(stateClone, 'physicalLocationEvent.startDatetime', new Date());
-    set(stateClone, 'physicalLocationEvent.endDatetime', new Date());
+    set(stateClone, 'physicalLocationEvent.endDatetime', new Date(minDateTime));
     set(stateClone, 'physicalLocationEvent.location', null);
     set(stateClone, 'physicalLocationEvent.details', '');
     set(stateClone, 'physicalLocationEvent.title', '');
 
     // Phone Call Event
-    set(stateClone, 'physicalLocationEvent.startDatetime', new Date());
-    set(stateClone, 'physicalLocationEvent.endDatetime', new Date());
-    set(stateClone, 'physicalLocationEvent.phoneNumber', '');
-    set(stateClone, 'physicalLocationEvent.passCode', '');
-    set(stateClone, 'physicalLocationEvent.details', '');
-    set(stateClone, 'physicalLocationEvent.title', '');
+    set(stateClone, 'phoneCallEvent.startDatetime', new Date());
+    set(stateClone, 'phoneCallEvent.endDatetime', new Date());
+    set(stateClone, 'phoneCallEvent.phoneNumber', '');
+    set(stateClone, 'phoneCallEvent.passCode', '');
+    set(stateClone, 'phoneCallEvent.details', '');
+    set(stateClone, 'phoneCallEvent.title', '');
 
     // Video Chat Event
     set(stateClone, 'videoChatEvent.startDatetime', new Date());

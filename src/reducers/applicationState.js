@@ -1,3 +1,6 @@
+const minDateTime = new Date();
+minDateTime.setHours(minDateTime.getHours() + 1); // 1 hour from now
+
 export default {
   appInfo: {
     connected: true,
@@ -80,7 +83,7 @@ export default {
   forms: {
     physicalLocationEvent: {
       startDatetime: new Date(),
-      endDatetime: new Date(),
+      endDatetime: new Date(minDateTime),
       location: null,
       details: '',
       title: '',

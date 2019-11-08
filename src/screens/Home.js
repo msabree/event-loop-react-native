@@ -158,7 +158,7 @@ class Home extends React.Component {
                     onValueChange={filter => {
                       this.props.changeEventsFilter(filter);
                     }}>
-                    <Picker.Item label="Upcoming" value="upcoming" />
+                    <Picker.Item label="Happening Now" value="upcoming" />
                     <Picker.Item label="Past" value="past" />
                     <Picker.Item label="Created By Me" value="created" />
                     <Picker.Item label="Joined By Me" value="joined" />

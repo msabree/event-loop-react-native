@@ -75,13 +75,6 @@ export const saveEvent = (
       type: 'warning',
       duration: 5000,
     });
-  } else if (new Date() > new Date(startDatetime)) {
-    Toast.show({
-      text: 'The start time must be in the future.',
-      buttonText: 'Close',
-      type: 'warning',
-      duration: 5000,
-    });
   } else if (eventType === 'phone' && phoneNumber === '') {
     Toast.show({
       text: 'A dial-in number is required.',
@@ -152,6 +145,7 @@ export const saveEvent = (
           });
           return dispatch(getEvents());
         } else {
+          console.log(apiResponse);
           Toast.show({
             text:
               isUpdate === true

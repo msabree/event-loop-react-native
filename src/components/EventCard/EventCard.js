@@ -200,9 +200,11 @@ const EventCard = ({
               {item.details || ''}
             </Text>
           </Hyperlink>
-          <Text note style={styles.date}>{`${moment(item.startDatetime).format(
-            'MMM Do h:mm a',
-          )} - ${moment(item.endDatetime).format('MMM Do h:mm a')}`}</Text>
+          <Text note style={styles.date}>
+            {`${
+              new Date() > new Date(item.endDatetime) ? 'Ended' : 'Ends'
+            } ${moment(item.endDatetime).fromNow()}`}
+          </Text>
           {getEventEndedMessage(item.endDatetime)}
         </Body>
       </CardItem>

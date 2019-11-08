@@ -10,7 +10,6 @@ import * as spinner from './spinner';
 import * as alexa from './alexa';
 import * as notifications from './notifications';
 import * as search from './search';
-import * as deals from './deals';
 
 export default combineReducers(
   Object.assign(
@@ -25,6 +24,5 @@ export default combineReducers(
     alexa,
     notifications,
     search,
-    deals,
   ),
 );

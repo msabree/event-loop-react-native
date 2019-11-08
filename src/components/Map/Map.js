@@ -53,9 +53,9 @@ class Map extends React.Component {
                     longitude: get(event, 'location.geometry.location.lng', ''),
                   }}
                   title={event.title}
-                  description={`${event.details} - Starts: ${moment(
-                    event.startDatetime,
-                  ).fromNow()}`}
+                  description={`${event.title} - ${
+                    new Date() > new Date(event.endDatetime) ? 'Ended' : 'Ends'
+                  } ${moment(event.endDatetime).fromNow()}`}
                 />
               ))}
             </MapView>
