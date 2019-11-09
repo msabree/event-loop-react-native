@@ -10,7 +10,7 @@ import {
   Container,
   Picker,
   Left,
-  Right,
+  Body,
   Button,
 } from 'native-base';
 import {firebase} from '@react-native-firebase/analytics';
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 25,
   },
+  mainHeaderAndroid: {},
   headerProfilePic: {
     width: 60,
     height: 60,
@@ -105,8 +106,10 @@ class Home extends React.Component {
     }
     return (
       <Card transparent style={styles.center}>
-        <CardItem transparent header>
-          <Text>Nothing to show. Try adjusting your filter.</Text>
+        <CardItem transparent>
+          <Text>
+            Nothing to show. Try adjusting your filter or create a new post.
+          </Text>
         </CardItem>
       </Card>
     );
@@ -121,7 +124,13 @@ class Home extends React.Component {
       <React.Fragment>
         <Container>
           <Container>
-            <Card transparent style={styles.mainHeader}>
+            <Card
+              transparent
+              style={
+                Platform.OS === 'ios'
+                  ? styles.mainHeader
+                  : styles.mainHeaderAndroid
+              }>
               <CardItem transparent>
                 <Left>
                   <Button
@@ -144,22 +153,21 @@ class Home extends React.Component {
                     </Text>
                   </Button>
                 </Left>
-                <Right>
-                  <Picker
-                    mode="dropdown"
-                    iosHeader="Filter"
-                    iosIcon={<Icon name="md-funnel" dark />}
-                    style={{width: undefined}}
-                    selectedValue={this.props.eventsFilter || 'upcoming'}
-                    onValueChange={filter => {
-                      this.props.changeEventsFilter(filter);
-                    }}>
-                    <Picker.Item label="Happening Now" value="upcoming" />
-                    <Picker.Item label="Past" value="past" />
-                    <Picker.Item label="Created By Me" value="created" />
-                    <Picker.Item label="Joined By Me" value="joined" />
-                  </Picker>
-                </Right>
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Filter"
+                  placeholder="Filter"
+                  iosIcon={<Icon name="md-funnel" dark />}
+                  style={{width: undefined, color: 'grey'}}
+                  selectedValue={this.props.eventsFilter || 'upcoming'}
+                  onValueChange={filter => {
+                    this.props.changeEventsFilter(filter);
+                  }}>
+                  <Picker.Item label="Happening Now" value="upcoming" />
+                  <Picker.Item label="Past" value="past" />
+                  <Picker.Item label="Created By Me" value="created" />
+                  <Picker.Item label="Joined By Me" value="joined" />
+                </Picker>
               </CardItem>
             </Card>
             {this.state.view === 'list'
