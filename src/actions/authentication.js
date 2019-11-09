@@ -8,6 +8,9 @@ import * as storageKeys from '../constants/storageKeys';
 import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
 
+// Set to false to test login page stuff!!!
+const LOG_IN_AUTOMATICALLY_IN_DEV_MODE = false;
+
 export const removeSession = () => async dispatch => {
   try {
     await AsyncStorage.removeItem(storageKeys.SESSION_TOKEN);
@@ -53,7 +56,7 @@ export const getSessionTokenFromLocalStorage = () => async (
     console.log(e);
   }
 
-  if (__DEV__) {
+  if (__DEV__ && LOG_IN_AUTOMATICALLY_IN_DEV_MODE) {
     if (Platform.OS === 'ios') {
       sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_01';
     } else {

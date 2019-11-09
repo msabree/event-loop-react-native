@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image, Dimensions, View} from 'react-native';
 import {Content, Text, H3, Item, Input, Button} from 'native-base';
 import {AsYouType} from 'libphonenumber-js';
 
@@ -10,7 +10,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingRight: 30,
     paddingLeft: 30,
-    backgroundColor: '#f58b07d6',
+    backgroundColor: 'maroon',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     color: '#ffffff',
@@ -31,10 +35,24 @@ export default class EnterPhoneNumber extends React.Component {
   }
 
   render() {
+    const imageWidth = Math.round(Dimensions.get('window').width * 0.5);
+    const imageHeight = Math.round(imageWidth);
+
     return (
       <Content contentContainerStyle={styles.content}>
+        <Image
+          source={require('../images/logo.png')}
+          style={{
+            width: imageWidth, 
+            height: imageHeight, 
+            color: '#fffff',
+            marginBottom: 30,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        }}
+        />
         <H3 style={styles.header}>
-          Welcome to Event Loop! To get started, enter your phone number.
+          Welcome to Missed Texts! To get started, enter your phone number.
         </H3>
         <Item regular style={styles.item}>
           <Input
@@ -47,7 +65,7 @@ export default class EnterPhoneNumber extends React.Component {
             onChangeText={this.props.changedPhoneNumberText}
           />
         </Item>
-        <Button block warning onPress={this.props.requestVerificationCode}>
+        <Button block light onPress={this.props.requestVerificationCode}>
           <Text>Request Verification Code</Text>
         </Button>
       </Content>

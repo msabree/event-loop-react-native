@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingRight: 30,
     paddingLeft: 30,
-    backgroundColor: '#f58b07d6',
+    backgroundColor: 'maroon',
   },
   header: {
     color: '#ffffff',
@@ -40,7 +40,7 @@ export default class EnterVerificationCode extends React.Component {
             onChangeText={this.props.changedVerificationCodeText}
           />
         </Item>
-        <Button block warning onPress={this.props.verifyPhoneNumber}>
+        <Button block light onPress={this.props.verifyPhoneNumber}>
           <Text>Confirm Code</Text>
         </Button>
       </Content>

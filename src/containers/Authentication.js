@@ -97,7 +97,7 @@ class AuthenticationContainer extends Component {
 
   render() {
     return (
-      <Container style={{backgroundColor: '#f58b07d6'}}>
+      <Container style={{backgroundColor: 'maroon'}}>
         {this.getContent()}
         <SpinnerModal
           hideSpinner={this.props.hideSpinner}

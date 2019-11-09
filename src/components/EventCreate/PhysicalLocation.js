@@ -40,7 +40,7 @@ class PhysicalLocationEvent extends React.Component {
     maxDateTime.setHours(minDateTime.getHours() + 6); // 6 hours from now
     return (
       <Content>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
@@ -52,7 +52,7 @@ class PhysicalLocationEvent extends React.Component {
             />
           </Item>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <GooglePlacesAutocomplete
               placeholder={
@@ -105,7 +105,7 @@ class PhysicalLocationEvent extends React.Component {
             />
           </Item>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Textarea
             style={styles.textArea}
             value={get(this.props, 'physicalLocationEvent.details', '')}
@@ -121,7 +121,7 @@ class PhysicalLocationEvent extends React.Component {
         <CardItem transparent>
           <Text>Happening Now</Text>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <DatePicker
               disabled={true}
@@ -158,7 +158,7 @@ class PhysicalLocationEvent extends React.Component {
         <CardItem transparent>
           <Text>End time</Text>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <DatePicker
               style={{width: 200}}
@@ -172,7 +172,7 @@ class PhysicalLocationEvent extends React.Component {
               format="h:mm a"
               minDate={get(
                 this.props,
-                'physicalLocationEvent.startDatetime',
+                'physicalLocationEvent.endDatetime',
                 new Date(minDateTime),
               )}
               maxDate={new Date(maxDateTime)}

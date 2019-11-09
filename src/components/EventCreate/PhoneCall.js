@@ -86,7 +86,7 @@ class PhoneCallEvent extends React.Component {
         <CardItem transparent>
           <Text>Happening Now</Text>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <DatePicker
               disabled={true}
@@ -123,7 +123,7 @@ class PhoneCallEvent extends React.Component {
         <CardItem transparent>
           <Text>End time</Text>
         </CardItem>
-        <CardItem transparent style={{marginBottom: 20}}>
+        <CardItem transparent style={{marginBottom: 10}}>
           <Item regular>
             <DatePicker
               style={{width: 200}}
