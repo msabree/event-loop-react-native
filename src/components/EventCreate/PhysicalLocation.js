@@ -115,7 +115,7 @@ class PhysicalLocationEvent extends React.Component {
             onChangeText={value => {
               this.props.inputChange('physicalLocationEvent.details', value);
             }}
-            placeholder="Let your friends know the details."
+            placeholder="Enter details"
           />
         </CardItem>
         <CardItem transparent>

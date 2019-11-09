@@ -1,16 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {
-  Content,
-  Card,
-  CardItem,
-  Item,
-  Textarea,
-  Button,
-  Input,
-  Text,
-  Icon,
-} from 'native-base';
+import {Content, CardItem, Item, Textarea, Input, Text} from 'native-base';
 import DatePicker from 'react-native-datepicker';
 import get from 'lodash/get';
 import moment from 'moment';
@@ -38,13 +28,17 @@ class PhoneCallEvent extends React.Component {
   }
 
   render() {
+    const minDateTime = new Date();
+    minDateTime.setHours(minDateTime.getHours() + 1); // 1 hour from now
+    const maxDateTime = new Date();
+    maxDateTime.setHours(minDateTime.getHours() + 6); // 6 hours from now
     return (
       <Content>
         <CardItem transparent>
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
-              placeholder={`Enter a short title`}
+              placeholder={'Enter a title'}
               value={get(this.props, 'phoneCallEvent.title', '')}
               onChangeText={value =>
                 this.props.inputChange('phoneCallEvent.title', value)
@@ -53,10 +47,23 @@ class PhoneCallEvent extends React.Component {
           </Item>
         </CardItem>
         <CardItem transparent>
+          <Textarea
+            style={styles.textArea}
+            value={get(this.props, 'phoneCallEvent.details', '')}
+            rowSpan={2}
+            placeholderTextColor={'#5d5d5d80'}
+            bordered
+            onChangeText={value => {
+              this.props.inputChange('phoneCallEvent.details', value);
+            }}
+            placeholder="Enter details"
+          />
+        </CardItem>
+        <CardItem transparent>
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
-              placeholder={`Dial-in Phone Number`}
+              placeholder={'Dial-in Phone Number'}
               value={get(this.props, 'phoneCallEvent.phoneNumber', '')}
               onChangeText={value =>
                 this.props.inputChange('phoneCallEvent.phoneNumber', value)
@@ -68,7 +75,7 @@ class PhoneCallEvent extends React.Component {
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
-              placeholder={`Dial-in Passcode`}
+              placeholder={'Dial-in Passcode'}
               value={get(this.props, 'phoneCallEvent.passCode', '')}
               onChangeText={value =>
                 this.props.inputChange('phoneCallEvent.passCode', value)
@@ -77,20 +84,19 @@ class PhoneCallEvent extends React.Component {
           </Item>
         </CardItem>
         <CardItem transparent>
-          <Text>From</Text>
+          <Text>Happening Now</Text>
         </CardItem>
-        <CardItem transparent>
+        <CardItem transparent style={{marginBottom: 20}}>
           <Item regular>
             <DatePicker
+              disabled={true}
               style={{width: 200}}
-              date={get(this.props, 'phoneCallEvent.startDatetime', new Date())}
-              mode="datetime"
-              placeholder="select date"
-              format="MMM Do YY h:mm a"
-              minDate={new Date()} // no past events
-              maxDate={
-                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-              } // one year in the future
+              date={new Date()}
+              placeholder={'Start time'}
+              mode="time"
+              format="h:mm a"
+              minDate={new Date()} // now!
+              maxDate={new Date()} // now!
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
@@ -105,34 +111,36 @@ class PhoneCallEvent extends React.Component {
                 },
                 // ... You can check the source to find the other keys.
               }}
-              onDateChange={date => {
+              onDateChange={time => {
                 this.props.inputChange(
-                  'phoneCallEvent.startDatetime',
-                  new Date(moment(date, 'MMM Do YY h:mm a').format()),
+                  'phoneCallEvent.startDateTime',
+                  new Date(),
                 );
               }}
             />
           </Item>
         </CardItem>
         <CardItem transparent>
-          <Text>Until</Text>
+          <Text>End time</Text>
         </CardItem>
-        <CardItem transparent>
+        <CardItem transparent style={{marginBottom: 20}}>
           <Item regular>
             <DatePicker
               style={{width: 200}}
-              date={get(this.props, 'phoneCallEvent.endDatetime', new Date())}
-              mode="datetime"
-              placeholder="select date"
-              format="MMM Do YY h:mm a"
+              date={get(
+                this.props,
+                'phoneCallEvent.endDatetime',
+                new Date(minDateTime),
+              )}
+              placeholder={'End time'}
+              mode="time"
+              format="h:mm a"
               minDate={get(
                 this.props,
-                'phoneCallEvent.startDatetime',
-                new Date(),
-              )} // start time?
-              maxDate={
-                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-              } // one year in the future
+                'phoneCallEvent.endDatetime',
+                new Date(minDateTime),
+              )}
+              maxDate={new Date(maxDateTime)}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
@@ -147,26 +155,17 @@ class PhoneCallEvent extends React.Component {
                 },
                 // ... You can check the source to find the other keys.
               }}
-              onDateChange={date => {
+              onDateChange={time => {
                 this.props.inputChange(
                   'phoneCallEvent.endDatetime',
-                  new Date(moment(date, 'MMM Do YY h:mm a').format()),
+                  new Date(moment(time, 'h:mm a').format()),
                 );
               }}
             />
           </Item>
         </CardItem>
         <CardItem transparent>
-          <Textarea
-            style={styles.textArea}
-            value={get(this.props, 'phoneCallEvent.details', '')}
-            rowSpan={2}
-            bordered
-            onChangeText={value => {
-              this.props.inputChange('phoneCallEvent.details', value);
-            }}
-            placeholder="Enter event details"
-          />
+          <Text note>Posts are viewable for up to six hours.</Text>
         </CardItem>
       </Content>
     );

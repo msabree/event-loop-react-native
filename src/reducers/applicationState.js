@@ -90,14 +90,14 @@ export default {
     },
     videoChatEvent: {
       startDatetime: new Date(),
-      endDatetime: new Date(),
+      endDatetime: new Date(minDateTime),
       details: '',
       title: '',
       meetingLink: '',
     },
     phoneCallEvent: {
       startDatetime: new Date(),
-      endDatetime: new Date(),
+      endDatetime: new Date(minDateTime),
       details: '',
       title: '',
       passCode: '',

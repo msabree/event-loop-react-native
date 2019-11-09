@@ -49,26 +49,58 @@ class CreateEvent extends React.Component {
       const existingEventLocation = get(existingEvent, 'location');
       const existingEventStartDatetime = get(existingEvent, 'startDatetime');
       const existingEventEndDatetime = get(existingEvent, 'endDatetime');
+      const existingEventPassCode = get(existingEvent, 'passCode', '');
+      const existingEventPhoneNumber = get(existingEvent, 'phoneNumber', '');
       const existingEventDetails = get(existingEvent, 'details', '');
+      const existingEventType = get(existingEvent, 'eventType', 'location');
 
       // Fire updates
-      this.props.inputChange('physicalLocationEvent.title', existingEventTitle);
-      this.props.inputChange(
-        'physicalLocationEvent.location',
-        existingEventLocation,
-      );
-      this.props.inputChange(
-        'physicalLocationEvent.startDatetime',
-        new Date(existingEventStartDatetime),
-      );
-      this.props.inputChange(
-        'physicalLocationEvent.endDatetime',
-        new Date(existingEventEndDatetime),
-      );
-      this.props.inputChange(
-        'physicalLocationEvent.details',
-        existingEventDetails,
-      );
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        eventType: existingEventType,
+      });
+
+      if (existingEventType === 'location') {
+        this.props.inputChange(
+          'physicalLocationEvent.title',
+          existingEventTitle,
+        );
+        this.props.inputChange(
+          'physicalLocationEvent.location',
+          existingEventLocation,
+        );
+        this.props.inputChange(
+          'physicalLocationEvent.startDatetime',
+          new Date(existingEventStartDatetime),
+        );
+        this.props.inputChange(
+          'physicalLocationEvent.endDatetime',
+          new Date(existingEventEndDatetime),
+        );
+        this.props.inputChange(
+          'physicalLocationEvent.details',
+          existingEventDetails,
+        );
+      } else {
+        this.props.inputChange('phoneCallEvent.title', existingEventTitle);
+        this.props.inputChange(
+          'phoneCallEvent.phoneNumber',
+          existingEventPhoneNumber,
+        );
+        this.props.inputChange(
+          'phoneCallEvent.passCode',
+          existingEventPassCode,
+        );
+        this.props.inputChange(
+          'phoneCallEvent.startDatetime',
+          new Date(existingEventStartDatetime),
+        );
+        this.props.inputChange(
+          'phoneCallEvent.endDatetime',
+          new Date(existingEventEndDatetime),
+        );
+        this.props.inputChange('phoneCallEvent.details', existingEventDetails);
+      }
     } else {
       this.props.resetEventForms();
     }
@@ -86,7 +118,7 @@ class CreateEvent extends React.Component {
   confirmDeleteEvent(existingEvent) {
     Alert.alert(
       'Delete Event',
-      `This is a future event. Are you sure you would like to delete it?`,
+      'This is a future event. Are you sure you would like to delete it?',
       [
         {
           text: 'No',
@@ -140,28 +172,27 @@ class CreateEvent extends React.Component {
       <Content>
         {this.getDeleteButton(existingEvent)}
         <Card transparent>
-          {/* <CardItem transparent>
-                        <Item picker>
-                            <Picker
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder='Select Invite Type'
-                                placeholderStyle={{ color: "#bfc6ea" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.eventType}
-                                onValueChange={(eventType) => {
-                                    this.setState({
-                                        eventType,
-                                    })
-                                }}
-                            >
-                                <Picker.Item label='Physical Location' value='location' />
-                                <Picker.Item label='Phone Call' value='phone' />
-                                <Picker.Item label='Video Chat' value='video' />
-                            </Picker>
-                        </Item>
-                    </CardItem> */}
+          <CardItem transparent>
+            <Item picker>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{width: undefined}}
+                placeholder="Select Invite Type"
+                placeholderStyle={{color: '#bfc6ea'}}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.eventType}
+                onValueChange={eventType => {
+                  this.setState({
+                    eventType,
+                  });
+                }}>
+                <Picker.Item label="Location" value="location" />
+                <Picker.Item label="Call" value="phone" />
+                {/* <Picker.Item label="Video Chat" value="video" /> */}
+              </Picker>
+            </Item>
+          </CardItem>
           {this.getEventContent()}
         </Card>
         <Button

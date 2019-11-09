@@ -18,6 +18,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 import EventCard from '../components/EventCard/EventCard';
+import PhoneEvent from '../components/PhoneCallEventView/component';
 import Loading from '../components/Loading';
 import MapView from '../components/Map/container';
 import eventsSelector from '../selectors/events';
@@ -140,7 +141,19 @@ class Home extends React.Component {
             }}
             refreshing={this.props.fetchingNew}
             renderItem={({item}) => {
+              console.log(item);
               const isCreator = item.userId === this.props.loggedInUserId;
+              if (item.eventType === 'phone') {
+                return (
+                  <PhoneEvent
+                    isCreator={isCreator}
+                    item={item}
+                    deleteEvent={this.props.deleteEvent}
+                    navigation={this.props.navigation}
+                    showProfilePreviewModal={this.props.showProfilePreviewModal}
+                  />
+                );
+              }
               return (
                 <EventCard
                   isCreator={isCreator}

@@ -33,7 +33,7 @@ export const formsReducer = createReducer(applicationState.forms, {
 
     // Phone Call Event
     set(stateClone, 'phoneCallEvent.startDatetime', new Date());
-    set(stateClone, 'phoneCallEvent.endDatetime', new Date());
+    set(stateClone, 'phoneCallEvent.endDatetime', new Date(minDateTime));
     set(stateClone, 'phoneCallEvent.phoneNumber', '');
     set(stateClone, 'phoneCallEvent.passCode', '');
     set(stateClone, 'phoneCallEvent.details', '');
@@ -41,7 +41,7 @@ export const formsReducer = createReducer(applicationState.forms, {
 
     // Video Chat Event
     set(stateClone, 'videoChatEvent.startDatetime', new Date());
-    set(stateClone, 'videoChatEvent.endDatetime', new Date());
+    set(stateClone, 'videoChatEvent.endDatetime', new Date(minDateTime));
     set(stateClone, 'videoChatEvent.meetingLink', '');
     set(stateClone, 'videoChatEvent.details', '');
     set(stateClone, 'videoChatEvent.title', '');
