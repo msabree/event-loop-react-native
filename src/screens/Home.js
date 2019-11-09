@@ -19,7 +19,7 @@ import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../actions';
 import EventCard from '../components/EventCard/EventCard';
 import Loading from '../components/Loading';
-import MapView from '../components/Map/Map';
+import MapView from '../components/Map/container';
 import eventsSelector from '../selectors/events';
 import userSelector from '../selectors/users';
 import authenticationSelector from '../selectors/authentication';
@@ -113,11 +113,7 @@ class Home extends React.Component {
   }
 
   getMapView() {
-    return (
-      <MapView
-        events={this.props.eventList === null ? [] : this.props.eventList}
-      />
-    );
+    return <MapView />;
   }
 
   render() {
@@ -173,7 +169,7 @@ class Home extends React.Component {
           <Fab
             active={false}
             containerStyle={{}}
-            style={{backgroundColor: 'orange'}}
+            style={{backgroundColor: '#990000'}}
             position="bottomRight"
             onPress={() => {
               this.props.navigation.navigate('CreateEvent');

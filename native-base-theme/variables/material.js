@@ -105,7 +105,7 @@ export default {
   checkboxTickColor: "#fff",
 
   // Color
-  brandPrimary: "#3F51B5",
+  brandPrimary: "#800000",
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
@@ -144,7 +144,7 @@ export default {
   tabBarTextSize: 11,
   activeTab: "#fff",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: "orange",
+  tabBarActiveTextColor: "#800000",
   tabActiveBgColor: "F8F8F8",
 
   // Header
@@ -217,12 +217,12 @@ export default {
   },
 
   // Segment
-  segmentBackgroundColor: "orange",
+  segmentBackgroundColor: "#800000",
   segmentActiveBackgroundColor: "#007aff",
-  segmentTextColor: "orange",
+  segmentTextColor: "#800000",
   segmentActiveTextColor: "#fff",
-  segmentBorderColor: "orange",
-  segmentBorderColorMain: "orange",
+  segmentBorderColor: "#800000",
+  segmentBorderColorMain: "#800000",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",

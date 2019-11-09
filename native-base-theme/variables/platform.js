@@ -105,7 +105,7 @@ export default {
   checkboxTickColor: "#fff",
 
   // Color
-  brandPrimary: platform === "ios" ? "#007aff" : "#3F51B5",
+  brandPrimary: platform === "ios" ? "#800000" : "#800000",
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
@@ -144,7 +144,7 @@ export default {
   tabBarTextSize: platform === "ios" ? 14 : 11,
   activeTab: platform === "ios" ? "#007aff" : "#007aff",
   sTabBarActiveTextColor: "#007aff",
-  tabBarActiveTextColor: platform === "ios" ? "orange" : "orange",
+  tabBarActiveTextColor: platform === "ios" ? "#800000" : "#800000",
   tabActiveBgColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
 
   // Header
@@ -218,11 +218,11 @@ export default {
 
   // Segment
   segmentBackgroundColor: platform === "ios" ? "#F8F8F8" : "#F8F8F8",
-  segmentActiveBackgroundColor: platform === "ios" ? "orange" : "orange",
-  segmentTextColor: platform === "ios" ? "orange" : "orange",
+  segmentActiveBackgroundColor: platform === "ios" ? "#800000" : "#800000",
+  segmentTextColor: platform === "ios" ? "#800000" : "#800000",
   segmentActiveTextColor: platform === "ios" ? "#fff" : "#fff",
-  segmentBorderColor: platform === "ios" ? "orange" : "orange",
-  segmentBorderColorMain: platform === "ios" ? "orange" : "orange",
+  segmentBorderColor: platform === "ios" ? "#800000" : "#800000",
+  segmentBorderColorMain: platform === "ios" ? "#800000" : "#800000",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",

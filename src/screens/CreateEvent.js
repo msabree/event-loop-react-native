@@ -166,7 +166,7 @@ class CreateEvent extends React.Component {
         </Card>
         <Button
           block
-          warning
+          danger
           onPress={() => {
             if (existingEvent === undefined) {
               this.props.saveEvent(this.state.eventType);

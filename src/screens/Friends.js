@@ -352,16 +352,16 @@ class Friends extends Component {
             </ListItem>
           )}
         />
-        <Button
+        {/* <Button
           transparent
           dark
           onPress={() => this.props.navigation.navigate('Groups')}>
           <Text>Manage Groups</Text>
-        </Button>
+        </Button> */}
         <Segment>
           <Button
             transparent
-            warning
+            primary
             first
             active={this.props.activeSegment === 'current'}
             onPress={() => {
@@ -371,7 +371,7 @@ class Friends extends Component {
           </Button>
           <Button
             transparent
-            warning
+            primary
             second
             active={this.props.activeSegment === 'requests'}
             onPress={() => {
@@ -381,7 +381,7 @@ class Friends extends Component {
           </Button>
           <Button
             transparent
-            warning
+            primary
             last
             active={this.props.activeSegment === 'sent'}
             onPress={() => {

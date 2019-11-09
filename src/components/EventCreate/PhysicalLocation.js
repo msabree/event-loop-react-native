@@ -4,7 +4,6 @@ import {Content, CardItem, Item, Textarea, Input, Text} from 'native-base';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import DatePicker from 'react-native-datepicker';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import moment from 'moment';
 
 import formsSelector from '../../selectors/forms';
@@ -45,7 +44,7 @@ class PhysicalLocationEvent extends React.Component {
           <Item regular>
             <Input
               placeholderTextColor={'#5d5d5d80'}
-              placeholder={`Enter a title`}
+              placeholder={'Enter a title'}
               value={get(this.props, 'physicalLocationEvent.title', '')}
               onChangeText={value =>
                 this.props.inputChange('physicalLocationEvent.title', value)
@@ -112,10 +111,11 @@ class PhysicalLocationEvent extends React.Component {
             value={get(this.props, 'physicalLocationEvent.details', '')}
             rowSpan={2}
             bordered
+            placeholderTextColor={'#5d5d5d80'}
             onChangeText={value => {
               this.props.inputChange('physicalLocationEvent.details', value);
             }}
-            placeholder="Let your friends know the specifics about what's going on."
+            placeholder="Let your friends know the details."
           />
         </CardItem>
         <CardItem transparent>

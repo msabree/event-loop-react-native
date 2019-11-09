@@ -3,10 +3,10 @@ import startCase from 'lodash/startCase';
 import get from 'lodash/get';
 import {connect} from 'react-redux';
 import {ActionCreators} from '../../actions';
-import Component from './component';
 import groupsSelector from '../../selectors/groups';
 import friendsSelector from '../../selectors/friends';
 import formSelector from '../../selectors/forms';
+import ManageGroup from './component';
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -61,4 +61,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Component);
+)(ManageGroup);
