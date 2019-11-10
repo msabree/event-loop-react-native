@@ -43,9 +43,8 @@ export default class EnterPhoneNumber extends React.Component {
         <Image
           source={require('../images/logo.png')}
           style={{
-            width: imageWidth, 
-            height: imageHeight, 
-            color: '#fffff',
+            width: imageWidth,
+            height: imageHeight,
             marginBottom: 30,
             marginLeft: 'auto',
             marginRight: 'auto',

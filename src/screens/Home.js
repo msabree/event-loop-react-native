@@ -70,7 +70,6 @@ class Home extends React.Component {
       } catch (e) {}
 
       await this.props.getLoggedInUserInfo();
-      console.log(usernameDontAskAgain, this.props.loggedInUsername);
 
       if (
         this.props.loggedInUsername.startsWith('user_') &&
@@ -141,7 +140,6 @@ class Home extends React.Component {
             }}
             refreshing={this.props.fetchingNew}
             renderItem={({item}) => {
-              console.log(item);
               const isCreator = item.userId === this.props.loggedInUserId;
               if (item.eventType === 'phone') {
                 return (
