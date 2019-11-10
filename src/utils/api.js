@@ -86,7 +86,7 @@ class Api {
           Toast.show({
             text: EXPIRED_SESSION,
             buttonText: 'Close',
-            type: 'warning',
+            type: 'danger',
             duration: 5000,
           });
         }
@@ -97,14 +97,14 @@ class Api {
           Toast.show({
             text: e.message,
             buttonText: 'Close',
-            type: 'warning',
+            type: 'danger',
             duration: 5000,
           });
         } else {
           Toast.show({
             text: API_TECHNICAL_ISSUES,
             buttonText: 'Close',
-            type: 'warning',
+            type: 'danger',
             duration: 5000,
           });
         }

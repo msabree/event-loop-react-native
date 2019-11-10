@@ -43,16 +43,18 @@ const Map = ({events, region}) => (
                   );
                 }
               }}>
-              <UserProfilePicture
-                profile={event.associatedUserProfile}
-                style={{}}
-              />
-              <H3>{event.title}</H3>
-              <Text>{event.details}</Text>
-              {event.location && <Text>{event.location.name}</Text>}
-              <Text>{`${
-                new Date() > new Date(event.endDatetime) ? 'Ended' : 'Ends'
-              } ${moment(event.endDatetime).fromNow()}`}</Text>
+              <View style={{maxWidth: 300}}>
+                <UserProfilePicture
+                  profile={event.associatedUserProfile}
+                  style={{}}
+                />
+                <H3>{event.title}</H3>
+                <Text>{event.details}</Text>
+                {event.location && <Text>{event.location.name}</Text>}
+                <Text>{`${
+                  new Date() > new Date(event.endDatetime) ? 'Ended' : 'Ends'
+                } ${moment(event.endDatetime).fromNow()}`}</Text>
+              </View>
             </Callout>
           </Marker>
         ))}

@@ -55,7 +55,7 @@ export const inititateAlexaSync = () => (dispatch, getState) => {
         Toast.show({
           text: 'Unable to generate a new sync code. Please try again later.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 3000,
         });
       } else {
@@ -92,7 +92,7 @@ export const confirmSyncRequest = () => (dispatch, getState) => {
         Toast.show({
           text: 'Unable to complete sync process. Please try again later.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 3000,
         });
       } else {
@@ -132,14 +132,14 @@ export const deleteAlexaConnection = () => (dispatch, getState) => {
         Toast.show({
           text: 'Unable to delete the connection. Please try again later.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 3000,
         });
       } else {
         Toast.show({
           text: 'Your alexa device is no longer connected!',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 3000,
         });
 

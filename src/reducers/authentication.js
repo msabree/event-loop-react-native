@@ -5,6 +5,10 @@ import get from 'lodash/get';
 
 import createReducer from '../utils/createReducer';
 import * as actionTypes from '../constants/actionTypes';
+import {
+  IOS_TEST_USER_SESSION_TOKEN,
+  ANDROID_TEST_USER_SESSION_TOKEN,
+} from '../constants/testUsers';
 import applicationState from './applicationState';
 
 export const authenticationReducer = createReducer(
@@ -24,9 +28,9 @@ export const authenticationReducer = createReducer(
       // WE CAN JUST DISABLE THE SESSION TOKEN AFTER IT PASSES APP STORE REVIEW
       let sessionToken = '';
       if (Platform.OS === 'ios') {
-        sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
+        sessionToken = IOS_TEST_USER_SESSION_TOKEN;
       } else {
-        sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_01';
+        sessionToken = ANDROID_TEST_USER_SESSION_TOKEN;
       }
 
       set(stateClone, 'appStoreReviewMode', true);

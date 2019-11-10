@@ -5,11 +5,15 @@ import {Platform} from 'react-native';
 
 import * as actionTypes from '../constants/actionTypes';
 import * as storageKeys from '../constants/storageKeys';
+import {
+  IOS_TEST_USER_SESSION_TOKEN,
+  ANDROID_TEST_USER_SESSION_TOKEN,
+} from '../constants/testUsers';
 import api from '../utils/api';
 import authenticationSelector from '../selectors/authentication';
 
 // Set to false to test login page stuff!!!
-const LOG_IN_AUTOMATICALLY_IN_DEV_MODE = false;
+const LOG_IN_AUTOMATICALLY_IN_DEV_MODE = true;
 
 export const removeSession = () => async dispatch => {
   try {
@@ -58,9 +62,9 @@ export const getSessionTokenFromLocalStorage = () => async (
 
   if (__DEV__ && LOG_IN_AUTOMATICALLY_IN_DEV_MODE) {
     if (Platform.OS === 'ios') {
-      sessionToken = 'ec690110-b944-11e9-a138-5350a0cdfd9f_01';
+      sessionToken = IOS_TEST_USER_SESSION_TOKEN;
     } else {
-      sessionToken = 'dcfd780b-827f-4fda-97ea-ba27402e7dcc';
+      sessionToken = ANDROID_TEST_USER_SESSION_TOKEN;
     }
     return dispatch({
       type: actionTypes.GET_SESSION_TOKEN_FROM_LOCAL_STORAGE,

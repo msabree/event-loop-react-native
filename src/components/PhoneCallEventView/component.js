@@ -169,7 +169,7 @@ const PhoneCall = ({
             Toast.show({
               text: 'Copied to clipboard',
               buttonText: 'Close',
-              type: 'warning',
+              type: 'danger',
               duration: 3000,
             });
           }}>

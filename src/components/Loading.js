@@ -13,7 +13,7 @@ export default class Loading extends React.Component {
   render() {
     return (
       <Content contentContainerStyle={styles.center}>
-        <Spinner color="orange" />
+        <Spinner color="maroon" />
         <Text>{this.props.message || ''}</Text>
       </Content>
     );

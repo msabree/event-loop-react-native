@@ -97,7 +97,7 @@ export const sendFriendRequest = friendUserId => (dispatch, getState) => {
         Toast.show({
           text: 'You are already friends with this user.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 4000,
         });
       } else if (apiResponse.message === 'requested') {
@@ -105,7 +105,7 @@ export const sendFriendRequest = friendUserId => (dispatch, getState) => {
           text:
             'User request pending. Check sent and incoming friend requests.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 4000,
         });
       }
@@ -177,7 +177,7 @@ export const respondToRequest = (userId, isConfirmed = false) => (
         Toast.show({
           text: 'Request has been deleted.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 3000,
         });
       }

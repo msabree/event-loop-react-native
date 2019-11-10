@@ -62,7 +62,7 @@ class AlexaSync extends React.Component {
       Toast.show({
         text: 'Pairing timed out. Please try again later.',
         buttonText: 'Close',
-        type: 'warning',
+        type: 'danger',
         duration: 3000,
       });
       clearInterval(this.state.pollInterval);

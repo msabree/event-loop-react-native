@@ -38,7 +38,7 @@ export const saveGroup = () => (dispatch, getState) => {
       Toast.show({
         text: 'Group name cannot be empty.',
         buttonText: 'Close',
-        type: 'warning',
+        type: 'danger',
         duration: 3000,
       });
     } else {

@@ -58,35 +58,35 @@ export const saveEvent = (
     Toast.show({
       text: 'Use the autocomplete to select an address or specific location.',
       buttonText: 'Close',
-      type: 'warning',
+      type: 'danger',
       duration: 5000,
     });
   } else if (title === '') {
     Toast.show({
       text: 'Enter a title for this event.',
       buttonText: 'Close',
-      type: 'warning',
+      type: 'danger',
       duration: 5000,
     });
   } else if (new Date(startDatetime) >= new Date(endDatetime)) {
     Toast.show({
       text: 'The end date time must be after the start date time.',
       buttonText: 'Close',
-      type: 'warning',
+      type: 'danger',
       duration: 5000,
     });
   } else if (eventType === 'phone' && phoneNumber === '') {
     Toast.show({
       text: 'A dial-in number is required.',
       buttonText: 'Close',
-      type: 'warning',
+      type: 'danger',
       duration: 5000,
     });
   } else if (eventType === 'video' && meetingLink === '') {
     Toast.show({
       text: 'A meeting link is required.',
       buttonText: 'Close',
-      type: 'warning',
+      type: 'danger',
       duration: 5000,
     });
   } else {
@@ -152,7 +152,7 @@ export const saveEvent = (
                 ? 'Unable to update event. Please try again later.'
                 : 'Unable to create event. Please try again later.',
             buttonText: 'Close',
-            type: 'warning',
+            type: 'danger',
             duration: 5000,
           });
         }
@@ -165,7 +165,7 @@ export const saveEvent = (
               ? 'Unhandled error. Unable to update event. Please try again later.'
               : 'Unhandled error. Unable to create event. Please try again later.',
           buttonText: 'Close',
-          type: 'warning',
+          type: 'danger',
           duration: 5000,
         });
       });
